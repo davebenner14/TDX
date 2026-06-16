@@ -14,7 +14,9 @@ export default function NewsFeed() {
         return res.json();
       })
       .then((data) => {
-        setArticles(data || []);
+        console.log("NewsFeed API Response:", data);
+
+        setArticles(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch((error) => {
@@ -37,8 +39,8 @@ export default function NewsFeed() {
         </h2>
 
         <p>
-          Stay current with the latest developments in artificial
-          intelligence, automation, software, and emerging technology.
+          Stay current with the latest developments in artificial intelligence,
+          automation, software, and emerging technology.
         </p>
       </div>
 
@@ -55,37 +57,42 @@ export default function NewsFeed() {
       )}
 
       <div className="newsGrid">
-        {articles.map((article) => (
-          <a
-            key={article.url}
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="newsCard"
-          >
-            {article.image ? (
-              <img
-                src={article.image}
-                alt={article.title}
-              />
-            ) : (
-              <div className="newsPlaceholder" />
-            )}
+        {articles.map((article, index) => {
+          const sourceName =
+            typeof article.source === "string"
+              ? article.source
+              : article.source?.name || "Technology News";
 
-            <div className="newsCardContent">
-              <h3>{article.title}</h3>
+          return (
+            <a
+              key={article.url || index}
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="newsCard"
+            >
+              {article.image ? (
+                <img
+                  src={article.image}
+                  alt={article.title || "News article"}
+                />
+              ) : (
+                <div className="newsPlaceholder" />
+              )}
 
-              <p>
-                {article.description ||
-                  "Read the latest article."}
-              </p>
+              <div className="newsCardContent">
+                <h3>{article.title || "Untitled Article"}</h3>
 
-              <span>
-                {article.source?.name || "Technology News"}
-              </span>
-            </div>
-          </a>
-        ))}
+                <p>
+                  {article.description ||
+                    "Read the latest article."}
+                </p>
+
+                <span>{sourceName}</span>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </section>
   );
