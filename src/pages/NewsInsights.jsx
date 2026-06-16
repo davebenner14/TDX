@@ -17,6 +17,7 @@ function getText(value, fallback = "") {
 
 function getSourceName(source) {
   if (typeof source === "string") return source;
+
   if (source && typeof source === "object") {
     return source.name || source.id || "Technology News";
   }
@@ -32,11 +33,18 @@ function NewsInsights() {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`/api/news?topic=${encodeURIComponent(activeTopic.query)}`)
-      .then((res) => res.json())
+    fetch(
+      `/api/news?topic=${encodeURIComponent(activeTopic.query)}&limit=18`
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch news");
+        }
+
+        return res.json();
+      })
       .then((data) => {
         const cleanArticles = Array.isArray(data) ? data : [];
-
         setArticles(cleanArticles);
       })
       .catch((err) => {
@@ -110,11 +118,10 @@ function NewsInsights() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {image && (
-                      <img
-                        src={image}
-                        alt={title}
-                      />
+                    {image ? (
+                      <img src={image} alt={title} />
+                    ) : (
+                      <div className="news-card-placeholder" />
                     )}
 
                     <div className="news-large-card-content">
