@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 import NewsFeed from "./components/NewsFeed";
 import TechCarousel from "./components/TechCarousel";
 import Footer from "./components/Footer";
@@ -207,6 +208,8 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
+
       <Navbar />
 
       <Routes>

@@ -72,14 +72,19 @@ body {
 
 .heroText {
   position: absolute;
-  top: 30px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+
   width: 100%;
   text-align: center;
   color: var(--white);
   z-index: 2;
   padding: 0 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .heroText h1 {
@@ -157,7 +162,9 @@ body {
 
 .watchButton,
 .flowButton {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 4;
   border: none;
@@ -306,6 +313,8 @@ body {
   background: #111;
   isolation: isolate;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .serviceCard img {
@@ -406,76 +415,6 @@ body {
   display: block;
 }
 
-@media (max-width: 1100px) {
-  .serviceCards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .videoFeature {
-    min-height: 620px;
-  }
-
-  .flowContent {
-    margin-right: 6vw;
-  }
-}
-
-@media (max-width: 800px) {
-  :root {
-    --navbar-height: 96px;
-  }
-
-  .heroImage {
-    width: 100%;
-  }
-
-  .heroText {
-    top: 28px;
-  }
-
-  .videoFeature {
-    min-height: 560px;
-    padding: 36px 24px 0;
-  }
-
-  .featureVideo {
-    width: 150%;
-  }
-
-  .flowSection {
-    min-height: 680px;
-    align-items: flex-end;
-    padding: 0 24px 70px;
-  }
-
-  .flowOverlay {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.12) 0%,
-      rgba(0, 0, 0, 0.55) 45%,
-      rgba(0, 0, 0, 0.86) 100%
-    );
-  }
-
-  .flowContent {
-    width: 100%;
-    margin: 0;
-  }
-
-  .servicesSection {
-    padding: 60px 24px 80px;
-  }
-
-  .serviceCards {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .serviceCard {
-    aspect-ratio: 1 / 0.92;
-  }
-}
-
 /* NEWS SECTION */
 
 .newsSection {
@@ -546,6 +485,7 @@ body {
   color: var(--cyan);
   font-size: 0.9rem;
 }
+
 .newsStatus {
   color: var(--muted);
   margin-top: 20px;
@@ -559,9 +499,21 @@ body {
     rgba(59, 130, 246, 0.15)
   );
 }
-.heroActions,
+
+/* CTA BUTTONS */
+
+.heroActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
 .sectionActions {
   display: flex;
+  align-items: center;
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 32px;
@@ -599,6 +551,12 @@ body {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.outlineButton {
+  border-color: rgba(0, 0, 0, 0.28);
+  color: #050505;
+  background: rgba(255, 255, 255, 0.4);
+}
+
 .primaryCta:hover,
 .secondaryCta:hover,
 .outlineButton:hover,
@@ -611,12 +569,6 @@ body {
 .flowContactButton:hover {
   border-color: #00d9ff;
   color: #00d9ff;
-}
-
-.serviceCard {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
 }
 
 .homeCtaSection {
@@ -648,11 +600,101 @@ body {
   margin: 0 0 34px;
 }
 
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .serviceCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .videoFeature {
+    min-height: 620px;
+  }
+
+  .flowContent {
+    margin-right: 6vw;
+  }
+}
+
+@media (max-width: 800px) {
+  :root {
+    --navbar-height: 96px;
+  }
+
+  .heroImage {
+    width: 100%;
+  }
+
+  .heroText {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .heroText h1 {
+    font-size: clamp(68px, 18vw, 110px);
+  }
+
+  .heroText h2,
+  .heroText h3 {
+    font-size: clamp(28px, 7vw, 42px);
+  }
+
+  .videoFeature {
+    min-height: 560px;
+    padding: 36px 24px 0;
+  }
+
+  .featureVideo {
+    width: 150%;
+  }
+
+  .flowSection {
+    min-height: 680px;
+    align-items: flex-end;
+    padding: 0 24px 70px;
+  }
+
+  .flowOverlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0.55) 45%,
+      rgba(0, 0, 0, 0.86) 100%
+    );
+  }
+
+  .flowContent {
+    width: 100%;
+    margin: 0;
+  }
+
+  .servicesSection {
+    padding: 60px 24px 80px;
+  }
+
+  .serviceCards {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .serviceCard {
+    aspect-ratio: 1 / 0.92;
+  }
+}
+
 @media (max-width: 700px) {
   .primaryCta,
   .secondaryCta,
   .outlineButton,
-  .flowContactButton {
+  .flowContactButton,
+  .watchButton,
+  .flowButton {
+    width: 100%;
+  }
+
+  .sectionActions,
+  .heroActions {
     width: 100%;
   }
 }
