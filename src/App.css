@@ -559,3 +559,100 @@ body {
     rgba(59, 130, 246, 0.15)
   );
 }
+.heroActions,
+.sectionActions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.primaryCta,
+.secondaryCta,
+.outlineButton,
+.flowContactButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.primaryCta {
+  background: #00d9ff;
+  color: #020202;
+}
+
+.secondaryCta,
+.outlineButton,
+.flowContactButton {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.primaryCta:hover,
+.secondaryCta:hover,
+.outlineButton:hover,
+.flowContactButton:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryCta:hover,
+.outlineButton:hover,
+.flowContactButton:hover {
+  border-color: #00d9ff;
+  color: #00d9ff;
+}
+
+.serviceCard {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.homeCtaSection {
+  padding: 120px 8vw;
+  background:
+    radial-gradient(circle at 80% 30%, rgba(0, 217, 255, 0.16), transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(0, 229, 168, 0.12), transparent 30%),
+    #050505;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.homeCtaInner {
+  max-width: 920px;
+}
+
+.homeCtaInner h2 {
+  font-size: clamp(2.5rem, 6vw, 5.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.07em;
+  margin: 0 0 28px;
+}
+
+.homeCtaInner p {
+  color: #a7b0ba;
+  max-width: 680px;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  margin: 0 0 34px;
+}
+
+@media (max-width: 700px) {
+  .primaryCta,
+  .secondaryCta,
+  .outlineButton,
+  .flowContactButton {
+    width: 100%;
+  }
+}
