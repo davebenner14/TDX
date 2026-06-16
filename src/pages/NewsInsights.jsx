@@ -9,6 +9,21 @@ const topics = [
   { label: "Automation", query: "business automation" },
 ];
 
+function getText(value, fallback = "") {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  return fallback;
+}
+
+function getSourceName(source) {
+  if (typeof source === "string") return source;
+  if (source && typeof source === "object") {
+    return source.name || source.id || "Technology News";
+  }
+
+  return "Technology News";
+}
+
 function NewsInsights() {
   const [activeTopic, setActiveTopic] = useState(topics[0]);
   const [articles, setArticles] = useState([]);
@@ -20,7 +35,9 @@ function NewsInsights() {
     fetch(`/api/news?topic=${encodeURIComponent(activeTopic.query)}`)
       .then((res) => res.json())
       .then((data) => {
-        setArticles(Array.isArray(data) ? data : []);
+        const cleanArticles = Array.isArray(data) ? data : [];
+
+        setArticles(cleanArticles);
       })
       .catch((err) => {
         console.error(err);
@@ -75,33 +92,37 @@ function NewsInsights() {
 
           {!loading && articles.length > 0 && (
             <div className="news-grid-large">
-              {articles.map((article) => {
-                const sourceName =
-                  typeof article.source === "string"
-                    ? article.source
-                    : article.source?.name || "Technology News";
+              {articles.map((article, index) => {
+                const title = getText(article.title, "Untitled article");
+                const description = getText(
+                  article.description,
+                  "Read the latest article."
+                );
+                const sourceName = getSourceName(article.source);
+                const image = getText(article.image, "");
+                const url = getText(article.url, "#");
 
                 return (
                   <a
-                    key={article.url || article.title}
+                    key={url !== "#" ? url : `${title}-${index}`}
                     className="news-large-card"
-                    href={article.url}
+                    href={url}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {article.image && (
+                    {image && (
                       <img
-                        src={article.image}
-                        alt={article.title || "News article"}
+                        src={image}
+                        alt={title}
                       />
                     )}
 
                     <div className="news-large-card-content">
                       <p className="news-source">{sourceName}</p>
 
-                      <h2>{article.title || "Untitled article"}</h2>
+                      <h2>{title}</h2>
 
-                      {article.description && <p>{article.description}</p>}
+                      <p>{description}</p>
 
                       <span>Read article</span>
                     </div>
