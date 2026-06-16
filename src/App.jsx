@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 
 import Navbar from "./components/Navbar";
@@ -33,6 +33,16 @@ function Home() {
           <h1>FORWARD</h1>
           <h2>Intelligence for Modern Business</h2>
           <h3>Software • Automation • AI</h3>
+
+          <div className="heroActions">
+            <Link className="primaryCta" to="/contact">
+              Start a project
+            </Link>
+
+            <a className="secondaryCta" href="#solutions">
+              Explore services
+            </a>
+          </div>
         </div>
       </section>
 
@@ -44,9 +54,15 @@ function Home() {
             and software to operate more efficiently and scale with confidence.
           </p>
 
-          <a className="watchButton" href="#solutions">
-            What we do
-          </a>
+          <div className="sectionActions">
+            <a className="watchButton" href="#solutions">
+              What we do
+            </a>
+
+            <Link className="outlineButton" to="/contact">
+              Contact us
+            </Link>
+          </div>
         </div>
 
         <video className="featureVideo" autoPlay muted loop playsInline>
@@ -69,9 +85,15 @@ function Home() {
             forward.
           </p>
 
-          <a className="flowButton" href="#solutions">
-            Explore services
-          </a>
+          <div className="sectionActions">
+            <a className="flowButton" href="#solutions">
+              Explore services
+            </a>
+
+            <Link className="flowContactButton" to="/contact">
+              Contact us
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -95,7 +117,7 @@ function Home() {
         </div>
 
         <div id="services" className="serviceCards">
-          <article className="serviceCard">
+          <Link to="/solutions/ai-consulting" className="serviceCard">
             <img
               src="/images/TDXAIMain.png"
               alt="Artificial intelligence implementation"
@@ -108,9 +130,9 @@ function Home() {
                 organizations identify opportunities and deploy useful tools.
               </p>
             </div>
-          </article>
+          </Link>
 
-          <article className="serviceCard">
+          <Link to="/solutions/business-automation" className="serviceCard">
             <img
               src="/images/TDXAutoMain.png"
               alt="Business automation systems"
@@ -123,9 +145,9 @@ function Home() {
                 and keep business operations moving.
               </p>
             </div>
-          </article>
+          </Link>
 
-          <article className="serviceCard">
+          <Link to="/solutions/custom-software" className="serviceCard">
             <img src="/images/TDXWebMain.png" alt="Web and app development" />
 
             <div className="serviceCardOverlay">
@@ -135,9 +157,9 @@ function Home() {
                 built for usability, performance, and growth.
               </p>
             </div>
-          </article>
+          </Link>
 
-          <article className="serviceCard">
+          <Link to="/solutions/data-reporting" className="serviceCard">
             <img
               src="/images/TDXSystemsMain.png"
               alt="Data systems and database solutions"
@@ -150,7 +172,25 @@ function Home() {
                 that turn business data into useful insight.
               </p>
             </div>
-          </article>
+          </Link>
+        </div>
+      </section>
+
+      <section className="homeCtaSection">
+        <div className="homeCtaInner">
+          <p className="eyebrow">START THE CONVERSATION</p>
+
+          <h2>Have a process, system, or idea that could work better?</h2>
+
+          <p>
+            Tell us what you are trying to improve. TDX can help identify the
+            right path forward — whether that means AI, automation, software, or
+            better reporting.
+          </p>
+
+          <Link className="primaryCta" to="/contact">
+            Contact us
+          </Link>
         </div>
       </section>
 
