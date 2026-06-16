@@ -218,3 +218,29 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.techFallbackLogo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-color);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  filter: grayscale(100%);
+  opacity: 0.62;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.techLogoCard:hover .techFallbackLogo {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
+}
