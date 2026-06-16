@@ -29,27 +29,62 @@ const technologies = [
   { name: "WooCommerce", slug: "woocommerce", color: "96588A" },
   { name: "WordPress", slug: "wordpress", color: "21759B" },
 
-  { name: "OpenAI", slug: "openai", color: "10A37F" },
+  { name: "OpenAI", slug: "openai", color: "10A37F", fallback: "AI" },
   { name: "Claude", slug: "claude", color: "D97757" },
   { name: "Gemini", slug: "googlegemini", color: "8E75B2" },
   { name: "Anthropic", slug: "anthropic", color: "191919" },
   { name: "Perplexity", slug: "perplexity", color: "1FB8CD" },
-  { name: "GitHub Copilot", slug: "githubcopilot", color: "000000" },
+  {
+    name: "Microsoft Copilot",
+    slug: "microsoft",
+    color: "0078D4",
+    fallback: "CO",
+  },
 
   { name: "Zapier", slug: "zapier", color: "FF4A00" },
   { name: "Make", slug: "make", color: "6D00CC" },
   { name: "HubSpot", slug: "hubspot", color: "FF7A59" },
   { name: "Google Analytics", slug: "googleanalytics", color: "E37400" },
-  { name: "Google Workspace", slug: "google", color: "4285F4" },
-  { name: "Microsoft 365", slug: "microsoft", color: "5E5E5E" },
+  {
+    name: "Google Workspace",
+    slug: "google",
+    color: "4285F4",
+    fallback: "GW",
+  },
+  {
+    name: "Microsoft 365",
+    slug: "microsoft",
+    color: "5E5E5E",
+    fallback: "365",
+  },
   { name: "Mailchimp", slug: "mailchimp", color: "FFE01B" },
-  { name: "Slack", slug: "slack", color: "4A154B" },
+  { name: "Slack", slug: "slack", color: "4A154B", fallback: "SL" },
   { name: "Notion", slug: "notion", color: "000000" },
   { name: "Figma", slug: "figma", color: "F24E1E" },
-  { name: "Canva", slug: "canva", color: "00C4CC" },
+  { name: "Canva", slug: "canva", color: "00C4CC", fallback: "CA" },
 ];
 
 const logoUrl = (slug, color) => `https://cdn.simpleicons.org/${slug}/${color}`;
+
+function TechLogo({ tech }) {
+  const [logoFailed, setLogoFailed] = useState(false);
+
+  if (logoFailed) {
+    return (
+      <div className="techFallbackLogo" aria-label={`${tech.name} logo`}>
+        {tech.fallback || tech.name.slice(0, 2)}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={logoUrl(tech.slug, tech.color)}
+      alt={`${tech.name} logo`}
+      onError={() => setLogoFailed(true)}
+    />
+  );
+}
 
 export default function TechCarousel() {
   const [showAll, setShowAll] = useState(false);
@@ -77,10 +112,7 @@ export default function TechCarousel() {
                 key={`${tech.name}-${index}`}
                 style={{ "--brand-color": `#${tech.color}` }}
               >
-                <img
-                  src={logoUrl(tech.slug, tech.color)}
-                  alt={`${tech.name} logo`}
-                />
+                <TechLogo tech={tech} />
                 <span>{tech.name}</span>
               </div>
             ))}
@@ -94,10 +126,7 @@ export default function TechCarousel() {
               key={tech.name}
               style={{ "--brand-color": `#${tech.color}` }}
             >
-              <img
-                src={logoUrl(tech.slug, tech.color)}
-                alt={`${tech.name} logo`}
-              />
+              <TechLogo tech={tech} />
               <span>{tech.name}</span>
             </div>
           ))}
