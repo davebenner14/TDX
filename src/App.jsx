@@ -10,6 +10,7 @@ import AboutTDX from "./pages/AboutTDX";
 import Founder from "./pages/Founder";
 import OurApproach from "./pages/OurApproach";
 import NewsInsights from "./pages/NewsInsights";
+import Contact from "./pages/Contact";
 
 function Home() {
   return (
@@ -38,7 +39,7 @@ function Home() {
             and software to operate more efficiently and scale with confidence.
           </p>
 
-          <a className="watchButton" href="#systems">
+          <a className="watchButton" href="#solutions">
             What we do
           </a>
         </div>
@@ -63,13 +64,13 @@ function Home() {
             forward.
           </p>
 
-          <a className="flowButton" href="#systems">
+          <a className="flowButton" href="#solutions">
             Explore services
           </a>
         </div>
       </section>
 
-      <section id="systems" className="servicesSection snapSection">
+      <section id="solutions" className="servicesSection snapSection">
         <div className="servicesIntro">
           <p className="eyebrow">WHAT WE DO</p>
 
@@ -96,11 +97,10 @@ function Home() {
             />
 
             <div className="serviceCardOverlay">
-              <h3>Artificial Intelligence</h3>
+              <h3>AI Consulting</h3>
               <p>
-                Practical AI systems that help organizations identify
-                opportunities, improve decisions, and deploy intelligent
-                workflows.
+                Practical AI guidance, training, and implementation that helps
+                organizations identify opportunities and deploy useful tools.
               </p>
             </div>
           </article>
@@ -112,7 +112,7 @@ function Home() {
             />
 
             <div className="serviceCardOverlay">
-              <h3>Automation</h3>
+              <h3>Business Automation</h3>
               <p>
                 Connected workflows that reduce manual work, improve efficiency,
                 and keep business operations moving.
@@ -124,10 +124,10 @@ function Home() {
             <img src="/images/TDXWebMain.png" alt="Web and app development" />
 
             <div className="serviceCardOverlay">
-              <h3>Web Development</h3>
+              <h3>Custom Software</h3>
               <p>
-                Modern websites, applications, and software platforms built for
-                usability, performance, and growth.
+                Modern websites, applications, portals, and software platforms
+                built for usability, performance, and growth.
               </p>
             </div>
           </article>
@@ -139,17 +139,20 @@ function Home() {
             />
 
             <div className="serviceCardOverlay">
-              <h3>Data Systems</h3>
+              <h3>Data & Reporting</h3>
               <p>
-                Databases, reporting tools, and information systems that turn
-                business data into useful insight.
+                Databases, dashboards, reporting tools, and information systems
+                that turn business data into useful insight.
               </p>
             </div>
           </article>
         </div>
       </section>
 
-      <NewsFeed />
+      <section id="resources">
+        <NewsFeed />
+      </section>
+
       <TechCarousel />
       <Footer />
     </main>
@@ -167,6 +170,7 @@ function App() {
         <Route path="/company/founder" element={<Founder />} />
         <Route path="/company/approach" element={<OurApproach />} />
         <Route path="/company/news" element={<NewsInsights />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   );
