@@ -23,7 +23,8 @@ const searchItems = [
   },
   {
     title: "Our Approach",
-    description: "How TDX works with businesses to identify and build practical solutions.",
+    description:
+      "How TDX works with businesses to identify and build practical solutions.",
     url: "/company/approach",
     keywords: "approach process strategy planning execution",
   },
@@ -35,27 +36,33 @@ const searchItems = [
   },
   {
     title: "AI Consulting",
-    description: "Practical AI guidance, training, and implementation for businesses.",
-    url: "/#solutions",
-    keywords: "ai artificial intelligence consulting training implementation agents",
+    description:
+      "Practical AI guidance, training, and implementation for businesses.",
+    url: "/solutions/ai-consulting",
+    keywords:
+      "ai artificial intelligence consulting training implementation agents strategy roadmap",
   },
   {
     title: "Business Automation",
     description: "Reduce repetitive work and improve operations.",
-    url: "/#solutions",
-    keywords: "automation workflow business process operations efficiency",
+    url: "/solutions/business-automation",
+    keywords:
+      "automation workflow business process operations efficiency integrations",
   },
   {
     title: "Custom Software",
-    description: "Web apps, internal tools, customer portals, and business systems.",
-    url: "/#solutions",
-    keywords: "custom software web app application portal dashboard internal tools",
+    description:
+      "Web apps, internal tools, customer portals, and business systems.",
+    url: "/solutions/custom-software",
+    keywords:
+      "custom software web app application portal dashboard internal tools development",
   },
   {
     title: "Data & Reporting",
     description: "Dashboards, reporting systems, and operational visibility.",
-    url: "/#solutions",
-    keywords: "data reporting dashboards analytics business intelligence",
+    url: "/solutions/data-reporting",
+    keywords:
+      "data reporting dashboards analytics business intelligence databases metrics",
   },
   {
     title: "Contact",
@@ -110,7 +117,7 @@ function Navbar() {
                 <Link to="/company/about">About Us</Link>
                 <Link to="/company/founder">Founder</Link>
                 <Link to="/company/approach">Our Approach</Link>
-                <Link to="/company/news">News</Link>
+                <Link to="/company/news">News & Insights</Link>
               </div>
             </div>
 
@@ -118,11 +125,21 @@ function Navbar() {
               <button className="tdx-dropdown-button">Solutions</button>
 
               <div className="tdx-dropdown-menu">
-                <a href="/#solutions">AI Consulting</a>
-                <a href="/#solutions">Business Automation</a>
-                <a href="/#solutions">Custom Software</a>
-                <a href="/#solutions">Data & Reporting</a>
-                <a href="/#solutions">Websites & Portals</a>
+                <Link to="/solutions/ai-consulting">
+                  AI Consulting
+                </Link>
+
+                <Link to="/solutions/business-automation">
+                  Business Automation
+                </Link>
+
+                <Link to="/solutions/custom-software">
+                  Custom Software
+                </Link>
+
+                <Link to="/solutions/data-reporting">
+                  Data & Reporting
+                </Link>
               </div>
             </div>
 
@@ -164,7 +181,9 @@ function Navbar() {
 
             <div className="tdx-search-results">
               {searchTerm.trim() && filteredResults.length === 0 && (
-                <p className="tdx-search-empty">No results found.</p>
+                <p className="tdx-search-empty">
+                  No results found.
+                </p>
               )}
 
               {filteredResults.map((item) => (

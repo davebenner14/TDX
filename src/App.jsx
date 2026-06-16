@@ -12,6 +12,11 @@ import OurApproach from "./pages/OurApproach";
 import NewsInsights from "./pages/NewsInsights";
 import Contact from "./pages/Contact";
 
+import AIConsulting from "./pages/AIConsulting";
+import BusinessAutomation from "./pages/BusinessAutomation";
+import CustomSoftware from "./pages/CustomSoftware";
+import DataReporting from "./pages/DataReporting";
+
 function Home() {
   return (
     <main className="site">
@@ -166,6 +171,15 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/solutions/ai-consulting" element={<AIConsulting />} />
+        <Route
+          path="/solutions/business-automation"
+          element={<BusinessAutomation />}
+        />
+        <Route path="/solutions/custom-software" element={<CustomSoftware />} />
+        <Route path="/solutions/data-reporting" element={<DataReporting />} />
+
         <Route path="/company/about" element={<AboutTDX />} />
         <Route path="/company/founder" element={<Founder />} />
         <Route path="/company/approach" element={<OurApproach />} />
