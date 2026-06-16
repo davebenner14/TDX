@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
@@ -8,20 +9,30 @@ function Navbar() {
     <>
       <header className="tdx-navbar">
         <div className="tdx-nav-inner">
-          <a className="tdx-logo-wrap" href="/">
+          <Link className="tdx-logo-wrap" to="/">
             <img
               src="/logos/TDXLogo.png"
               alt="TDX Triangle Dynamics"
               className="tdx-logo"
             />
-          </a>
+          </Link>
 
           <nav className="tdx-nav-links">
-            <a href="#company">Company</a>
-            <a href="#technology">Our Technologies</a>
-            <a href="#agents">AI Agents</a>
-            <a href="#resources">Resources</a>
-            <a href="#contact">Contact</a>
+            <div className="tdx-dropdown">
+              <button className="tdx-dropdown-button">Company</button>
+
+              <div className="tdx-dropdown-menu">
+                <Link to="/company/about">About Us</Link>
+                <Link to="/company/news">News</Link>
+                <Link to="/company/founder">Founder</Link>
+                <Link to="/company/approach">Our Approach</Link>
+              </div>
+            </div>
+
+            <a href="/#technology">Our Technologies</a>
+            <a href="/#agents">AI Agents</a>
+            <a href="/#resources">Resources</a>
+            <a href="/#contact">Contact</a>
 
             <button
               className="tdx-search-button"
@@ -45,7 +56,12 @@ function Navbar() {
 
           <div className="tdx-search-box">
             <p>Search TDX</p>
-            <input autoFocus type="text" placeholder="What are you looking for?" />
+
+            <input
+              autoFocus
+              type="text"
+              placeholder="What are you looking for?"
+            />
           </div>
         </div>
       )}

@@ -1,0 +1,221 @@
+/* ========================================
+   COMPANY PAGES
+======================================== */
+
+.tdx-page {
+  min-height: 100vh;
+  padding-top: var(--navbar-height);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 217, 255, 0.16),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(0, 229, 168, 0.1),
+      transparent 35%
+    ),
+    var(--black);
+
+  color: var(--white);
+}
+
+.tdx-page-hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 110px 28px 70px;
+}
+
+.tdx-page-hero h1 {
+  margin: 0;
+  max-width: 900px;
+
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+}
+
+.tdx-page-hero p {
+  max-width: 760px;
+  margin-top: 28px;
+
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+.tdx-company-eyebrow {
+  color: var(--cyan);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   ABOUT PAGE
+======================================== */
+
+.tdx-content-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 28px 120px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.tdx-content-grid div {
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+
+  padding: 36px;
+}
+
+.tdx-content-grid h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+
+  font-size: 1.6rem;
+}
+
+.tdx-content-grid p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ========================================
+   FOUNDER PAGE
+======================================== */
+
+.tdx-founder-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 28px 120px;
+
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 48px;
+}
+
+.tdx-founder-image {
+  min-height: 500px;
+
+  border: 1px solid rgba(0, 217, 255, 0.22);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 217, 255, 0.12),
+      transparent
+    ),
+    rgba(255, 255, 255, 0.03);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tdx-founder-copy {
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+
+  padding: 48px;
+}
+
+.tdx-founder-copy h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.tdx-founder-copy p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ========================================
+   APPROACH PAGE
+======================================== */
+
+.tdx-steps {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 28px 120px;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.tdx-steps div {
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+
+  padding: 30px;
+}
+
+.tdx-steps span {
+  display: block;
+
+  margin-bottom: 20px;
+
+  color: var(--cyan);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.tdx-steps h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.tdx-steps p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ========================================
+   NEWS PAGE
+======================================== */
+
+.tdx-empty-news {
+  max-width: 900px;
+  margin: 0 auto 120px;
+
+  border: 1px solid rgba(0, 217, 255, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+
+  padding: 48px;
+}
+
+.tdx-empty-news h2 {
+  margin-top: 0;
+}
+
+.tdx-empty-news p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+  .tdx-content-grid,
+  .tdx-founder-layout,
+  .tdx-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .tdx-page-hero {
+    padding-top: 80px;
+  }
+}

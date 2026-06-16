@@ -3,16 +3,16 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 126px;
+  height: 100px;
   background: #222222;
   z-index: 1000;
 }
 
 .tdx-nav-inner {
-  max-width: 1200px;
+  max-width: 1180px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 18px;
+  padding: 0 28px;
 
   display: flex;
   align-items: center;
@@ -22,38 +22,111 @@
 .tdx-logo-wrap {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .tdx-logo {
-  width: 260px;
+  width: 170px;
   height: auto;
   display: block;
 }
 
 .tdx-nav-links {
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 42px;
+  gap: 38px;
 }
 
-.tdx-nav-links a {
+.tdx-nav-links a,
+.tdx-dropdown-button {
   color: #ffffff;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 400;
+  font-family: inherit;
+  opacity: 0.95;
 }
 
-.tdx-nav-links a:hover {
+.tdx-nav-links a:hover,
+.tdx-dropdown-button:hover {
   color: #00d9ff;
+}
+
+.tdx-dropdown {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.tdx-dropdown-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tdx-dropdown-button::after {
+  content: "▾";
+  font-size: 10px;
+  margin-left: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.tdx-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: -28px;
+
+  width: 240px;
+  background: #222222;
+  border-top: 4px solid #ffffff;
+
+  padding: 12px 0;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+
+  z-index: 1001;
+}
+
+.tdx-dropdown:hover .tdx-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.tdx-dropdown-menu a {
+  display: block;
+  padding: 18px 30px;
+
+  color: #ffffff;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.tdx-dropdown-menu a:hover {
+  color: #00d9ff;
+  background: transparent;
 }
 
 .tdx-search-button {
   background: transparent;
   border: none;
   color: #ffffff;
-  font-size: 34px;
+  font-size: 26px;
   cursor: pointer;
   line-height: 1;
+  padding: 0;
+}
+
+.tdx-search-button:hover {
+  color: #00d9ff;
 }
 
 .tdx-search-overlay {
@@ -107,14 +180,20 @@
 
 @media (max-width: 900px) {
   .tdx-navbar {
-    height: 96px;
+    height: 88px;
   }
 
   .tdx-logo {
-    width: 125px;
+    width: 130px;
   }
 
-  .tdx-nav-links a {
+  .tdx-nav-links a,
+  .tdx-dropdown,
+  .tdx-dropdown-button {
     display: none;
+  }
+
+  .tdx-search-button {
+    display: block;
   }
 }
