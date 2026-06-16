@@ -19,8 +19,8 @@ function App() {
 
           <div className="heroText">
             <h1>FORWARD</h1>
-            <h2>Artificial Intelligence</h2>
-            <h3>Automation & Software</h3>
+            <h2>Intelligence for Modern Business</h2>
+            <h3>Software • Automation • AI</h3>
           </div>
         </section>
 
