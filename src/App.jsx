@@ -2,7 +2,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import NewsFeed from "./components/NewsFeed";
 import TechCarousel from "./components/TechCarousel";
-
+import Footer from "./components/Footer";
 function App() {
   return (
     <>
@@ -148,6 +148,7 @@ function App() {
         </section>
         <NewsFeed />
         <TechCarousel />
+        <Footer />
       </main>
     </>
   );
