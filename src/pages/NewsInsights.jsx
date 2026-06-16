@@ -40,9 +40,7 @@ function NewsInsights() {
                 News
               </p>
 
-              <h1>
-                Ideas shaping AI, software, and modern business.
-              </h1>
+              <h1>Ideas shaping AI, software, and modern business.</h1>
             </div>
 
             <div className="news-hero-image">
@@ -77,33 +75,39 @@ function NewsInsights() {
 
           {!loading && articles.length > 0 && (
             <div className="news-grid-large">
-              {articles.map((article) => (
-                <a
-                  key={article.url}
-                  className="news-large-card"
-                  href={article.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {article.image && (
-                    <img src={article.image} alt={article.title} />
-                  )}
+              {articles.map((article) => {
+                const sourceName =
+                  typeof article.source === "string"
+                    ? article.source
+                    : article.source?.name || "Technology News";
 
-                  <div className="news-large-card-content">
-                    <p className="news-source">
-                      {article.source || "Technology News"}
-                    </p>
-
-                    <h2>{article.title}</h2>
-
-                    {article.description && (
-                      <p>{article.description}</p>
+                return (
+                  <a
+                    key={article.url || article.title}
+                    className="news-large-card"
+                    href={article.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {article.image && (
+                      <img
+                        src={article.image}
+                        alt={article.title || "News article"}
+                      />
                     )}
 
-                    <span>Read article</span>
-                  </div>
-                </a>
-              ))}
+                    <div className="news-large-card-content">
+                      <p className="news-source">{sourceName}</p>
+
+                      <h2>{article.title || "Untitled article"}</h2>
+
+                      {article.description && <p>{article.description}</p>}
+
+                      <span>Read article</span>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           )}
         </section>
