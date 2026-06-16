@@ -1,0 +1,220 @@
+.techCarouselSection {
+  min-height: 70vh;
+  background: #ffffff;
+  color: #050505;
+  padding: 110px 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.techIntro {
+  max-width: 1100px;
+  width: 90%;
+  margin: 0 auto 60px;
+}
+
+.techIntro .eyebrow {
+  color: var(--blue);
+}
+
+.techIntro h2 {
+  color: #050505;
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 0.95;
+  margin: 0 0 24px;
+  letter-spacing: -0.06em;
+}
+
+.techIntro p:not(.eyebrow) {
+  max-width: 660px;
+  color: #5f6872;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.techCarousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.techCarousel::before,
+.techCarousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 180px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.techCarousel::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff, transparent);
+}
+
+.techCarousel::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff, transparent);
+}
+
+.techTrack {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: scrollTech 38s linear infinite;
+}
+
+.techCarousel:hover .techTrack {
+  animation-play-state: paused;
+}
+
+.techGrid {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 20px;
+}
+
+.techLogoCard {
+  width: 160px;
+  height: 120px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(5, 5, 5, 0.08);
+  border-radius: 22px;
+  background: linear-gradient(
+    145deg,
+    rgba(5, 5, 5, 0.035),
+    rgba(5, 5, 5, 0.012)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.techGrid .techLogoCard {
+  width: 100%;
+}
+
+.techLogoCard img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.62;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.techLogoCard span {
+  color: rgba(5, 5, 5, 0.62);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: color 0.25s ease;
+}
+
+.techLogoCard:hover {
+  transform: translateY(-8px);
+  border-color: var(--brand-color);
+  box-shadow: 0 18px 45px rgba(0, 217, 255, 0.18);
+  background:
+    radial-gradient(circle at top, rgba(0, 217, 255, 0.14), transparent 45%),
+    #ffffff;
+}
+
+.techLogoCard:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.techLogoCard:hover span {
+  color: #050505;
+}
+
+.techButtonWrap {
+  width: 90%;
+  max-width: 1100px;
+  margin: 52px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.showTechBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 34px;
+  background: var(--cyan);
+  color: #050505;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.showTechBtn:hover {
+  transform: translateY(-2px);
+  background: var(--blue);
+  color: #ffffff;
+  box-shadow: 0 0 34px rgba(0, 217, 255, 0.45);
+}
+
+@keyframes scrollTech {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .techCarouselSection {
+    padding: 80px 0;
+  }
+
+  .techLogoCard {
+    width: 132px;
+    height: 104px;
+  }
+
+  .techLogoCard img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .techCarousel::before,
+  .techCarousel::after {
+    width: 80px;
+  }
+
+  .techGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
