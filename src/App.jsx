@@ -18,6 +18,11 @@ import BusinessAutomation from "./pages/BusinessAutomation";
 import CustomSoftware from "./pages/CustomSoftware";
 import DataReporting from "./pages/DataReporting";
 
+import Resources from "./pages/Resources";
+import Insights from "./pages/Insights";
+import FAQ from "./pages/FAQ";
+import Support from "./pages/Support";
+
 function Home() {
   return (
     <main className="site">
@@ -227,6 +232,12 @@ function App() {
         <Route path="/company/founder" element={<Founder />} />
         <Route path="/company/approach" element={<OurApproach />} />
         <Route path="/company/news" element={<NewsInsights />} />
+
+        <Route path="/resources" element={<Resources />} />
+        <Route path="/resources/insights" element={<Insights />} />
+        <Route path="/resources/faq" element={<FAQ />} />
+
+        <Route path="/support" element={<Support />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>

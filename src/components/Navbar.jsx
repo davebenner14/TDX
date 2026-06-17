@@ -65,6 +65,34 @@ const searchItems = [
       "data reporting dashboards analytics business intelligence databases metrics",
   },
   {
+    title: "Resources",
+    description: "Guides, insights, FAQs, and practical technology resources.",
+    url: "/resources",
+    keywords:
+      "resources insights guides faq questions automation ai software technology",
+  },
+  {
+    title: "Insights",
+    description: "Thoughts on AI, automation, software, and business systems.",
+    url: "/resources/insights",
+    keywords:
+      "insights articles blog ai automation software systems business technology",
+  },
+  {
+    title: "FAQ",
+    description: "Common questions about working with Triangle Dynamics.",
+    url: "/resources/faq",
+    keywords:
+      "faq questions answers pricing process timeline ai automation software consulting",
+  },
+  {
+    title: "Support",
+    description: "Submit a support request for an existing TDX project.",
+    url: "/support",
+    keywords:
+      "support help issue bug problem existing client request form triangle dynamics support",
+  },
+  {
     title: "Contact",
     description: "Start a conversation with TDX.",
     url: "/contact",
@@ -125,9 +153,7 @@ function Navbar() {
               <button className="tdx-dropdown-button">Solutions</button>
 
               <div className="tdx-dropdown-menu">
-                <Link to="/solutions/ai-consulting">
-                  AI Consulting
-                </Link>
+                <Link to="/solutions/ai-consulting">AI Consulting</Link>
 
                 <Link to="/solutions/business-automation">
                   Business Automation
@@ -143,7 +169,17 @@ function Navbar() {
               </div>
             </div>
 
-            <a href="/#resources">Resources</a>
+            <div className="tdx-dropdown">
+              <button className="tdx-dropdown-button">Resources</button>
+
+              <div className="tdx-dropdown-menu">
+                <Link to="/resources">Resources Overview</Link>
+                <Link to="/resources/insights">Insights</Link>
+                <Link to="/resources/faq">FAQ</Link>
+              </div>
+            </div>
+
+            <Link to="/support">Support</Link>
 
             <Link to="/contact">Contact</Link>
 
@@ -176,14 +212,12 @@ function Navbar() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search AI, automation, software, contact..."
+              placeholder="Search AI, automation, software, support..."
             />
 
             <div className="tdx-search-results">
               {searchTerm.trim() && filteredResults.length === 0 && (
-                <p className="tdx-search-empty">
-                  No results found.
-                </p>
+                <p className="tdx-search-empty">No results found.</p>
               )}
 
               {filteredResults.map((item) => (

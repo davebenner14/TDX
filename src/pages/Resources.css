@@ -1,0 +1,166 @@
+.resources-page {
+  min-height: 100vh;
+  background: #050505;
+  color: #ffffff;
+}
+
+.resources-hero {
+  padding: 190px 24px 90px;
+  background:
+    radial-gradient(circle at top right, rgba(0, 217, 255, 0.18), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(0, 229, 168, 0.12), transparent 35%),
+    #050505;
+}
+
+.resources-inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.resources-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 24px;
+  color: #00d9ff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.resources-kicker span {
+  width: 36px;
+  height: 2px;
+  background: linear-gradient(90deg, #00d9ff, #00e5a8);
+}
+
+.resources-hero h1 {
+  max-width: 900px;
+  margin: 0 0 24px;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.resources-lead {
+  max-width: 700px;
+  margin: 0;
+  color: #a7b0ba;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  line-height: 1.7;
+}
+
+.resources-grid-section {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 80px 24px 110px;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.resource-card {
+  min-height: 320px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    #080808;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 217, 255, 0.5);
+}
+
+.resource-card p {
+  margin: 0;
+  color: #00d9ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.resource-card h2 {
+  margin: auto 0 18px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.resource-card span {
+  color: #a7b0ba;
+  line-height: 1.6;
+}
+
+.insights-list {
+  display: grid;
+  gap: 22px;
+}
+
+.insight-card {
+  padding: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.insight-card h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.insight-card p {
+  max-width: 760px;
+  margin: 0;
+  color: #a7b0ba;
+  line-height: 1.7;
+}
+
+.faq-list {
+  display: grid;
+  gap: 18px;
+}
+
+.faq-item {
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.faq-item h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.faq-item p {
+  max-width: 780px;
+  margin: 0;
+  color: #a7b0ba;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .resources-hero {
+    padding-top: 160px;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-card {
+    min-height: 260px;
+  }
+}
