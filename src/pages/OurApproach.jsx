@@ -29,8 +29,8 @@ function OurApproach() {
 
             <div className="approach-hero-image">
               <img
-                src="/images/TDXAutoMain.png"
-                alt="Connected business automation systems"
+                src="/images/TDXApproach.png"
+                alt="Triangle Dynamics approach connecting business challenges to practical results"
               />
             </div>
           </div>

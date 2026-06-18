@@ -4,12 +4,27 @@
   left: 0;
   width: 100%;
   height: 100px;
-  background: #222222;
+
+  background: rgba(34, 34, 34, 1);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+
+  transition:
+    background 0.35s ease,
+    backdrop-filter 0.35s ease,
+    -webkit-backdrop-filter 0.35s ease;
+
   z-index: 1000;
 }
 
+.tdx-navbar.scrolled {
+  background: rgba(34, 34, 34, 0.58);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
 .tdx-nav-inner {
-  max-width: 1180px;
+  max-width: 1280px;
   height: 100%;
   margin: 0 auto;
   padding: 0 28px;
@@ -26,7 +41,7 @@
 }
 
 .tdx-logo {
-  width: 170px;
+  width: 300px;
   height: auto;
   display: block;
 }
@@ -35,7 +50,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 38px;
+  gap: 34px;
 }
 
 .tdx-nav-links a,
@@ -80,16 +95,21 @@
   left: -28px;
 
   width: 240px;
-  background: #222222;
-  border-top: 4px solid #ffffff;
+  background: rgba(34, 34, 34, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
+  border-top: 4px solid #ffffff;
   padding: 12px 0;
 
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 
-  transition: opacity 0.18s ease, visibility 0.18s ease;
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease,
+    background 0.35s ease;
 
   z-index: 1001;
 }
@@ -112,7 +132,7 @@
 
 .tdx-dropdown-menu a:hover {
   color: #00d9ff;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .tdx-search-button {
@@ -178,13 +198,49 @@
   color: rgba(255, 255, 255, 0.35);
 }
 
+.tdx-search-results {
+  margin-top: 34px;
+  display: grid;
+  gap: 14px;
+}
+
+.tdx-search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  text-decoration: none;
+}
+
+.tdx-search-result strong {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.tdx-search-result span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 15px;
+}
+
+.tdx-search-result:hover strong {
+  color: #00d9ff;
+}
+
+.tdx-search-empty {
+  color: rgba(255, 255, 255, 0.65) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+}
+
 @media (max-width: 900px) {
   .tdx-navbar {
     height: 88px;
   }
 
   .tdx-logo {
-    width: 130px;
+    width: 210px;
   }
 
   .tdx-nav-links a,

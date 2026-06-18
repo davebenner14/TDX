@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
@@ -103,6 +103,21 @@ const searchItems = [
 function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const filteredResults = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
@@ -127,7 +142,7 @@ function Navbar() {
 
   return (
     <>
-      <header className="tdx-navbar">
+      <header className={`tdx-navbar ${scrolled ? "scrolled" : ""}`}>
         <div className="tdx-nav-inner">
           <Link className="tdx-logo-wrap" to="/">
             <img
@@ -159,13 +174,9 @@ function Navbar() {
                   Business Automation
                 </Link>
 
-                <Link to="/solutions/custom-software">
-                  Custom Software
-                </Link>
+                <Link to="/solutions/custom-software">Custom Software</Link>
 
-                <Link to="/solutions/data-reporting">
-                  Data & Reporting
-                </Link>
+                <Link to="/solutions/data-reporting">Data & Reporting</Link>
               </div>
             </div>
 

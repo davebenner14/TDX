@@ -31,8 +31,8 @@ function AboutTDX() {
 
             <div className="about-hero-image">
               <img
-                src="/images/TDXSystemsMain.png"
-                alt="Modern business technology systems"
+                src="/images/TDXAboutUsImage.png"
+                alt="Strategic technology planning workspace for Triangle Dynamics"
               />
             </div>
           </div>

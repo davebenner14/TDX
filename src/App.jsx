@@ -27,11 +27,9 @@ function Home() {
   return (
     <main className="site">
       <section className="hero snapSection">
-        <img
-          className="heroImage"
-          src="/images/TDXHero.png"
-          alt="Futuristic AI infrastructure"
-        />
+        <video className="heroImage" autoPlay muted loop playsInline>
+          <source src="/videos/TDXHeroVid.mp4" type="video/mp4" />
+        </video>
 
         <div className="heroOverlay" />
 
