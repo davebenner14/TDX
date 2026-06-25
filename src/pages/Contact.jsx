@@ -40,7 +40,7 @@ function Contact() {
             </div>
 
             <div className="contact-form-card">
-              <div className="form-beam"></div>
+              <div className="contact-form-beam"></div>
 
               <div className="contact-form-header">
                 <p>Start the Conversation</p>
@@ -50,23 +50,23 @@ function Contact() {
               <form className="tdx-contact-form">
                 <div className="form-row">
                   <label>
-                    Name *
+                    <span>Name *</span>
                     <input type="text" name="name" required />
                   </label>
 
                   <label>
-                    Email *
+                    <span>Email *</span>
                     <input type="email" name="email" required />
                   </label>
                 </div>
 
                 <label>
-                  Company
+                  <span>Company</span>
                   <input type="text" name="company" />
                 </label>
 
                 <label>
-                  What can we help with? *
+                  <span>What can we help with? *</span>
                   <select name="service" required>
                     <option value="">Select one</option>
                     <option>AI Consulting</option>
@@ -78,18 +78,17 @@ function Contact() {
                 </label>
 
                 <label>
-                  Project Details *
+                  <span>Project Details *</span>
                   <textarea
                     name="message"
-                    required
                     rows="6"
+                    required
                     placeholder="Tell us about the problem, workflow, idea, or system you're trying to improve."
                   ></textarea>
                 </label>
 
                 <button type="submit">
-                  Send Message
-                  <span>→</span>
+                  Send Message <span>→</span>
                 </button>
               </form>
             </div>
