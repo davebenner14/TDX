@@ -2,6 +2,39 @@ import Footer from "../components/Footer";
 import "./Contact.css";
 
 function Contact() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+
+    const name = form.get("name");
+    const email = form.get("email");
+    const company = form.get("company") || "Not Provided";
+    const service = form.get("service");
+    const message = form.get("message");
+
+    const subject = encodeURIComponent(
+      `TDX Inquiry - ${service}`
+    );
+
+    const body = encodeURIComponent(
+`Name: ${name}
+
+Email: ${email}
+
+Company: ${company}
+
+Service Requested: ${service}
+
+Project Details:
+
+${message}`
+    );
+
+    window.location.href =
+      `mailto:triangledynamicsinfo@gmail.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <>
       <main className="contact-page">
@@ -16,9 +49,9 @@ function Contact() {
               <h1>Let’s talk about what you’re trying to build.</h1>
 
               <p className="contact-lead">
-                Whether you need help with artificial intelligence, automation,
-                software, reporting, or a better way to run part of your
-                business, we’d be happy to hear from you.
+                Whether you need help with artificial intelligence,
+                automation, software, reporting, or a better way to run
+                part of your business, we’d be happy to hear from you.
               </p>
 
               <div className="contact-points">
@@ -29,12 +62,16 @@ function Contact() {
 
                 <div>
                   <strong>Software & Systems</strong>
-                  <p>Custom platforms, workflows, portals, and dashboards.</p>
+                  <p>
+                    Custom platforms, workflows, portals, and dashboards.
+                  </p>
                 </div>
 
                 <div>
                   <strong>Clear Next Steps</strong>
-                  <p>No pressure. Just a conversation about the opportunity.</p>
+                  <p>
+                    No pressure. Just a conversation about the opportunity.
+                  </p>
                 </div>
               </div>
             </div>
@@ -47,27 +84,44 @@ function Contact() {
                 <h2>Tell us what you’re working on.</h2>
               </div>
 
-              <form className="tdx-contact-form">
+              <form
+                className="tdx-contact-form"
+                onSubmit={handleSubmit}
+              >
                 <div className="form-row">
                   <label>
                     <span>Name *</span>
-                    <input type="text" name="name" required />
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                    />
                   </label>
 
                   <label>
                     <span>Email *</span>
-                    <input type="email" name="email" required />
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                    />
                   </label>
                 </div>
 
                 <label>
                   <span>Company</span>
-                  <input type="text" name="company" />
+                  <input
+                    type="text"
+                    name="company"
+                  />
                 </label>
 
                 <label>
                   <span>What can we help with? *</span>
-                  <select name="service" required>
+                  <select
+                    name="service"
+                    required
+                  >
                     <option value="">Select one</option>
                     <option>AI Consulting</option>
                     <option>Business Automation</option>

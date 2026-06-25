@@ -2,6 +2,45 @@ import Footer from "../components/Footer";
 import "./Support.css";
 
 function Support() {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+
+    const name = form.get("name");
+    const email = form.get("email");
+    const company = form.get("company") || "Not Provided";
+    const project = form.get("project") || "Not Provided";
+    const priority = form.get("priority");
+    const issueType = form.get("issueType");
+    const message = form.get("message");
+
+    const subject = encodeURIComponent(
+      `TDX Support Request - ${issueType}`
+    );
+
+    const body = encodeURIComponent(
+`Name: ${name}
+
+Email: ${email}
+
+Company: ${company}
+
+Project/System: ${project}
+
+Priority: ${priority}
+
+Issue Type: ${issueType}
+
+Support Details:
+
+${message}`
+    );
+
+    window.location.href =
+      `mailto:triangledynamicsinfo@gmail.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <>
       <main className="support-page">
@@ -39,14 +78,80 @@ function Support() {
           </div>
 
           <div className="support-form-card">
-            <iframe
-              className="support-airtable-embed"
-              src="https://airtable.com/embed/appI1e6uTxw7SnDV6/pagxaHYz1cJDQq4N7/form"
-              frameBorder="0"
-              width="100%"
-              height="1500"
-              title="Triangle Dynamics Support Form"
-            ></iframe>
+            <div className="support-form-beam"></div>
+
+            <div className="support-form-header">
+              <p>Support Request</p>
+              <h2>Tell us what needs attention.</h2>
+            </div>
+
+            <form className="tdx-support-form" onSubmit={handleSubmit}>
+              <div className="form-row">
+                <label>
+                  <span>Name *</span>
+                  <input type="text" name="name" required />
+                </label>
+
+                <label>
+                  <span>Email *</span>
+                  <input type="email" name="email" required />
+                </label>
+              </div>
+
+              <label>
+                <span>Company</span>
+                <input type="text" name="company" />
+              </label>
+
+              <label>
+                <span>Project / System</span>
+                <input
+                  type="text"
+                  name="project"
+                  placeholder="Example: Client portal, automation workflow, report dashboard"
+                />
+              </label>
+
+              <div className="form-row">
+                <label>
+                  <span>Priority *</span>
+                  <select name="priority" required>
+                    <option value="">Select one</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Issue Type *</span>
+                  <select name="issueType" required>
+                    <option value="">Select one</option>
+                    <option>Bug / Error</option>
+                    <option>Workflow Issue</option>
+                    <option>Reporting Question</option>
+                    <option>Access / Login Issue</option>
+                    <option>Change Request</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                <span>Support Details *</span>
+                <textarea
+                  name="message"
+                  rows="6"
+                  required
+                  placeholder="Describe what happened, what you expected, and any steps needed to recreate the issue."
+                ></textarea>
+              </label>
+
+              <button type="submit">
+                Send Support Request <span>→</span>
+              </button>
+            </form>
           </div>
         </section>
       </main>
