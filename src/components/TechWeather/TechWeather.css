@@ -8,62 +8,99 @@
 .currentWeather {
   position: relative;
   width: 100%;
-  min-height: 720px;
+  min-height: 800px;
   padding: 100px 0;
   overflow: hidden;
   isolation: isolate;
   color: #ffffff;
   background: #07111f;
+  transition: background 1000ms ease;
 }
 
 /* =========================================================
-   BACKGROUNDS
+   MAIN DYNAMIC BACKGROUNDS
    ========================================================= */
 
-.currentWeatherDay.currentWeather-clear {
+.currentWeather-day {
   background:
     radial-gradient(
-      circle at 82% 18%,
-      rgba(255, 223, 93, 0.38),
-      transparent 23%
+      circle at 82% 17%,
+      rgba(255, 226, 108, 0.38),
+      transparent 22%
     ),
-    linear-gradient(180deg, #178dd1 0%, #67c4ee 55%, #d9f4ff 100%);
+    linear-gradient(
+      180deg,
+      #168fd3 0%,
+      #66c2ed 52%,
+      #d8f3ff 100%
+    );
 }
 
-.currentWeatherDay.currentWeather-cloud {
-  background:
-    linear-gradient(180deg, #536f81 0%, #91a9b6 55%, #d8e2e7 100%);
-}
-
-.currentWeatherDay.currentWeather-rain {
-  background:
-    linear-gradient(180deg, #1c2d3b 0%, #425b6b 55%, #7f939e 100%);
-}
-
-.currentWeatherDay.currentWeather-snow {
-  background:
-    linear-gradient(180deg, #7399af 0%, #b9d2df 55%, #eff8fb 100%);
-}
-
-.currentWeatherNight {
+.currentWeather-dawn {
   background:
     radial-gradient(
-      circle at 76% 18%,
-      rgba(79, 129, 208, 0.15),
-      transparent 26%
+      ellipse at 75% 85%,
+      rgba(255, 211, 125, 0.68),
+      transparent 34%
     ),
-    linear-gradient(180deg, #01040b 0%, #071426 56%, #000000 100%);
+    linear-gradient(
+      180deg,
+      #172342 0%,
+      #9c577c 50%,
+      #ffb064 100%
+    );
 }
 
-.currentWeatherNight.currentWeather-cloud,
-.currentWeatherNight.currentWeather-rain {
+.currentWeather-sunset {
   background:
-    linear-gradient(180deg, #02050a 0%, #111c27 56%, #000000 100%);
+    radial-gradient(
+      ellipse at 76% 84%,
+      rgba(255, 191, 100, 0.78),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #151c3c 0%,
+      #8e416d 48%,
+      #ff8144 100%
+    );
 }
 
-.currentWeatherNight.currentWeather-snow {
+.currentWeather-night {
   background:
-    linear-gradient(180deg, #040916 0%, #152740 56%, #010205 100%);
+    radial-gradient(
+      circle at 77% 17%,
+      rgba(94, 139, 215, 0.14),
+      transparent 24%
+    ),
+    linear-gradient(
+      180deg,
+      #01040b 0%,
+      #071426 55%,
+      #000000 100%
+    );
+}
+
+.currentWeather-cloud .currentWeatherConditionTint {
+  background: rgba(76, 88, 101, 0.2);
+}
+
+.currentWeather-rain .currentWeatherConditionTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 27, 40, 0.55),
+      rgba(36, 52, 65, 0.32)
+    );
+}
+
+.currentWeather-snow .currentWeatherConditionTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(205, 226, 239, 0.15),
+      rgba(235, 247, 252, 0.27)
+    );
 }
 
 .currentWeatherAtmosphere {
@@ -80,39 +117,45 @@
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.28),
       transparent 55%,
-      rgba(0, 0, 0, 0.06)
+      rgba(0, 0, 0, 0.05)
     );
+}
+
+.currentWeatherConditionTint {
+  position: absolute;
+  inset: 0;
 }
 
 .currentWeatherHorizon {
   position: absolute;
   right: -15%;
-  bottom: -30%;
+  bottom: -32%;
   width: 75%;
   height: 62%;
   border-radius: 50%;
   background:
     radial-gradient(
       ellipse,
-      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.16),
       transparent 68%
     );
   filter: blur(30px);
 }
 
 /* =========================================================
-   NIGHT STARS
+   MAIN STARS
    ========================================================= */
 
 .currentWeatherStars {
   position: absolute;
   inset: 0;
   opacity: 0;
+  transition: opacity 900ms ease;
 }
 
-.currentWeatherNight .currentWeatherStars {
+.currentWeather-night .currentWeatherStars {
   opacity: 1;
 }
 
@@ -127,7 +170,7 @@
   box-shadow:
     0 0 5px rgba(255, 255, 255, 0.9),
     0 0 12px rgba(142, 194, 255, 0.55);
-  animation: currentWeatherTwinkle 2.5s ease-in-out infinite;
+  animation: weatherTwinkle 2.5s ease-in-out infinite;
   animation-delay: var(--star-delay);
 }
 
@@ -137,11 +180,13 @@
 }
 
 /* =========================================================
-   LAYOUT
+   MAIN LAYOUT
    ========================================================= */
 
 .currentWeatherContainer {
-  width: min(100% - 40px, 980px);
+  position: relative;
+  z-index: 2;
+  width: min(100% - 40px, 1080px);
   margin: 0 auto;
 }
 
@@ -170,7 +215,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.68);
   font-size: 0.7rem;
 }
 
@@ -181,10 +226,6 @@
   background: #44f5b6;
   box-shadow: 0 0 12px rgba(68, 245, 182, 0.85);
 }
-
-/* =========================================================
-   LOCATION BUTTON
-   ========================================================= */
 
 .currentWeatherLocationButton {
   display: inline-flex;
@@ -224,7 +265,7 @@
 }
 
 /* =========================================================
-   MAIN CARD
+   CURRENT WEATHER CARD
    ========================================================= */
 
 .currentWeatherCard {
@@ -236,11 +277,11 @@
   background:
     linear-gradient(
       145deg,
-      rgba(3, 10, 19, 0.68),
-      rgba(3, 9, 17, 0.42)
+      rgba(3, 10, 19, 0.66),
+      rgba(3, 9, 17, 0.4)
     );
   box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.3),
+    0 40px 100px rgba(0, 0, 0, 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -263,10 +304,6 @@
   line-height: 1;
   letter-spacing: -0.05em;
 }
-
-/* =========================================================
-   MAIN READING
-   ========================================================= */
 
 .currentWeatherMain {
   display: flex;
@@ -317,13 +354,9 @@
 
 .currentWeatherReading > p {
   margin: 7px 0 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 0.88rem;
 }
-
-/* =========================================================
-   FACTS
-   ========================================================= */
 
 .currentWeatherFacts {
   display: grid;
@@ -361,18 +394,310 @@
 }
 
 /* =========================================================
-   WEATHER VISUAL
+   12-HOUR FORECAST
    ========================================================= */
 
-.currentWeatherVisual {
+.forecastSection {
+  margin-top: 24px;
+  padding: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 25px;
+  background: rgba(3, 9, 17, 0.44);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.forecastHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.forecastHeader > div > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #5cecff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.forecastHeader h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.35rem;
+}
+
+.forecastTimezone {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.64rem;
+}
+
+.forecastScroller {
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-color: rgba(92, 236, 255, 0.4)
+    rgba(255, 255, 255, 0.06);
+  scrollbar-width: thin;
+}
+
+.forecastScroller::-webkit-scrollbar {
+  height: 6px;
+}
+
+.forecastScroller::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.forecastScroller::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: rgba(92, 236, 255, 0.38);
+}
+
+.forecastGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 112px);
+  gap: 10px;
+  min-width: max-content;
+}
+
+.forecastCard {
+  position: relative;
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 17px;
+  color: #ffffff;
+  background: #111827;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.forecastCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(92, 236, 255, 0.45);
+}
+
+/* Each forecast card has its own sky */
+
+.forecastCard-day {
+  background:
+    radial-gradient(
+      circle at 78% 20%,
+      rgba(255, 224, 100, 0.35),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #288fd0 0%,
+      #72c4e9 58%,
+      #cceaf6 100%
+    );
+}
+
+.forecastCard-dawn {
+  background:
+    radial-gradient(
+      ellipse at 70% 85%,
+      rgba(255, 209, 122, 0.7),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #263052 0%,
+      #a75c81 54%,
+      #ffb36b 100%
+    );
+}
+
+.forecastCard-sunset {
+  background:
+    radial-gradient(
+      ellipse at 70% 85%,
+      rgba(255, 194, 96, 0.76),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #202347 0%,
+      #93416e 51%,
+      #ff7e43 100%
+    );
+}
+
+.forecastCard-night {
+  background:
+    linear-gradient(
+      180deg,
+      #02050d 0%,
+      #0b1930 58%,
+      #020306 100%
+    );
+}
+
+.forecastCardWeatherTint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.forecastCard-cloud .forecastCardWeatherTint {
+  background: rgba(68, 81, 94, 0.22);
+}
+
+.forecastCard-rain .forecastCardWeatherTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(19, 31, 43, 0.55),
+      rgba(36, 50, 62, 0.35)
+    );
+}
+
+.forecastCard-snow .forecastCardWeatherTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(210, 231, 242, 0.12),
+      rgba(238, 247, 251, 0.25)
+    );
+}
+
+/* Stars only on individual night cards */
+
+.forecastCardStars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  pointer-events: none;
+}
+
+.forecastCard-night .forecastCardStars {
+  display: block;
+}
+
+.forecastCardStars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
+  animation: forecastStarTwinkle 2.2s ease-in-out infinite;
+}
+
+.forecastCardStars span:nth-child(1) {
+  top: 20%;
+  left: 18%;
+}
+
+.forecastCardStars span:nth-child(2) {
+  top: 12%;
+  right: 20%;
+  animation-delay: -0.7s;
+}
+
+.forecastCardStars span:nth-child(3) {
+  top: 35%;
+  right: 12%;
+  animation-delay: -1.2s;
+}
+
+.forecastCardStars span:nth-child(4) {
+  top: 42%;
+  left: 10%;
+  animation-delay: -1.7s;
+}
+
+.forecastTime,
+.forecastIconArea,
+.forecastTemperature,
+.forecastCondition,
+.forecastRainChance {
+  position: relative;
+  z-index: 3;
+}
+
+.forecastTime {
+  min-height: 18px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.forecastIconArea {
+  display: grid;
+  width: 74px;
+  height: 74px;
+  margin: 10px 0 7px;
+  place-items: center;
+}
+
+.forecastTemperature {
+  font-size: 1.35rem;
+}
+
+.forecastCondition {
+  width: 100%;
+  min-height: 30px;
+  margin-top: 4px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.62rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.forecastRainChance {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.64rem;
+}
+
+.forecastRainChance i {
+  color: #56ddff;
+  font-size: 0.48rem;
+}
+
+/* =========================================================
+   WEATHER ART
+   ========================================================= */
+
+.weatherVisual {
   position: relative;
   width: 180px;
   height: 180px;
 }
 
-/* Sun */
+.weatherVisualCompact {
+  width: 72px;
+  height: 72px;
+  transform: scale(0.4);
+  transform-origin: center;
+}
 
-.currentWeatherSunGlow {
+/* Prevent compact artwork from spilling outside the card */
+
+.forecastIconArea .weatherVisualCompact {
+  flex-shrink: 0;
+}
+
+.weatherSunGlow {
   position: absolute;
   inset: 23px;
   border-radius: 50%;
@@ -380,7 +705,7 @@
   filter: blur(25px);
 }
 
-.currentWeatherSunBody {
+.weatherSunBody {
   position: absolute;
   top: 42px;
   left: 42px;
@@ -403,7 +728,7 @@
     0 0 72px rgba(255, 158, 0, 0.28);
 }
 
-.currentWeatherSunBody span {
+.weatherSunBody span {
   position: absolute;
   top: 18px;
   left: 20px;
@@ -415,14 +740,25 @@
   transform: rotate(-28deg);
 }
 
-/* Moon */
+.weatherSunBehind {
+  position: absolute;
+  top: -18px;
+  left: -10px;
+  transform: scale(0.72);
+}
 
-.currentWeatherMoon {
+.weatherPartlyCloudy .weatherCloud {
+  top: 53px;
+  left: 25px;
+  transform: scale(0.8);
+}
+
+.weatherMoon {
   display: grid;
   place-items: center;
 }
 
-.currentWeatherMoon::before {
+.weatherMoon::before {
   content: "";
   position: absolute;
   inset: 24px;
@@ -431,7 +767,7 @@
   filter: blur(25px);
 }
 
-.currentWeatherMoonBody {
+.weatherMoonBody {
   position: relative;
   width: 110px;
   height: 110px;
@@ -477,9 +813,20 @@
   height: 14px;
 }
 
-/* Cloud */
+.weatherMoonBehind {
+  position: absolute;
+  top: -18px;
+  left: -10px;
+  transform: scale(0.78);
+}
 
-.currentWeatherCloud {
+.weatherNightCloud .weatherCloud {
+  top: 60px;
+  left: 35px;
+  transform: scale(0.74);
+}
+
+.weatherCloud {
   position: absolute;
   top: 20px;
   left: 4px;
@@ -535,8 +882,8 @@
     0 16px 25px rgba(0, 0, 0, 0.24);
 }
 
-.currentWeatherCloudDark .cloudCircle,
-.currentWeatherCloudDark .cloudBase {
+.weatherCloudDark .cloudCircle,
+.weatherCloudDark .cloudBase {
   background:
     linear-gradient(
       180deg,
@@ -546,9 +893,7 @@
     );
 }
 
-/* Rain */
-
-.currentWeatherRain {
+.weatherRain {
   position: absolute;
   left: 42px;
   bottom: 1px;
@@ -556,26 +901,25 @@
   gap: 25px;
 }
 
-.currentWeatherRain span {
+.weatherRain span {
   width: 5px;
   height: 36px;
   border-radius: 999px;
-  background: linear-gradient(
-    180deg,
-    rgba(100, 205, 255, 0.15),
-    #54c8ff
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(100, 205, 255, 0.15),
+      #54c8ff
+    );
   transform: rotate(14deg);
-  animation: currentWeatherRain 1s linear infinite;
+  animation: weatherRainFall 1s linear infinite;
 }
 
-.currentWeatherRain span:nth-child(2) {
+.weatherRain span:nth-child(2) {
   animation-delay: -0.5s;
 }
 
-/* Snow */
-
-.currentWeatherSnow {
+.weatherSnow {
   position: absolute;
   left: 41px;
   bottom: 0;
@@ -586,11 +930,11 @@
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
 }
 
-.currentWeatherSnow span {
-  animation: currentWeatherSnow 2.2s ease-in-out infinite;
+.weatherSnow span {
+  animation: weatherSnowFall 2.2s ease-in-out infinite;
 }
 
-.currentWeatherSnow span:nth-child(2) {
+.weatherSnow span:nth-child(2) {
   animation-delay: -1.1s;
 }
 
@@ -636,20 +980,20 @@
   border: 3px solid rgba(255, 255, 255, 0.16);
   border-top-color: #5cecff;
   border-radius: 50%;
-  animation: currentWeatherSpin 0.9s linear infinite;
+  animation: weatherSpin 0.9s linear infinite;
 }
 
 /* =========================================================
    ANIMATIONS
    ========================================================= */
 
-@keyframes currentWeatherSpin {
+@keyframes weatherSpin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes currentWeatherTwinkle {
+@keyframes weatherTwinkle {
   0%,
   100% {
     opacity: 0.2;
@@ -662,7 +1006,20 @@
   }
 }
 
-@keyframes currentWeatherRain {
+@keyframes forecastStarTwinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.65);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes weatherRainFall {
   from {
     opacity: 0;
     transform: translateY(-8px) rotate(14deg);
@@ -678,7 +1035,7 @@
   }
 }
 
-@keyframes currentWeatherSnow {
+@keyframes weatherSnowFall {
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
@@ -700,7 +1057,7 @@
   }
 
   .currentWeatherContainer {
-    width: min(100% - 22px, 980px);
+    width: min(100% - 22px, 1080px);
   }
 
   .currentWeatherTopbar {
@@ -748,6 +1105,24 @@
 
   .currentWeatherFacts {
     grid-template-columns: 1fr;
+  }
+
+  .forecastSection {
+    padding: 20px 15px;
+    border-radius: 20px;
+  }
+
+  .forecastHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .forecastGrid {
+    grid-template-columns: repeat(12, 105px);
+  }
+
+  .forecastTimezone {
+    display: none;
   }
 }
 

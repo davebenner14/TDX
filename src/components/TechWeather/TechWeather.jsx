@@ -69,11 +69,128 @@ function getWeatherInformation(code) {
   };
 }
 
-function WeatherVisual({ type, isDay }) {
+function getMinutesFromTime(value) {
+  if (!value || !value.includes("T")) {
+    return null;
+  }
+
+  const time = value.split("T")[1];
+  const [hours, minutes] = time.split(":").map(Number);
+
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+    return null;
+  }
+
+  return hours * 60 + minutes;
+}
+
+function getDateFromTime(value) {
+  if (!value || !value.includes("T")) {
+    return "";
+  }
+
+  return value.split("T")[0];
+}
+
+function getSkyPhase(time, sunrise, sunset, isDay) {
+  const currentMinutes = getMinutesFromTime(time);
+  const sunriseMinutes = getMinutesFromTime(sunrise);
+  const sunsetMinutes = getMinutesFromTime(sunset);
+
+  if (
+    currentMinutes === null ||
+    sunriseMinutes === null ||
+    sunsetMinutes === null
+  ) {
+    return isDay ? "day" : "night";
+  }
+
+  const dawnStart = sunriseMinutes - 60;
+  const dawnEnd = sunriseMinutes + 35;
+
+  const sunsetStart = sunsetMinutes - 75;
+  const sunsetEnd = sunsetMinutes + 45;
+
+  if (
+    currentMinutes >= dawnStart &&
+    currentMinutes <= dawnEnd
+  ) {
+    return "dawn";
+  }
+
+  if (
+    currentMinutes >= sunsetStart &&
+    currentMinutes <= sunsetEnd
+  ) {
+    return "sunset";
+  }
+
+  if (currentMinutes > dawnEnd && currentMinutes < sunsetStart) {
+    return "day";
+  }
+
+  return "night";
+}
+
+function formatHour(value, index) {
+  if (index === 0) {
+    return "Now";
+  }
+
+  if (!value || !value.includes("T")) {
+    return "";
+  }
+
+  const [hoursText] = value.split("T")[1].split(":");
+  const hours = Number(hoursText);
+
+  if (hours === 0) {
+    return "12 a.m.";
+  }
+
+  if (hours === 12) {
+    return "12 p.m.";
+  }
+
+  if (hours > 12) {
+    return `${hours - 12} p.m.`;
+  }
+
+  return `${hours} a.m.`;
+}
+
+function findSunTimes(hourTime, daily) {
+  const hourDate = getDateFromTime(hourTime);
+
+  const matchingIndex = daily?.time?.findIndex(
+    (day) => day === hourDate
+  );
+
+  const safeIndex =
+    matchingIndex !== undefined && matchingIndex >= 0
+      ? matchingIndex
+      : 0;
+
+  return {
+    sunrise: daily?.sunrise?.[safeIndex],
+    sunset: daily?.sunset?.[safeIndex],
+  };
+}
+
+function WeatherVisual({
+  type,
+  isDay,
+  compact = false,
+  partlyCloudy = false,
+}) {
+  const sizeClass = compact
+    ? "weatherVisual weatherVisualCompact"
+    : "weatherVisual";
+
   if (!isDay && type === "clear") {
     return (
-      <div className="currentWeatherVisual currentWeatherMoon">
-        <div className="currentWeatherMoonBody">
+      <div className={`${sizeClass} weatherMoon`}>
+        <div className="weatherMoonBody">
           <span className="moonMark moonMarkOne" />
           <span className="moonMark moonMarkTwo" />
           <span className="moonMark moonMarkThree" />
@@ -82,12 +199,27 @@ function WeatherVisual({ type, isDay }) {
     );
   }
 
+  if (!isDay && type === "cloud") {
+    return (
+      <div className={`${sizeClass} weatherNightCloud`}>
+        <div className="weatherMoon weatherMoonBehind">
+          <div className="weatherMoonBody">
+            <span className="moonMark moonMarkOne" />
+            <span className="moonMark moonMarkTwo" />
+          </div>
+        </div>
+
+        <CloudVisual dark />
+      </div>
+    );
+  }
+
   if (type === "clear") {
     return (
-      <div className="currentWeatherVisual currentWeatherSun">
-        <div className="currentWeatherSunGlow" />
+      <div className={`${sizeClass} weatherSun`}>
+        <div className="weatherSunGlow" />
 
-        <div className="currentWeatherSunBody">
+        <div className="weatherSunBody">
           <span />
         </div>
       </div>
@@ -96,15 +228,10 @@ function WeatherVisual({ type, isDay }) {
 
   if (type === "rain") {
     return (
-      <div className="currentWeatherVisual">
-        <div className="currentWeatherCloud currentWeatherCloudDark">
-          <span className="cloudCircle cloudCircleOne" />
-          <span className="cloudCircle cloudCircleTwo" />
-          <span className="cloudCircle cloudCircleThree" />
-          <span className="cloudBase" />
-        </div>
+      <div className={sizeClass}>
+        <CloudVisual dark />
 
-        <div className="currentWeatherRain">
+        <div className="weatherRain">
           <span />
           <span />
           <span />
@@ -115,15 +242,10 @@ function WeatherVisual({ type, isDay }) {
 
   if (type === "snow") {
     return (
-      <div className="currentWeatherVisual">
-        <div className="currentWeatherCloud">
-          <span className="cloudCircle cloudCircleOne" />
-          <span className="cloudCircle cloudCircleTwo" />
-          <span className="cloudCircle cloudCircleThree" />
-          <span className="cloudBase" />
-        </div>
+      <div className={sizeClass}>
+        <CloudVisual />
 
-        <div className="currentWeatherSnow">
+        <div className="weatherSnow">
           <span>✦</span>
           <span>✦</span>
           <span>✦</span>
@@ -132,20 +254,100 @@ function WeatherVisual({ type, isDay }) {
     );
   }
 
-  return (
-    <div className="currentWeatherVisual">
-      <div className="currentWeatherCloud">
-        <span className="cloudCircle cloudCircleOne" />
-        <span className="cloudCircle cloudCircleTwo" />
-        <span className="cloudCircle cloudCircleThree" />
-        <span className="cloudBase" />
+  if (partlyCloudy) {
+    return (
+      <div className={`${sizeClass} weatherPartlyCloudy`}>
+        <div className="weatherSun weatherSunBehind">
+          <div className="weatherSunGlow" />
+
+          <div className="weatherSunBody">
+            <span />
+          </div>
+        </div>
+
+        <CloudVisual />
       </div>
+    );
+  }
+
+  return (
+    <div className={sizeClass}>
+      <CloudVisual dark={!isDay} />
     </div>
   );
 }
 
+function CloudVisual({ dark = false }) {
+  return (
+    <div className={`weatherCloud ${dark ? "weatherCloudDark" : ""}`}>
+      <span className="cloudCircle cloudCircleOne" />
+      <span className="cloudCircle cloudCircleTwo" />
+      <span className="cloudCircle cloudCircleThree" />
+      <span className="cloudBase" />
+    </div>
+  );
+}
+
+function ForecastCard({ hour, index, daily }) {
+  const weatherInformation = getWeatherInformation(hour.weatherCode);
+
+  const sunTimes = findSunTimes(hour.time, daily);
+
+  const phase = getSkyPhase(
+    hour.time,
+    sunTimes.sunrise,
+    sunTimes.sunset,
+    Boolean(hour.isDay)
+  );
+
+  const cardClasses = [
+    "forecastCard",
+    `forecastCard-${phase}`,
+    `forecastCard-${weatherInformation.type}`,
+  ].join(" ");
+
+  return (
+    <article className={cardClasses}>
+      <div className="forecastCardStars" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+
+      <div className="forecastCardWeatherTint" />
+
+      <span className="forecastTime">
+        {formatHour(hour.time, index)}
+      </span>
+
+      <div className="forecastIconArea">
+        <WeatherVisual
+          type={weatherInformation.type}
+          isDay={Boolean(hour.isDay)}
+          compact
+          partlyCloudy={Number(hour.weatherCode) === 2}
+        />
+      </div>
+
+      <strong className="forecastTemperature">
+        {Math.round(hour.temperature)}°
+      </strong>
+
+      <span className="forecastCondition">
+        {weatherInformation.label}
+      </span>
+
+      <span className="forecastRainChance">
+        <i aria-hidden="true">●</i>
+        {hour.precipitationProbability}%
+      </span>
+    </article>
+  );
+}
+
 function TechWeather() {
-  const [weather, setWeather] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
   const [location, setLocation] = useState(DEFAULT_LOCATION);
   const [loading, setLoading] = useState(true);
   const [findingLocation, setFindingLocation] = useState(false);
@@ -197,6 +399,9 @@ function TechWeather() {
         `?latitude=${latitude}` +
         `&longitude=${longitude}` +
         `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,is_day,weather_code` +
+        `&hourly=temperature_2m,weather_code,is_day,precipitation_probability` +
+        `&daily=sunrise,sunset` +
+        `&forecast_days=2` +
         `&timezone=auto`;
 
       const response = await fetch(weatherUrl);
@@ -207,13 +412,14 @@ function TechWeather() {
 
       const result = await response.json();
 
-      setWeather(result.current);
+      setWeatherData(result);
       setLocation(selectedLocation);
     } catch (weatherError) {
       console.error(weatherError);
 
       setError(
-        weatherError.message || "Current weather is temporarily unavailable."
+        weatherError.message ||
+          "Current weather is temporarily unavailable."
       );
     } finally {
       setLoading(false);
@@ -262,22 +468,64 @@ function TechWeather() {
     loadWeather(DEFAULT_LOCATION);
   }, []);
 
-  const weatherInformation = getWeatherInformation(weather?.weather_code);
-  const isDay = Boolean(weather?.is_day);
+  const current = weatherData?.current;
+  const hourly = weatherData?.hourly;
+  const daily = weatherData?.daily;
+
+  const currentWeather = getWeatherInformation(current?.weather_code);
+  const isDay = Boolean(current?.is_day);
+
+  const currentSunTimes = findSunTimes(current?.time, daily);
+
+  const currentPhase = getSkyPhase(
+    current?.time,
+    currentSunTimes.sunrise,
+    currentSunTimes.sunset,
+    isDay
+  );
 
   const locationName = [location.city, location.region]
     .filter(Boolean)
     .join(", ");
 
-  const sceneClass = isDay
-    ? `currentWeather currentWeatherDay currentWeather-${weatherInformation.type}`
-    : `currentWeather currentWeatherNight currentWeather-${weatherInformation.type}`;
+  let twelveHourForecast = [];
+
+  if (current && hourly?.time?.length) {
+    let currentIndex = hourly.time.findIndex(
+      (time) => time >= current.time
+    );
+
+    if (currentIndex < 0) {
+      currentIndex = 0;
+    }
+
+    twelveHourForecast = hourly.time
+      .slice(currentIndex, currentIndex + 12)
+      .map((time, offset) => {
+        const index = currentIndex + offset;
+
+        return {
+          time,
+          temperature: hourly.temperature_2m[index],
+          weatherCode: hourly.weather_code[index],
+          isDay: hourly.is_day[index],
+          precipitationProbability:
+            hourly.precipitation_probability[index] ?? 0,
+        };
+      });
+  }
+
+  const sceneClass = [
+    "currentWeather",
+    `currentWeather-${currentPhase}`,
+    `currentWeather-${currentWeather.type}`,
+  ].join(" ");
 
   return (
     <section className={sceneClass}>
       <div className="currentWeatherAtmosphere" aria-hidden="true">
         <div className="currentWeatherStars">
-          {Array.from({ length: 24 }).map((_, index) => (
+          {Array.from({ length: 28 }).map((_, index) => (
             <span
               key={index}
               style={{
@@ -290,12 +538,14 @@ function TechWeather() {
         </div>
 
         <div className="currentWeatherHorizon" />
+        <div className="currentWeatherConditionTint" />
       </div>
 
       <div className="currentWeatherContainer">
         <div className="currentWeatherTopbar">
           <div>
             <span className="currentWeatherBrand">TDX WEATHER</span>
+
             <span className="currentWeatherStatus">
               <i />
               Live conditions
@@ -322,7 +572,7 @@ function TechWeather() {
             </div>
           )}
 
-          {!loading && error && !weather && (
+          {!loading && error && !current && (
             <div className="currentWeatherMessage">
               <strong>Weather unavailable</strong>
               <p>{error}</p>
@@ -336,7 +586,7 @@ function TechWeather() {
             </div>
           )}
 
-          {!loading && weather && (
+          {!loading && current && (
             <>
               <div className="currentWeatherLocation">
                 <span>Current location</span>
@@ -346,21 +596,23 @@ function TechWeather() {
               <div className="currentWeatherMain">
                 <div className="currentWeatherArtwork">
                   <WeatherVisual
-                    type={weatherInformation.type}
+                    type={currentWeather.type}
                     isDay={isDay}
+                    partlyCloudy={Number(current.weather_code) === 2}
                   />
                 </div>
 
                 <div className="currentWeatherReading">
                   <div className="currentWeatherTemperature">
-                    <span>{Math.round(weather.temperature_2m)}</span>
+                    <span>{Math.round(current.temperature_2m)}</span>
                     <sup>°C</sup>
                   </div>
 
-                  <strong>{weatherInformation.label}</strong>
+                  <strong>{currentWeather.label}</strong>
 
                   <p>
-                    Feels like {Math.round(weather.apparent_temperature)}°C
+                    Feels like{" "}
+                    {Math.round(current.apparent_temperature)}°C
                   </p>
                 </div>
               </div>
@@ -368,26 +620,64 @@ function TechWeather() {
               <div className="currentWeatherFacts">
                 <div>
                   <span>Humidity</span>
-                  <strong>{weather.relative_humidity_2m}%</strong>
+                  <strong>{current.relative_humidity_2m}%</strong>
                 </div>
 
                 <div>
                   <span>Wind</span>
                   <strong>
-                    {Math.round(weather.wind_speed_10m)} km/h
+                    {Math.round(current.wind_speed_10m)} km/h
                   </strong>
                 </div>
 
                 <div>
                   <span>Sky</span>
-                  <strong>{isDay ? "Day" : "Night"}</strong>
+                  <strong>
+                    {currentPhase === "sunset"
+                      ? "Sunset"
+                      : currentPhase === "dawn"
+                        ? "Dawn"
+                        : currentPhase === "night"
+                          ? "Night"
+                          : "Day"}
+                  </strong>
                 </div>
               </div>
 
-              {error && <p className="currentWeatherError">{error}</p>}
+              {error && (
+                <p className="currentWeatherError">{error}</p>
+              )}
             </>
           )}
         </div>
+
+        {!loading && twelveHourForecast.length > 0 && (
+          <div className="forecastSection">
+            <div className="forecastHeader">
+              <div>
+                <span>UPCOMING CONDITIONS</span>
+                <h3>12-hour forecast</h3>
+              </div>
+
+              <span className="forecastTimezone">
+                {weatherData?.timezone}
+              </span>
+            </div>
+
+            <div className="forecastScroller">
+              <div className="forecastGrid">
+                {twelveHourForecast.map((hour, index) => (
+                  <ForecastCard
+                    key={hour.time}
+                    hour={hour}
+                    index={index}
+                    daily={daily}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
