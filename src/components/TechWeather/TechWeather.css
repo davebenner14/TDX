@@ -1,3 +1,8 @@
+
+/
+TechWeather-fixed.css
+
+
 /* =========================================================
    TECH WEATHER — SIMPLIFIED COMPLETE STYLESHEET
    Replace the entire contents of TechWeather.css with this.
@@ -23,6 +28,27 @@
 .techWeatherSection * {
   box-sizing: border-box;
 }
+
+.techWeatherSection > .techWeatherContainer,
+.techWeatherSection > .techWeatherContent {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fallback: scene colours still work if weatherEnvironment is not rendered. */
+.techWeatherSection.weatherScene-clear-day { background: linear-gradient(180deg, #42a9e6, #d8eff9); }
+.techWeatherSection.weatherScene-partly-cloudy-day { background: linear-gradient(180deg, #5a9fc8, #d4e2e8); }
+.techWeatherSection.weatherScene-cloudy-day { background: linear-gradient(180deg, #607583, #cbd4d9); }
+.techWeatherSection.weatherScene-sunrise { background: linear-gradient(180deg, #18243d, #e58a76 72%, #ffc98c); }
+.techWeatherSection.weatherScene-sunset { background: linear-gradient(180deg, #11182b, #ce685d 72%, #f5a15f); }
+.techWeatherSection.weatherScene-clear-night { background: linear-gradient(180deg, #000, #050a14 55%, #000); }
+.techWeatherSection.weatherScene-cloudy-night { background: linear-gradient(180deg, #030508, #101923, #010203); }
+.techWeatherSection.weatherScene-rain-day,
+.techWeatherSection.weatherScene-drizzle-day { background: linear-gradient(180deg, #334d5d, #a9b7be); }
+.techWeatherSection.weatherScene-rain-night,
+.techWeatherSection.weatherScene-storm { background: linear-gradient(180deg, #010306, #111b24, #020304); }
+.techWeatherSection.weatherScene-snow-day { background: linear-gradient(180deg, #7994a6, #edf3f6); }
+.techWeatherSection.weatherScene-snow-night { background: linear-gradient(180deg, #07101a, #1b2c3a, #05080d); }
 
 /* Weather colour accents */
 .techWeather--clear.techWeather--day {
@@ -65,7 +91,7 @@
 .weatherEnvironment {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   overflow: hidden;
   pointer-events: none;
   background: linear-gradient(180deg, #02050a 0%, #050a12 100%);
@@ -89,42 +115,63 @@
 
 .weatherScene-clear-day .weatherEnvironment {
   background:
-    radial-gradient(circle at 82% 18%, rgba(255, 220, 78, 0.35), transparent 20%),
-    linear-gradient(180deg, #56b7ef 0%, #8ed3f7 48%, #d7f0fb 100%);
+    radial-gradient(circle at 82% 18%, rgba(255, 224, 92, 0.32), transparent 22%),
+    linear-gradient(180deg, #42a9e6 0%, #80c9ef 50%, #d8eff9 100%);
 }
 
-.weatherScene-partly-cloudy-day .weatherEnvironment,
+.weatherScene-partly-cloudy-day .weatherEnvironment {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255, 222, 95, 0.2), transparent 21%),
+    linear-gradient(180deg, #5a9fc8 0%, #91bfd7 52%, #d4e2e8 100%);
+}
+
 .weatherScene-cloudy-day .weatherEnvironment {
-  background: linear-gradient(180deg, #7898aa 0%, #aabcc5 52%, #d8e0e4 100%);
+  background: linear-gradient(180deg, #607583 0%, #91a3ad 52%, #cbd4d9 100%);
 }
 
 .weatherScene-sunrise .weatherEnvironment {
-  background: linear-gradient(180deg, #272942 0%, #bf7082 48%, #ffbd76 100%);
+  background:
+    radial-gradient(circle at 78% 78%, rgba(255, 221, 142, 0.55), transparent 25%),
+    linear-gradient(180deg, #18243d 0%, #825a83 42%, #e58a76 70%, #ffc98c 100%);
 }
 
 .weatherScene-sunset .weatherEnvironment {
-  background: linear-gradient(180deg, #15172c 0%, #744a79 48%, #fa8a4b 100%);
+  background:
+    radial-gradient(circle at 78% 78%, rgba(255, 177, 92, 0.48), transparent 24%),
+    linear-gradient(180deg, #11182b 0%, #5c416f 43%, #ce685d 72%, #f5a15f 100%);
 }
 
-.weatherScene-clear-night .weatherEnvironment,
-.weatherScene-cloudy-night .weatherEnvironment {
+.weatherScene-clear-night .weatherEnvironment {
   background:
-    radial-gradient(circle at 82% 16%, rgba(226, 236, 255, 0.12), transparent 18%),
-    linear-gradient(180deg, #010205 0%, #07101d 56%, #000000 100%);
+    radial-gradient(circle at 82% 16%, rgba(222, 234, 255, 0.12), transparent 18%),
+    linear-gradient(180deg, #000000 0%, #050a14 55%, #000000 100%);
+}
+
+.weatherScene-cloudy-night .weatherEnvironment {
+  background: linear-gradient(180deg, #030508 0%, #101923 55%, #010203 100%);
 }
 
 .weatherScene-drizzle-day .weatherEnvironment,
-.weatherScene-rain-day .weatherEnvironment,
-.weatherScene-rain-night .weatherEnvironment,
-.weatherScene-fog-day .weatherEnvironment,
-.weatherScene-fog-night .weatherEnvironment,
-.weatherScene-storm .weatherEnvironment {
-  background: linear-gradient(180deg, #26333e 0%, #46535d 52%, #78858d 100%);
+.weatherScene-rain-day .weatherEnvironment {
+  background: linear-gradient(180deg, #334d5d 0%, #647b87 52%, #a9b7be 100%);
 }
 
-.weatherScene-snow-day .weatherEnvironment,
+.weatherScene-rain-night .weatherEnvironment,
+.weatherScene-fog-night .weatherEnvironment,
+.weatherScene-storm .weatherEnvironment {
+  background: linear-gradient(180deg, #010306 0%, #111b24 55%, #020304 100%);
+}
+
+.weatherScene-fog-day .weatherEnvironment {
+  background: linear-gradient(180deg, #7f8e96 0%, #adb8bd 52%, #dce2e5 100%);
+}
+
+.weatherScene-snow-day .weatherEnvironment {
+  background: linear-gradient(180deg, #7994a6 0%, #b8c9d3 54%, #edf3f6 100%);
+}
+
 .weatherScene-snow-night .weatherEnvironment {
-  background: linear-gradient(180deg, #7f96a6 0%, #becbd2 54%, #edf3f6 100%);
+  background: linear-gradient(180deg, #07101a 0%, #1b2c3a 55%, #05080d 100%);
 }
 
 .techWeatherContent {
@@ -775,10 +822,41 @@
 .techWeatherHourlyIcon {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.techWeatherHourlyIcon .weatherIcon,
+.techWeatherHourlyIcon .techWeatherIcon,
+.techWeatherDailyIcon .weatherIcon,
+.techWeatherDailyIcon .techWeatherIcon {
+  width: 48px !important;
+  height: 48px !important;
+  overflow: visible;
+}
+
+.techWeatherHourlyIcon .weatherArt,
+.techWeatherDailyIcon .weatherArt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%) scale(0.28) !important;
+  transform-origin: center !important;
+}
+
+.techWeatherHourlyIcon .moonPhaseGraphic,
+.techWeatherDailyIcon .moonPhaseGraphic {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.techWeatherHourlyIcon .moonPhaseGraphic span,
+.techWeatherDailyIcon .moonPhaseGraphic span {
+  font-size: 36px !important;
 }
 
 .techWeatherHourlyTemperature {
@@ -910,11 +988,14 @@
   height: 48px;
 }
 
-.weatherIconmedium .weatherArt,
+'.weatherIconmedium .weatherArt,
 .weatherIcon-medium .weatherArt,
 .weatherIconsmall .weatherArt,
 .weatherIcon-small .weatherArt {
-  transform: scale(0.34);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.28);
   transform-origin: center;
 }
 
