@@ -638,11 +638,13 @@
 }
 
 .forecastIconArea {
+  position: relative;
   display: grid;
-  width: 74px;
-  height: 74px;
+  width: 78px;
+  height: 78px;
   margin: 10px 0 7px;
   place-items: center;
+  overflow: visible;
 }
 
 .forecastTemperature {
@@ -685,16 +687,35 @@
 }
 
 .weatherVisualCompact {
-  width: 72px;
-  height: 72px;
-  transform: scale(0.4);
-  transform-origin: center;
+  position: relative;
+  width: 180px;
+  height: 180px;
+  transform: scale(0.38);
+  transform-origin: center center;
 }
 
-/* Prevent compact artwork from spilling outside the card */
+/* Keep compact forecast artwork centred and fully visible. */
 
 .forecastIconArea .weatherVisualCompact {
   flex-shrink: 0;
+}
+
+.forecastCard .weatherSun {
+  top: -8px;
+}
+
+.forecastCard .weatherMoon {
+  top: 0;
+}
+
+.forecastCard .weatherPartlyCloudy {
+  top: -5px;
+}
+
+.forecastCard .weatherCloud,
+.forecastCard .weatherRain,
+.forecastCard .weatherSnow {
+  top: 0;
 }
 
 .weatherSunGlow {
