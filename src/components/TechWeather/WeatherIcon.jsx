@@ -1,211 +1,130 @@
 import MoonPhase from "./MoonPhase";
+import { getWeatherType } from "./weatherCodes";
 
-function DetailedSun({ partlyCloudy = false }) {
+function SunIcon() {
   return (
-    <div className="weatherArt weatherArtSun">
-      <div className="sunGlow" />
+    <div className="simpleSun" aria-label="Sunny">
+      <div className="simpleSunGlow" />
 
-      <div className="sunRays" aria-hidden="true">
+      <div className="simpleSunRays">
         {Array.from({ length: 8 }).map((_, index) => (
           <span
             key={index}
             style={{
-              transform: `rotate(${index * 45}deg) translateY(-55px)`,
+              transform: `rotate(${index * 45}deg) translateY(-56px)`,
             }}
           />
         ))}
       </div>
 
-      <div className="sunBody">
-        <div className="sunHighlight" />
-        <div className="sunShade" />
+      <div className="simpleSunBody">
+        <span className="simpleSunHighlight" />
       </div>
-
-      {partlyCloudy && (
-        <div className="weatherCloud weatherCloudFront">
-          <span />
-          <span />
-          <span />
-        </div>
-      )}
     </div>
   );
 }
 
-function DetailedCloud({
-  rain = false,
-  snow = false,
-  storm = false,
-}) {
+function CloudIcon({ dark = false }) {
   return (
-    <div className="weatherArt weatherArtCloud">
-      <div className="weatherCloud weatherCloudLarge">
-        <span />
-        <span />
-        <span />
-      </div>
-
-      {rain && (
-        <div className="rainDrops">
-          <span />
-          <span />
-          <span />
-        </div>
-      )}
-
-      {snow && (
-        <div className="snowFlakes">
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
-        </div>
-      )}
-
-      {storm && (
-        <div className="lightningBolt">
-          <span />
-        </div>
-      )}
+    <div
+      className={`simpleCloud ${dark ? "simpleCloudDark" : ""}`}
+      aria-label="Cloudy"
+    >
+      <span className="simpleCloudPart simpleCloudPartOne" />
+      <span className="simpleCloudPart simpleCloudPartTwo" />
+      <span className="simpleCloudPart simpleCloudPartThree" />
+      <span className="simpleCloudBase" />
     </div>
   );
 }
 
-function getSimpleWeatherSymbol(code, isDay, date) {
-  const numericCode = Number(code);
+function RainIcon() {
+  return (
+    <div className="simpleWeatherArtwork" aria-label="Rain">
+      <CloudIcon dark />
 
-  if (!isDay && numericCode <= 3) {
-    return <MoonPhase date={date} compact />;
-  }
-
-  if (numericCode === 0 || numericCode === 1) {
-    return <span className="simpleWeatherSymbol simpleSun">☀</span>;
-  }
-
-  if (numericCode === 2) {
-    return <span className="simpleWeatherSymbol">🌤️</span>;
-  }
-
-  if (numericCode === 3) {
-    return <span className="simpleWeatherSymbol">☁️</span>;
-  }
-
-  if ([45, 48].includes(numericCode)) {
-    return <span className="simpleWeatherSymbol">🌫️</span>;
-  }
-
-  if (
-    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(
-      numericCode
-    )
-  ) {
-    return <span className="simpleWeatherSymbol">🌧️</span>;
-  }
-
-  if ([71, 73, 75, 77, 85, 86].includes(numericCode)) {
-    return <span className="simpleWeatherSymbol">🌨️</span>;
-  }
-
-  if ([95, 96, 99].includes(numericCode)) {
-    return <span className="simpleWeatherSymbol">⛈️</span>;
-  }
-
-  return isDay ? (
-    <span className="simpleWeatherSymbol">🌤️</span>
-  ) : (
-    <MoonPhase date={date} compact />
+      <div className="simpleRain">
+        <span />
+        <span />
+        <span />
+      </div>
+    </div>
   );
 }
 
-function WeatherIcon({
-  code = 0,
-  isDay = true,
-  date = new Date(),
-  size = "large",
-}) {
-  const numericCode = Number(code);
-  const isCompact = size === "small" || size === "medium";
+function SnowIcon() {
+  return (
+    <div className="simpleWeatherArtwork" aria-label="Snow">
+      <CloudIcon />
 
-  if (isCompact) {
-    return (
-      <div className={`weatherIcon weatherIcon-${size} weatherIconCompact`}>
-        {getSimpleWeatherSymbol(numericCode, isDay, date)}
+      <div className="simpleSnow">
+        <span>✦</span>
+        <span>✦</span>
+        <span>✦</span>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (!isDay && numericCode <= 3) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <MoonPhase date={date} compact />
+function PartlyCloudyIcon() {
+  return (
+    <div className="simpleWeatherArtwork" aria-label="Partly cloudy">
+      <div className="simpleSun simpleSunBehindCloud">
+        <div className="simpleSunGlow" />
 
-        {numericCode >= 2 && (
-          <div className="nightCloud weatherCloud">
-            <span />
-            <span />
-            <span />
+        <div className="simpleSunBody">
+          <span className="simpleSunHighlight" />
+        </div>
+      </div>
+
+      <CloudIcon />
+    </div>
+  );
+}
+
+function WeatherIcon({ code = 0, isDay = true }) {
+  const weatherType = getWeatherType(code);
+
+  if (!isDay) {
+    if (weatherType === "rain") {
+      return <RainIcon />;
+    }
+
+    if (weatherType === "snow") {
+      return <SnowIcon />;
+    }
+
+    if (weatherType === "cloudy") {
+      return (
+        <div className="simpleWeatherArtwork">
+          <MoonPhase />
+          <div className="simpleNightCloud">
+            <CloudIcon dark />
           </div>
-        )}
-      </div>
-    );
+        </div>
+      );
+    }
+
+    return <MoonPhase />;
   }
 
-  if (numericCode === 0 || numericCode === 1) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedSun />
-      </div>
-    );
+  if (weatherType === "rain") {
+    return <RainIcon />;
   }
 
-  if (numericCode === 2) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedSun partlyCloudy />
-      </div>
-    );
+  if (weatherType === "snow") {
+    return <SnowIcon />;
   }
 
-  if (numericCode === 3) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedCloud />
-      </div>
-    );
+  if (weatherType === "cloudy") {
+    if (Number(code) === 2) {
+      return <PartlyCloudyIcon />;
+    }
+
+    return <CloudIcon />;
   }
 
-  if (
-    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(
-      numericCode
-    )
-  ) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedCloud rain />
-      </div>
-    );
-  }
-
-  if ([71, 73, 75, 77, 85, 86].includes(numericCode)) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedCloud snow />
-      </div>
-    );
-  }
-
-  if ([95, 96, 99].includes(numericCode)) {
-    return (
-      <div className="weatherIcon weatherIcon-large">
-        <DetailedCloud rain storm />
-      </div>
-    );
-  }
-
-  return (
-    <div className="weatherIcon weatherIcon-large">
-      <DetailedSun partlyCloudy />
-    </div>
-  );
+  return <SunIcon />;
 }
 
 export default WeatherIcon;

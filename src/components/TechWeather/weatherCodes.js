@@ -1,152 +1,81 @@
-export const WEATHER_CODES = {
-  0: {
-    label: "Clear Sky",
-    shortLabel: "Clear",
-    type: "clear",
-  },
-  1: {
-    label: "Mainly Clear",
-    shortLabel: "Mostly Clear",
-    type: "clear",
-  },
-  2: {
-    label: "Partly Cloudy",
-    shortLabel: "Partly Cloudy",
-    type: "cloudy",
-  },
-  3: {
-    label: "Overcast",
-    shortLabel: "Overcast",
-    type: "cloudy",
-  },
-  45: {
-    label: "Fog",
-    shortLabel: "Foggy",
-    type: "fog",
-  },
-  48: {
-    label: "Depositing Rime Fog",
-    shortLabel: "Icy Fog",
-    type: "fog",
-  },
-  51: {
-    label: "Light Drizzle",
-    shortLabel: "Drizzle",
-    type: "rain",
-  },
-  53: {
-    label: "Moderate Drizzle",
-    shortLabel: "Drizzle",
-    type: "rain",
-  },
-  55: {
-    label: "Dense Drizzle",
-    shortLabel: "Heavy Drizzle",
-    type: "rain",
-  },
-  56: {
-    label: "Light Freezing Drizzle",
-    shortLabel: "Freezing Drizzle",
-    type: "freezing",
-  },
-  57: {
-    label: "Dense Freezing Drizzle",
-    shortLabel: "Freezing Drizzle",
-    type: "freezing",
-  },
-  61: {
-    label: "Slight Rain",
-    shortLabel: "Light Rain",
-    type: "rain",
-  },
-  63: {
-    label: "Moderate Rain",
-    shortLabel: "Rain",
-    type: "rain",
-  },
-  65: {
-    label: "Heavy Rain",
-    shortLabel: "Heavy Rain",
-    type: "rain",
-  },
-  66: {
-    label: "Light Freezing Rain",
-    shortLabel: "Freezing Rain",
-    type: "freezing",
-  },
-  67: {
-    label: "Heavy Freezing Rain",
-    shortLabel: "Freezing Rain",
-    type: "freezing",
-  },
-  71: {
-    label: "Slight Snowfall",
-    shortLabel: "Light Snow",
-    type: "snow",
-  },
-  73: {
-    label: "Moderate Snowfall",
-    shortLabel: "Snow",
-    type: "snow",
-  },
-  75: {
-    label: "Heavy Snowfall",
-    shortLabel: "Heavy Snow",
-    type: "snow",
-  },
-  77: {
-    label: "Snow Grains",
-    shortLabel: "Snow Grains",
-    type: "snow",
-  },
-  80: {
-    label: "Slight Rain Showers",
-    shortLabel: "Light Showers",
-    type: "rain",
-  },
-  81: {
-    label: "Moderate Rain Showers",
-    shortLabel: "Showers",
-    type: "rain",
-  },
-  82: {
-    label: "Violent Rain Showers",
-    shortLabel: "Heavy Showers",
-    type: "rain",
-  },
-  85: {
-    label: "Slight Snow Showers",
-    shortLabel: "Snow Showers",
-    type: "snow",
-  },
-  86: {
-    label: "Heavy Snow Showers",
-    shortLabel: "Heavy Snow",
-    type: "snow",
-  },
-  95: {
-    label: "Thunderstorm",
-    shortLabel: "Thunderstorm",
-    type: "storm",
-  },
-  96: {
-    label: "Thunderstorm With Light Hail",
-    shortLabel: "Storm and Hail",
-    type: "storm",
-  },
-  99: {
-    label: "Thunderstorm With Heavy Hail",
-    shortLabel: "Severe Storm",
-    type: "storm",
-  },
-};
+export function getWeatherType(code) {
+  const numericCode = Number(code);
 
-export function getWeatherDetails(code) {
-  return (
-    WEATHER_CODES[code] || {
-      label: "Unknown Conditions",
-      shortLabel: "Unknown",
-      type: "cloudy",
-    }
-  );
+  if (numericCode === 0 || numericCode === 1) {
+    return "clear";
+  }
+
+  if (numericCode === 2 || numericCode === 3) {
+    return "cloudy";
+  }
+
+  if ([45, 48].includes(numericCode)) {
+    return "cloudy";
+  }
+
+  if (
+    [
+      51,
+      53,
+      55,
+      56,
+      57,
+      61,
+      63,
+      65,
+      66,
+      67,
+      80,
+      81,
+      82,
+      95,
+      96,
+      99,
+    ].includes(numericCode)
+  ) {
+    return "rain";
+  }
+
+  if ([71, 73, 75, 77, 85, 86].includes(numericCode)) {
+    return "snow";
+  }
+
+  return "cloudy";
+}
+
+export function getWeatherDescription(code) {
+  const numericCode = Number(code);
+
+  const descriptions = {
+    0: "Clear",
+    1: "Mainly Clear",
+    2: "Partly Cloudy",
+    3: "Cloudy",
+    45: "Foggy",
+    48: "Freezing Fog",
+    51: "Light Drizzle",
+    53: "Drizzle",
+    55: "Heavy Drizzle",
+    56: "Freezing Drizzle",
+    57: "Heavy Freezing Drizzle",
+    61: "Light Rain",
+    63: "Rain",
+    65: "Heavy Rain",
+    66: "Freezing Rain",
+    67: "Heavy Freezing Rain",
+    71: "Light Snow",
+    73: "Snow",
+    75: "Heavy Snow",
+    77: "Snow Grains",
+    80: "Light Showers",
+    81: "Rain Showers",
+    82: "Heavy Showers",
+    85: "Snow Showers",
+    86: "Heavy Snow Showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm",
+    99: "Heavy Thunderstorm",
+  };
+
+  return descriptions[numericCode] || "Current Weather";
 }
