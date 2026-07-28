@@ -1,12 +1,8 @@
 /* =========================================================
-   SIMPLE WEATHER COMPONENT
+   SIMPLE DYNAMIC WEATHER
    ========================================================= */
 
-.techWeatherSection,
-.simpleWeatherScene {
-  box-sizing: border-box;
-}
-
+.simpleWeatherScene,
 .simpleWeatherScene *,
 .simpleWeatherScene *::before,
 .simpleWeatherScene *::after {
@@ -14,6 +10,12 @@
 }
 
 .simpleWeatherScene {
+  --sky-top: #168ed4;
+  --sky-middle: #60bdeb;
+  --sky-bottom: #c9efff;
+  --star-opacity: 0;
+  --sun-position: 55%;
+
   position: relative;
   width: 100%;
   min-height: 720px;
@@ -21,154 +23,240 @@
   overflow: hidden;
   isolation: isolate;
   color: #ffffff;
-  background: #03070d;
-  transition: background 900ms ease;
+  background: var(--sky-bottom);
+  transition:
+    background 1400ms ease,
+    color 500ms ease;
 }
 
-/* Clear daytime */
+/* =========================================================
+   DYNAMIC SKY
+   ========================================================= */
 
-.simpleWeatherSceneDay.simpleWeatherScene-clear {
-  background:
-    radial-gradient(
-      circle at 78% 20%,
-      rgba(255, 234, 133, 0.4),
-      transparent 26%
-    ),
-    linear-gradient(
-      180deg,
-      #2596db 0%,
-      #69c0ed 50%,
-      #d7f2ff 100%
-    );
-}
-
-/* Cloudy daytime */
-
-.simpleWeatherSceneDay.simpleWeatherScene-cloudy {
-  background:
-    radial-gradient(
-      circle at 75% 18%,
-      rgba(255, 255, 255, 0.18),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      #668698 0%,
-      #9db3bf 52%,
-      #d7e0e5 100%
-    );
-}
-
-/* Rain daytime */
-
-.simpleWeatherSceneDay.simpleWeatherScene-rain {
-  background:
-    radial-gradient(
-      circle at 72% 20%,
-      rgba(112, 182, 226, 0.16),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #263c4c 0%,
-      #526d7d 55%,
-      #879ba6 100%
-    );
-}
-
-/* Snow daytime */
-
-.simpleWeatherSceneDay.simpleWeatherScene-snow {
-  background:
-    radial-gradient(
-      circle at 76% 18%,
-      rgba(255, 255, 255, 0.45),
-      transparent 32%
-    ),
-    linear-gradient(
-      180deg,
-      #7fa4ba 0%,
-      #bfd5e1 54%,
-      #edf6fa 100%
-    );
-}
-
-/* Clear nighttime */
-
-.simpleWeatherSceneNight.simpleWeatherScene-clear {
-  background:
-    radial-gradient(
-      circle at 78% 20%,
-      rgba(167, 204, 255, 0.12),
-      transparent 24%
-    ),
-    linear-gradient(
-      180deg,
-      #02050c 0%,
-      #071326 52%,
-      #000000 100%
-    );
-}
-
-/* Cloudy nighttime */
-
-.simpleWeatherSceneNight.simpleWeatherScene-cloudy {
-  background:
-    linear-gradient(
-      180deg,
-      #060a10 0%,
-      #121c27 52%,
-      #020305 100%
-    );
-}
-
-/* Rain nighttime */
-
-.simpleWeatherSceneNight.simpleWeatherScene-rain {
-  background:
-    radial-gradient(
-      circle at 70% 20%,
-      rgba(76, 137, 191, 0.1),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #020509 0%,
-      #0b1721 55%,
-      #000000 100%
-    );
-}
-
-/* Snow nighttime */
-
-.simpleWeatherSceneNight.simpleWeatherScene-snow {
-  background:
-    radial-gradient(
-      circle at 76% 20%,
-      rgba(215, 235, 255, 0.14),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      #030712 0%,
-      #122137 55%,
-      #020306 100%
-    );
-}
-
-.simpleWeatherOverlay {
+.simpleSky {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -3;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--sky-middle) 52%,
+      var(--sky-bottom) 100%
+    );
+  transition: background 1400ms ease;
+}
+
+.simpleSky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.52),
-      rgba(0, 0, 0, 0.16)
+      rgba(0, 0, 0, 0.32),
+      transparent 55%,
+      rgba(0, 0, 0, 0.08)
     );
 }
 
+/* =========================================================
+   STARS
+   ========================================================= */
+
+.simpleSkyStars {
+  position: absolute;
+  inset: 0;
+  opacity: var(--star-opacity);
+  transition: opacity 1400ms ease;
+}
+
+.simpleSkyStars span {
+  position: absolute;
+  top: var(--star-top);
+  left: var(--star-left);
+  width: var(--star-size);
+  height: var(--star-size);
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 4px rgba(255, 255, 255, 0.9),
+    0 0 9px rgba(188, 220, 255, 0.55);
+  animation:
+    simpleStarTwinkle
+    var(--star-duration)
+    ease-in-out
+    infinite;
+  animation-delay: var(--star-delay);
+}
+
+/* =========================================================
+   BACKGROUND SUN
+   ========================================================= */
+
+.simpleSkySun {
+  position: absolute;
+  top: var(--sun-position);
+  right: 10%;
+  width: 105px;
+  height: 105px;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition:
+    top 1400ms ease,
+    opacity 1000ms ease;
+}
+
+.simpleSkySun::before {
+  content: "";
+  position: absolute;
+  inset: -55px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 224, 106, 0.55),
+      rgba(255, 163, 41, 0.18) 45%,
+      transparent 72%
+    );
+  filter: blur(12px);
+}
+
+.simpleSkySun span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      #fffbd7 0%,
+      #ffe65d 28%,
+      #ffbd19 64%,
+      #e47b00 100%
+    );
+  box-shadow:
+    inset -15px -15px 22px rgba(160, 72, 0, 0.22),
+    inset 10px 10px 18px rgba(255, 255, 255, 0.34),
+    0 0 35px rgba(255, 203, 55, 0.55);
+}
+
+.simpleWeatherScene-day .simpleSkySun,
+.simpleWeatherScene-dawn .simpleSkySun,
+.simpleWeatherScene-sunset .simpleSkySun {
+  opacity: 0.85;
+}
+
+.simpleWeatherScene-cloudy .simpleSkySun,
+.simpleWeatherScene-rain .simpleSkySun,
+.simpleWeatherScene-snow .simpleSkySun {
+  opacity: 0.2;
+}
+
+/* =========================================================
+   HORIZON GLOW
+   ========================================================= */
+
+.simpleSkyHaze {
+  position: absolute;
+  right: -10%;
+  bottom: -18%;
+  width: 75%;
+  height: 55%;
+  border-radius: 50%;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255, 199, 113, 0.75),
+      rgba(255, 110, 71, 0.22) 42%,
+      transparent 72%
+    );
+  filter: blur(24px);
+  transition: opacity 1400ms ease;
+}
+
+.simpleWeatherScene-dawn .simpleSkyHaze,
+.simpleWeatherScene-sunset .simpleSkyHaze {
+  opacity: 1;
+}
+
+/* =========================================================
+   CLOUD AND WEATHER TINTS
+   ========================================================= */
+
+.simpleSkyClouds {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse at 15% 24%,
+      rgba(255, 255, 255, 0.24) 0 7%,
+      transparent 18%
+    ),
+    radial-gradient(
+      ellipse at 58% 16%,
+      rgba(255, 255, 255, 0.18) 0 8%,
+      transparent 21%
+    ),
+    radial-gradient(
+      ellipse at 86% 35%,
+      rgba(220, 230, 237, 0.2) 0 9%,
+      transparent 23%
+    );
+  filter: blur(12px);
+  transition: opacity 1000ms ease;
+}
+
+.simpleWeatherScene-cloudy .simpleSkyClouds {
+  opacity: 1;
+}
+
+.simpleWeatherScene-rain .simpleSkyClouds {
+  opacity: 0.78;
+}
+
+.simpleWeatherScene-snow .simpleSkyClouds {
+  opacity: 0.68;
+}
+
+.simpleSkyWeatherTint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: background 1000ms ease;
+}
+
+.simpleWeatherScene-cloudy .simpleSkyWeatherTint {
+  background: rgba(78, 91, 104, 0.2);
+}
+
+.simpleWeatherScene-rain .simpleSkyWeatherTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(22, 37, 51, 0.47),
+      rgba(48, 66, 78, 0.28)
+    );
+}
+
+.simpleWeatherScene-snow .simpleSkyWeatherTint {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(211, 230, 240, 0.18),
+      rgba(239, 248, 252, 0.34)
+    );
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
 .simpleWeatherContainer {
+  position: relative;
+  z-index: 2;
   width: min(100% - 40px, 1100px);
   margin: 0 auto;
 }
@@ -184,7 +272,7 @@
 .simpleWeatherEyebrow {
   display: block;
   margin-bottom: 10px;
-  color: #5ce7ff;
+  color: #78eeff;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -196,7 +284,12 @@
   font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1;
   letter-spacing: -0.05em;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.22);
 }
+
+/* =========================================================
+   LOCATION BUTTON
+   ========================================================= */
 
 .simpleLocationButton {
   display: inline-flex;
@@ -208,9 +301,10 @@
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 12px;
   color: #ffffff;
-  background: rgba(3, 10, 19, 0.62);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(3, 10, 19, 0.46);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   font: inherit;
   font-size: 0.78rem;
   font-weight: 700;
@@ -222,7 +316,7 @@
 
 .simpleLocationButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: rgba(3, 10, 19, 0.82);
+  background: rgba(3, 10, 19, 0.72);
 }
 
 .simpleLocationButton:disabled {
@@ -231,27 +325,56 @@
 }
 
 .simpleLocationButton span {
-  color: #5ce7ff;
+  color: #78eeff;
   font-size: 1.1rem;
 }
+
+/* =========================================================
+   MAIN WEATHER CARD
+   ========================================================= */
 
 .simpleWeatherCard {
   position: relative;
   min-height: 490px;
   padding: clamp(28px, 5vw, 54px);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 28px;
-  background: rgba(3, 9, 17, 0.7);
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.38);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(4, 12, 22, 0.66),
+      rgba(4, 10, 18, 0.42)
+    );
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
+
+.simpleWeatherCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.25;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 45%
+    );
+}
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
 
 .simpleWeatherLocation span {
   display: block;
   margin-bottom: 8px;
-  color: #5ce7ff;
+  color: #78eeff;
   font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -268,9 +391,13 @@
 
 .simpleWeatherLocation p {
   margin: 8px 0 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.66);
   font-size: 0.86rem;
 }
+
+/* =========================================================
+   CURRENT WEATHER
+   ========================================================= */
 
 .simpleWeatherMain {
   display: flex;
@@ -300,11 +427,12 @@
   font-weight: 250;
   line-height: 0.85;
   letter-spacing: -0.1em;
+  text-shadow: 0 5px 24px rgba(0, 0, 0, 0.18);
 }
 
 .simpleWeatherTemperature sup {
   margin: 14px 0 0 10px;
-  color: #5ce7ff;
+  color: #78eeff;
   font-size: clamp(1.3rem, 3vw, 2rem);
   font-weight: 500;
   letter-spacing: normal;
@@ -320,9 +448,13 @@
 .simpleWeatherFeels {
   display: block;
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.66);
   font-size: 0.88rem;
 }
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
 
 .simpleWeatherStats {
   display: grid;
@@ -336,13 +468,21 @@
   gap: 8px;
   min-width: 0;
   padding: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.045);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .simpleWeatherStats span {
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.52);
   font-size: 0.64rem;
   font-weight: 750;
   letter-spacing: 0.12em;
@@ -437,11 +577,12 @@
   height: 22px;
   border-radius: 100px;
   transform-origin: center 56px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 232, 96, 0.94),
-    rgba(255, 190, 0, 0.15)
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 232, 96, 0.94),
+      rgba(255, 190, 0, 0.15)
+    );
 }
 
 .simpleSunBehindCloud {
@@ -533,11 +674,12 @@
   width: 5px;
   height: 35px;
   border-radius: 999px;
-  background: linear-gradient(
-    180deg,
-    rgba(117, 211, 255, 0.2),
-    #55c7ff
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(117, 211, 255, 0.2),
+      #55c7ff
+    );
   transform: rotate(14deg);
   animation: simpleRainFall 1s linear infinite;
 }
@@ -642,7 +784,9 @@
   transform: scale(0.55);
 }
 
-/* Loading */
+/* =========================================================
+   LOADING
+   ========================================================= */
 
 .simpleWeatherMessage {
   display: flex;
@@ -675,11 +819,26 @@
   animation: simpleWeatherSpin 0.9s linear infinite;
 }
 
-/* Animations */
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
 @keyframes simpleWeatherSpin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes simpleStarTwinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.45);
   }
 }
 
@@ -710,7 +869,9 @@
   }
 }
 
-/* Responsive */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 720px) {
   .simpleWeatherScene {
@@ -758,6 +919,11 @@
 
   .simpleWeatherStats {
     grid-template-columns: 1fr;
+  }
+
+  .simpleSkySun {
+    right: -20px;
+    transform: translateY(-50%) scale(0.72);
   }
 }
 
