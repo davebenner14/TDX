@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import NewsFeed from "./components/NewsFeed";
 import TechCarousel from "./components/TechCarousel";
-import TechWeather from "./components/TechWeather/TechWeather";
+// import TechWeather from "./components/TechWeather/TechWeather";
 import Footer from "./components/Footer";
 
 import AboutTDX from "./pages/AboutTDX";
