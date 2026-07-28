@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import NewsFeed from "./components/NewsFeed";
 import TechCarousel from "./components/TechCarousel";
+import TechWeather from "./components/TechWeather/TechWeather";
 import Footer from "./components/Footer";
 
 import AboutTDX from "./pages/AboutTDX";
@@ -53,6 +54,7 @@ function Home() {
       <section className="videoFeature snapSection">
         <div className="videoFeatureText">
           <h2>Intelligent systems for modern business</h2>
+
           <p>
             Helping organizations leverage artificial intelligence, automation,
             and software to operate more efficiently and scale with confidence.
@@ -83,6 +85,7 @@ function Home() {
 
         <div className="flowContent">
           <h2>From complexity to clarity.</h2>
+
           <p>
             We help organizations turn disconnected tools, manual processes, and
             fragmented information into intelligent systems that move work
@@ -129,6 +132,7 @@ function Home() {
 
             <div className="serviceCardOverlay">
               <h3>AI Consulting</h3>
+
               <p>
                 Practical AI guidance, training, and implementation that helps
                 organizations identify opportunities and deploy useful tools.
@@ -144,6 +148,7 @@ function Home() {
 
             <div className="serviceCardOverlay">
               <h3>Business Automation</h3>
+
               <p>
                 Connected workflows that reduce manual work, improve efficiency,
                 and keep business operations moving.
@@ -152,10 +157,14 @@ function Home() {
           </Link>
 
           <Link to="/solutions/custom-software" className="serviceCard">
-            <img src="/images/TDXWebMain.png" alt="Web and app development" />
+            <img
+              src="/images/TDXWebMain.png"
+              alt="Web and app development"
+            />
 
             <div className="serviceCardOverlay">
               <h3>Custom Software</h3>
+
               <p>
                 Modern websites, applications, portals, and software platforms
                 built for usability, performance, and growth.
@@ -171,6 +180,7 @@ function Home() {
 
             <div className="serviceCardOverlay">
               <h3>Data & Reporting</h3>
+
               <p>
                 Databases, dashboards, reporting tools, and information systems
                 that turn business data into useful insight.
@@ -179,6 +189,9 @@ function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Live location-aware weather demonstration */}
+      <TechWeather />
 
       <section className="homeCtaSection">
         <div className="homeCtaInner">
@@ -203,6 +216,7 @@ function Home() {
       </section>
 
       <TechCarousel />
+
       <Footer />
     </main>
   );
@@ -219,12 +233,21 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/solutions/ai-consulting" element={<AIConsulting />} />
+
         <Route
           path="/solutions/business-automation"
           element={<BusinessAutomation />}
         />
-        <Route path="/solutions/custom-software" element={<CustomSoftware />} />
-        <Route path="/solutions/data-reporting" element={<DataReporting />} />
+
+        <Route
+          path="/solutions/custom-software"
+          element={<CustomSoftware />}
+        />
+
+        <Route
+          path="/solutions/data-reporting"
+          element={<DataReporting />}
+        />
 
         <Route path="/company/about" element={<AboutTDX />} />
         <Route path="/company/founder" element={<Founder />} />
