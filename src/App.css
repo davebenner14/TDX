@@ -695,6 +695,8 @@ body {
   }
 }
 
+
+
 /* =========================================
    PROUDLY CANADIAN FIXED SIGNATURE
 ========================================= */
@@ -715,11 +717,15 @@ body {
 
 .proudlyCanadianWriting {
   position: relative;
+
   display: inline-flex;
   align-items: center;
-  gap: 9px;
 
-  padding: 10px 15px;
+  gap: 12px;
+
+  min-width: max-content;
+
+  padding: 10px 18px;
 
   border: 1px solid rgba(218, 178, 92, 0.22);
   border-radius: 999px;
@@ -732,13 +738,18 @@ body {
 
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+
+  white-space: nowrap;
 }
 
 .proudlyCanadianText {
   position: relative;
+
   display: inline-block;
 
-  width: 0;
+  width: auto;
+  max-width: 0;
+
   overflow: hidden;
 
   white-space: nowrap;
@@ -747,6 +758,7 @@ body {
   font-size: 16px;
   font-style: italic;
   font-weight: 600;
+
   letter-spacing: 0.025em;
 
   color: transparent;
@@ -812,11 +824,13 @@ body {
   position: absolute;
 
   color: #ffe494;
+
   text-shadow:
     0 0 5px #ffe494,
     0 0 12px rgba(255, 220, 112, 0.75);
 
   opacity: 0;
+
   pointer-events: none;
 }
 
@@ -830,14 +844,14 @@ body {
 
 .sparkleTwo {
   top: 3px;
-  right: 36px;
+  right: 40px;
   font-size: 8px;
 
   animation: proudlyCanadianSparkle 0.9s ease 7.3s;
 }
 
 .sparkleThree {
-  right: 7px;
+  right: 8px;
   bottom: -7px;
   font-size: 11px;
 
@@ -858,11 +872,11 @@ body {
 
 @keyframes proudlyCanadianWrite {
   from {
-    width: 0;
+    max-width: 0;
   }
 
   to {
-    width: 132px;
+    max-width: 240px;
   }
 }
 
@@ -937,8 +951,9 @@ body {
   }
 
   .proudlyCanadianWriting {
-    gap: 7px;
-    padding: 8px 12px;
+    gap: 9px;
+    min-width: max-content;
+    padding: 8px 14px;
   }
 
   .proudlyCanadianText {
@@ -951,11 +966,11 @@ body {
 
   @keyframes proudlyCanadianWrite {
     from {
-      width: 0;
+      max-width: 0;
     }
 
     to {
-      width: 116px;
+      max-width: 220px;
     }
   }
 }
@@ -971,6 +986,8 @@ body {
 
   .proudlyCanadianText {
     width: auto;
+    max-width: none;
+    overflow: visible;
     animation: none;
   }
 
