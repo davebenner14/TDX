@@ -14,12 +14,9 @@
   isolation: isolate;
   color: #ffffff;
   background: #07111f;
-  transition: background 1000ms ease;
 }
 
-/* =========================================================
-   MAIN DYNAMIC BACKGROUNDS
-   ========================================================= */
+/* Main backgrounds */
 
 .currentWeather-day {
   background:
@@ -81,28 +78,6 @@
     );
 }
 
-.currentWeather-cloud .currentWeatherConditionTint {
-  background: rgba(76, 88, 101, 0.2);
-}
-
-.currentWeather-rain .currentWeatherConditionTint {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(13, 27, 40, 0.55),
-      rgba(36, 52, 65, 0.32)
-    );
-}
-
-.currentWeather-snow .currentWeatherConditionTint {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(205, 226, 239, 0.15),
-      rgba(235, 247, 252, 0.27)
-    );
-}
-
 .currentWeatherAtmosphere {
   position: absolute;
   inset: 0;
@@ -110,22 +85,21 @@
   overflow: hidden;
 }
 
-.currentWeatherAtmosphere::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.28),
-      transparent 55%,
-      rgba(0, 0, 0, 0.05)
-    );
-}
-
 .currentWeatherConditionTint {
   position: absolute;
   inset: 0;
+}
+
+.currentWeather-cloud .currentWeatherConditionTint {
+  background: rgba(76, 88, 101, 0.2);
+}
+
+.currentWeather-rain .currentWeatherConditionTint {
+  background: rgba(13, 27, 40, 0.48);
+}
+
+.currentWeather-snow .currentWeatherConditionTint {
+  background: rgba(225, 240, 248, 0.18);
 }
 
 .currentWeatherHorizon {
@@ -135,24 +109,20 @@
   width: 75%;
   height: 62%;
   border-radius: 50%;
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(255, 255, 255, 0.16),
-      transparent 68%
-    );
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.16),
+    transparent 68%
+  );
   filter: blur(30px);
 }
 
-/* =========================================================
-   MAIN STARS
-   ========================================================= */
+/* Stars */
 
 .currentWeatherStars {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 900ms ease;
 }
 
 .currentWeather-night .currentWeatherStars {
@@ -167,21 +137,12 @@
   height: 2px;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow:
-    0 0 5px rgba(255, 255, 255, 0.9),
-    0 0 12px rgba(142, 194, 255, 0.55);
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
   animation: weatherTwinkle 2.5s ease-in-out infinite;
   animation-delay: var(--star-delay);
 }
 
-.currentWeatherStars span:nth-child(3n) {
-  width: 3px;
-  height: 3px;
-}
-
-/* =========================================================
-   MAIN LAYOUT
-   ========================================================= */
+/* Layout */
 
 .currentWeatherContainer {
   position: relative;
@@ -205,7 +166,6 @@
 }
 
 .currentWeatherBrand {
-  color: #ffffff;
   font-size: 0.75rem;
   font-weight: 850;
   letter-spacing: 0.16em;
@@ -228,10 +188,6 @@
 }
 
 .currentWeatherLocationButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
   min-height: 44px;
   padding: 0 16px;
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -239,52 +195,20 @@
   color: #ffffff;
   background: rgba(4, 10, 18, 0.5);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   font: inherit;
   font-size: 0.76rem;
   font-weight: 700;
   cursor: pointer;
-  transition:
-    transform 180ms ease,
-    background 180ms ease;
 }
-
-.currentWeatherLocationButton:hover:not(:disabled) {
-  transform: translateY(-2px);
-  background: rgba(4, 10, 18, 0.76);
-}
-
-.currentWeatherLocationButton:disabled {
-  cursor: wait;
-  opacity: 0.6;
-}
-
-.currentWeatherLocationButton span {
-  color: #50e8ff;
-  font-size: 1.05rem;
-}
-
-/* =========================================================
-   CURRENT WEATHER CARD
-   ========================================================= */
 
 .currentWeatherCard {
   min-height: 500px;
   padding: clamp(28px, 6vw, 58px);
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 30px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(3, 10, 19, 0.66),
-      rgba(3, 9, 17, 0.4)
-    );
-  box-shadow:
-    0 40px 100px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(3, 9, 17, 0.52);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 .currentWeatherLocation span {
@@ -299,9 +223,7 @@
 
 .currentWeatherLocation h2 {
   margin: 0;
-  color: #ffffff;
   font-size: clamp(2rem, 5vw, 3.4rem);
-  line-height: 1;
   letter-spacing: -0.05em;
 }
 
@@ -321,18 +243,13 @@
   place-items: center;
 }
 
-.currentWeatherReading {
-  min-width: 0;
-}
-
 .currentWeatherTemperature {
   display: flex;
   align-items: flex-start;
   line-height: 0.82;
 }
 
-.currentWeatherTemperature > span {
-  color: #ffffff;
+.currentWeatherTemperature span {
   font-size: clamp(6.5rem, 15vw, 10rem);
   font-weight: 250;
   letter-spacing: -0.1em;
@@ -341,21 +258,18 @@
 .currentWeatherTemperature sup {
   margin: 14px 0 0 12px;
   color: #5cecff;
-  font-size: clamp(1.35rem, 3vw, 2rem);
-  font-weight: 500;
+  font-size: 2rem;
 }
 
 .currentWeatherReading > strong {
   display: block;
   margin-top: 28px;
-  color: #ffffff;
-  font-size: clamp(1.15rem, 3vw, 1.65rem);
+  font-size: 1.5rem;
 }
 
 .currentWeatherReading > p {
   margin: 7px 0 0;
   color: rgba(255, 255, 255, 0.65);
-  font-size: 0.88rem;
 }
 
 .currentWeatherFacts {
@@ -364,7 +278,7 @@
   gap: 12px;
 }
 
-.currentWeatherFacts > div {
+.currentWeatherFacts div {
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -377,25 +291,192 @@
 .currentWeatherFacts span {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.62rem;
-  font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.currentWeatherFacts strong {
-  color: #ffffff;
-  font-size: 1rem;
+/* Large current artwork */
+
+.heroWeatherVisual {
+  position: relative;
+  width: 180px;
+  height: 180px;
 }
 
-.currentWeatherError {
-  margin: 16px 0 0;
-  color: #ffd27a;
-  font-size: 0.78rem;
+.heroSunGlow {
+  position: absolute;
+  inset: 23px;
+  border-radius: 50%;
+  background: rgba(255, 204, 44, 0.32);
+  filter: blur(25px);
 }
 
-/* =========================================================
-   12-HOUR FORECAST
-   ========================================================= */
+.heroSunBody {
+  position: absolute;
+  top: 42px;
+  left: 42px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 26%,
+    #fffbd5,
+    #ffe864 28%,
+    #ffc115 64%,
+    #e88000
+  );
+  box-shadow:
+    inset -16px -16px 22px rgba(166, 72, 0, 0.27),
+    0 0 40px rgba(255, 205, 37, 0.65);
+}
+
+.heroSunBehind {
+  position: absolute;
+  top: -16px;
+  left: -10px;
+  transform: scale(0.72);
+}
+
+.heroMoon {
+  display: grid;
+  place-items: center;
+}
+
+.heroMoonBody {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 27%,
+    #ffffff,
+    #e9edf0 42%,
+    #adb7bf 78%,
+    #7d8790
+  );
+  box-shadow: 0 0 28px rgba(212, 229, 255, 0.48);
+}
+
+.heroMoonCrater {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(83, 94, 104, 0.17);
+}
+
+.heroMoonCraterOne {
+  top: 23px;
+  left: 24px;
+  width: 20px;
+  height: 20px;
+}
+
+.heroMoonCraterTwo {
+  top: 55px;
+  right: 18px;
+  width: 29px;
+  height: 29px;
+}
+
+.heroMoonCraterThree {
+  right: 34px;
+  bottom: 13px;
+  width: 14px;
+  height: 14px;
+}
+
+.heroCloud {
+  position: absolute;
+  top: 20px;
+  left: 4px;
+  width: 174px;
+  height: 126px;
+}
+
+.heroCloudPart,
+.heroCloudBase {
+  position: absolute;
+  background: linear-gradient(#ffffff, #aab4bc);
+}
+
+.heroCloudPart {
+  border-radius: 50%;
+}
+
+.heroCloudPartOne {
+  top: 52px;
+  left: 16px;
+  width: 67px;
+  height: 67px;
+}
+
+.heroCloudPartTwo {
+  top: 24px;
+  left: 55px;
+  width: 91px;
+  height: 91px;
+}
+
+.heroCloudPartThree {
+  top: 57px;
+  right: 1px;
+  width: 59px;
+  height: 59px;
+}
+
+.heroCloudBase {
+  left: 15px;
+  bottom: 1px;
+  width: 148px;
+  height: 52px;
+  border-radius: 999px;
+}
+
+.heroCloudDark .heroCloudPart,
+.heroCloudDark .heroCloudBase {
+  background: linear-gradient(#75838e, #273038);
+}
+
+.heroPartlyCloudy .heroCloud {
+  top: 53px;
+  left: 25px;
+  transform: scale(0.8);
+}
+
+.heroMoonBehind {
+  position: absolute;
+  top: -18px;
+  left: -10px;
+  transform: scale(0.78);
+}
+
+.heroNightCloud .heroCloud {
+  top: 60px;
+  left: 35px;
+  transform: scale(0.74);
+}
+
+.heroRain,
+.heroSnow {
+  position: absolute;
+  left: 42px;
+  bottom: 0;
+  display: flex;
+  gap: 24px;
+}
+
+.heroRain span {
+  width: 5px;
+  height: 36px;
+  border-radius: 999px;
+  background: #54c8ff;
+  transform: rotate(14deg);
+}
+
+.heroSnow {
+  color: white;
+}
+
+/* Forecast section */
 
 .forecastSection {
   margin-top: 24px;
@@ -404,59 +485,28 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 25px;
   background: rgba(3, 9, 17, 0.44);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
 }
 
 .forecastHeader {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 20px;
   margin-bottom: 20px;
 }
 
-.forecastHeader > div > span {
-  display: block;
-  margin-bottom: 6px;
+.forecastHeader span {
   color: #5cecff;
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
+  font-size: 0.65rem;
 }
 
 .forecastHeader h3 {
-  margin: 0;
-  color: #ffffff;
-  font-size: 1.35rem;
-}
-
-.forecastTimezone {
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.64rem;
+  margin: 5px 0 0;
 }
 
 .forecastScroller {
   overflow-x: auto;
   padding-bottom: 8px;
-  scrollbar-color: rgba(92, 236, 255, 0.4)
-    rgba(255, 255, 255, 0.06);
-  scrollbar-width: thin;
-}
-
-.forecastScroller::-webkit-scrollbar {
-  height: 6px;
-}
-
-.forecastScroller::-webkit-scrollbar-track {
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.forecastScroller::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background: rgba(92, 236, 255, 0.38);
 }
 
 .forecastGrid {
@@ -476,80 +526,28 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 17px;
-  color: #ffffff;
-  background: #111827;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease;
 }
-
-.forecastCard:hover {
-  transform: translateY(-3px);
-  border-color: rgba(92, 236, 255, 0.45);
-}
-
-/* Each forecast card has its own sky */
 
 .forecastCard-day {
-  background:
-    radial-gradient(
-      circle at 78% 20%,
-      rgba(255, 224, 100, 0.35),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #288fd0 0%,
-      #72c4e9 58%,
-      #cceaf6 100%
-    );
+  background: linear-gradient(#288fd0, #cceaf6);
 }
 
 .forecastCard-dawn {
-  background:
-    radial-gradient(
-      ellipse at 70% 85%,
-      rgba(255, 209, 122, 0.7),
-      transparent 38%
-    ),
-    linear-gradient(
-      180deg,
-      #263052 0%,
-      #a75c81 54%,
-      #ffb36b 100%
-    );
+  background: linear-gradient(#263052, #ffb36b);
 }
 
 .forecastCard-sunset {
-  background:
-    radial-gradient(
-      ellipse at 70% 85%,
-      rgba(255, 194, 96, 0.76),
-      transparent 38%
-    ),
-    linear-gradient(
-      180deg,
-      #202347 0%,
-      #93416e 51%,
-      #ff7e43 100%
-    );
+  background: linear-gradient(#202347, #ff7e43);
 }
 
 .forecastCard-night {
-  background:
-    linear-gradient(
-      180deg,
-      #02050d 0%,
-      #0b1930 58%,
-      #020306 100%
-    );
+  background: linear-gradient(#02050d, #0b1930);
 }
 
-.forecastCardWeatherTint {
+.forecastCardWeatherTint,
+.forecastCardStars {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  pointer-events: none;
 }
 
 .forecastCard-cloud .forecastCardWeatherTint {
@@ -557,31 +555,11 @@
 }
 
 .forecastCard-rain .forecastCardWeatherTint {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(19, 31, 43, 0.55),
-      rgba(36, 50, 62, 0.35)
-    );
+  background: rgba(18, 31, 43, 0.46);
 }
-
-.forecastCard-snow .forecastCardWeatherTint {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(210, 231, 242, 0.12),
-      rgba(238, 247, 251, 0.25)
-    );
-}
-
-/* Stars only on individual night cards */
 
 .forecastCardStars {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
   display: none;
-  pointer-events: none;
 }
 
 .forecastCard-night .forecastCardStars {
@@ -593,32 +571,27 @@
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
-  animation: forecastStarTwinkle 2.2s ease-in-out infinite;
+  background: white;
 }
 
 .forecastCardStars span:nth-child(1) {
-  top: 20%;
+  top: 18%;
   left: 18%;
 }
 
 .forecastCardStars span:nth-child(2) {
   top: 12%;
-  right: 20%;
-  animation-delay: -0.7s;
+  right: 18%;
 }
 
 .forecastCardStars span:nth-child(3) {
-  top: 35%;
+  top: 36%;
   right: 12%;
-  animation-delay: -1.2s;
 }
 
 .forecastCardStars span:nth-child(4) {
-  top: 42%;
-  left: 10%;
-  animation-delay: -1.7s;
+  top: 44%;
+  left: 12%;
 }
 
 .forecastTime,
@@ -627,24 +600,15 @@
 .forecastCondition,
 .forecastRainChance {
   position: relative;
-  z-index: 3;
-}
-
-.forecastTime {
-  min-height: 18px;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 0.68rem;
-  font-weight: 750;
+  z-index: 2;
 }
 
 .forecastIconArea {
-  position: relative;
   display: grid;
-  width: 78px;
-  height: 78px;
-  margin: 10px 0 7px;
+  width: 60px;
+  height: 60px;
+  margin: 12px 0 8px;
   place-items: center;
-  overflow: visible;
 }
 
 .forecastTemperature {
@@ -652,347 +616,174 @@
 }
 
 .forecastCondition {
-  width: 100%;
-  min-height: 30px;
-  margin-top: 4px;
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.76);
+  margin-top: 5px;
   font-size: 0.62rem;
-  line-height: 1.25;
   text-align: center;
 }
 
 .forecastRainChance {
-  display: flex;
-  align-items: center;
-  gap: 5px;
   margin-top: auto;
-  color: rgba(255, 255, 255, 0.72);
   font-size: 0.64rem;
 }
 
-.forecastRainChance i {
-  color: #56ddff;
-  font-size: 0.48rem;
-}
+/* Small forecast icons */
 
-/* =========================================================
-   WEATHER ART
-   ========================================================= */
-
-.weatherVisual {
+.forecastIcon {
   position: relative;
-  width: 180px;
-  height: 180px;
+  width: 52px;
+  height: 52px;
 }
 
-.weatherVisualCompact {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  transform: scale(0.38);
-  transform-origin: center center;
-}
-
-/* Keep compact forecast artwork centred and fully visible. */
-
-.forecastIconArea .weatherVisualCompact {
-  flex-shrink: 0;
-}
-
-.forecastCard .weatherSun {
-  top: -8px;
-}
-
-.forecastCard .weatherMoon {
-  top: 0;
-}
-
-.forecastCard .weatherPartlyCloudy {
-  top: -5px;
-}
-
-.forecastCard .weatherCloud,
-.forecastCard .weatherRain,
-.forecastCard .weatherSnow {
-  top: 0;
-}
-
-.weatherSunGlow {
-  position: absolute;
-  inset: 23px;
-  border-radius: 50%;
-  background: rgba(255, 204, 44, 0.32);
-  filter: blur(25px);
-}
-
-.weatherSunBody {
-  position: absolute;
-  top: 42px;
-  left: 42px;
-  width: 96px;
-  height: 96px;
-  overflow: hidden;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 32% 26%,
-      #fffbd5 0%,
-      #ffe864 28%,
-      #ffc115 64%,
-      #e88000 100%
-    );
-  box-shadow:
-    inset -16px -16px 22px rgba(166, 72, 0, 0.27),
-    inset 11px 11px 18px rgba(255, 255, 255, 0.35),
-    0 0 31px rgba(255, 205, 37, 0.65),
-    0 0 72px rgba(255, 158, 0, 0.28);
-}
-
-.weatherSunBody span {
-  position: absolute;
-  top: 18px;
-  left: 20px;
-  width: 28px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.46);
-  filter: blur(3px);
-  transform: rotate(-28deg);
-}
-
-.weatherSunBehind {
-  position: absolute;
-  top: -18px;
-  left: -10px;
-  transform: scale(0.72);
-}
-
-.weatherPartlyCloudy .weatherCloud {
-  top: 53px;
-  left: 25px;
-  transform: scale(0.8);
-}
-
-.weatherMoon {
+.forecastIconSun {
   display: grid;
   place-items: center;
 }
 
-.weatherMoon::before {
-  content: "";
-  position: absolute;
-  inset: 24px;
+.forecastIconSun span {
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: rgba(201, 224, 255, 0.2);
-  filter: blur(25px);
+  background: radial-gradient(
+    circle at 32% 26%,
+    #fffbd5,
+    #ffc115 65%,
+    #e88000
+  );
+  box-shadow: 0 0 14px rgba(255, 205, 37, 0.55);
 }
 
-.weatherMoonBody {
+.forecastIconMoon {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 25%,
+    #ffffff,
+    #b3bdc5 78%,
+    #7d8790
+  );
+  box-shadow: 0 0 12px rgba(212, 229, 255, 0.35);
+}
+
+.forecastMoonCrater {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(83, 94, 104, 0.18);
+}
+
+.forecastMoonCraterOne {
+  top: 8px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+}
+
+.forecastMoonCraterTwo {
+  right: 7px;
+  bottom: 8px;
+  width: 11px;
+  height: 11px;
+}
+
+.forecastIconCloud {
   position: relative;
-  width: 110px;
-  height: 110px;
-  overflow: hidden;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 32% 27%,
-      #ffffff 0%,
-      #e9edf0 42%,
-      #adb7bf 78%,
-      #7d8790 100%
-    );
-  box-shadow:
-    inset -14px -12px 20px rgba(43, 53, 63, 0.27),
-    0 0 28px rgba(212, 229, 255, 0.48);
+  width: 50px;
+  height: 38px;
 }
 
-.moonMark {
+.forecastCloudPart,
+.forecastCloudBase {
   position: absolute;
-  border-radius: 50%;
-  background: rgba(83, 94, 104, 0.17);
+  background: linear-gradient(#ffffff, #aeb8c0);
 }
 
-.moonMarkOne {
-  top: 23px;
-  left: 24px;
-  width: 20px;
-  height: 20px;
-}
-
-.moonMarkTwo {
-  top: 55px;
-  right: 18px;
-  width: 29px;
-  height: 29px;
-}
-
-.moonMarkThree {
-  right: 34px;
-  bottom: 13px;
-  width: 14px;
-  height: 14px;
-}
-
-.weatherMoonBehind {
-  position: absolute;
-  top: -18px;
-  left: -10px;
-  transform: scale(0.78);
-}
-
-.weatherNightCloud .weatherCloud {
-  top: 60px;
-  left: 35px;
-  transform: scale(0.74);
-}
-
-.weatherCloud {
-  position: absolute;
-  top: 20px;
-  left: 4px;
-  width: 174px;
-  height: 126px;
-}
-
-.cloudCircle,
-.cloudBase {
-  position: absolute;
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #e5ebef 58%,
-      #aab4bc 100%
-    );
-}
-
-.cloudCircle {
+.forecastCloudPart {
   border-radius: 50%;
 }
 
-.cloudCircleOne {
-  top: 52px;
-  left: 16px;
-  width: 67px;
-  height: 67px;
+.forecastCloudPartOne {
+  top: 14px;
+  left: 5px;
+  width: 24px;
+  height: 24px;
 }
 
-.cloudCircleTwo {
-  top: 24px;
-  left: 55px;
-  width: 91px;
-  height: 91px;
+.forecastCloudPartTwo {
+  top: 5px;
+  left: 20px;
+  width: 31px;
+  height: 31px;
 }
 
-.cloudCircleThree {
-  top: 57px;
-  right: 1px;
-  width: 59px;
-  height: 59px;
-}
-
-.cloudBase {
-  left: 15px;
-  bottom: 1px;
-  width: 148px;
-  height: 52px;
-  border-radius: 999px;
-  box-shadow:
-    inset 0 -12px 17px rgba(49, 60, 69, 0.16),
-    0 16px 25px rgba(0, 0, 0, 0.24);
-}
-
-.weatherCloudDark .cloudCircle,
-.weatherCloudDark .cloudBase {
-  background:
-    linear-gradient(
-      180deg,
-      #75838e 0%,
-      #4c5963 57%,
-      #273038 100%
-    );
-}
-
-.weatherRain {
-  position: absolute;
-  left: 42px;
-  bottom: 1px;
-  display: flex;
-  gap: 25px;
-}
-
-.weatherRain span {
-  width: 5px;
-  height: 36px;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(100, 205, 255, 0.15),
-      #54c8ff
-    );
-  transform: rotate(14deg);
-  animation: weatherRainFall 1s linear infinite;
-}
-
-.weatherRain span:nth-child(2) {
-  animation-delay: -0.5s;
-}
-
-.weatherSnow {
-  position: absolute;
-  left: 41px;
+.forecastCloudBase {
+  left: 5px;
   bottom: 0;
+  width: 45px;
+  height: 16px;
+  border-radius: 999px;
+}
+
+.forecastIconCloudDark .forecastCloudPart,
+.forecastIconCloudDark .forecastCloudBase {
+  background: linear-gradient(#74818c, #29323a);
+}
+
+.forecastIconCombined .forecastIconCloud {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: scale(0.8);
+}
+
+.forecastMiniSun,
+.forecastMiniMoon {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.forecastMiniSun {
+  background: #ffc315;
+  box-shadow: 0 0 10px rgba(255, 195, 21, 0.5);
+}
+
+.forecastMiniMoon {
+  background: #e9edf0;
+  box-shadow: 0 0 9px rgba(212, 229, 255, 0.32);
+}
+
+.forecastDrops,
+.forecastSnowflakes {
+  position: absolute;
+  left: 14px;
+  bottom: -2px;
   display: flex;
-  gap: 24px;
-  color: #ffffff;
-  font-size: 19px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  gap: 7px;
 }
 
-.weatherSnow span {
-  animation: weatherSnowFall 2.2s ease-in-out infinite;
+.forecastDrops span {
+  width: 2px;
+  height: 12px;
+  border-radius: 999px;
+  background: #54c8ff;
+  transform: rotate(13deg);
 }
 
-.weatherSnow span:nth-child(2) {
-  animation-delay: -1.1s;
+.forecastSnowflakes {
+  color: white;
+  font-size: 8px;
 }
 
-/* =========================================================
-   LOADING
-   ========================================================= */
+/* Loading and mobile */
 
 .currentWeatherMessage {
-  display: flex;
+  display: grid;
   min-height: 380px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.72);
+  place-items: center;
   text-align: center;
-}
-
-.currentWeatherMessage strong {
-  color: #ffffff;
-  font-size: 1.25rem;
-}
-
-.currentWeatherMessage p {
-  max-width: 430px;
-  line-height: 1.6;
-}
-
-.currentWeatherMessage button {
-  margin-top: 10px;
-  padding: 11px 17px;
-  border: 0;
-  border-radius: 10px;
-  color: #03141b;
-  background: #5cecff;
-  font: inherit;
-  font-weight: 750;
-  cursor: pointer;
 }
 
 .currentWeatherLoader {
@@ -1004,10 +795,6 @@
   animation: weatherSpin 0.9s linear infinite;
 }
 
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
 @keyframes weatherSpin {
   to {
     transform: rotate(360deg);
@@ -1015,65 +802,14 @@
 }
 
 @keyframes weatherTwinkle {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(0.7);
-  }
-
   50% {
     opacity: 1;
     transform: scale(1.5);
   }
 }
 
-@keyframes forecastStarTwinkle {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: scale(0.65);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.4);
-  }
-}
-
-@keyframes weatherRainFall {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) rotate(14deg);
-  }
-
-  30% {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    transform: translateY(18px) rotate(14deg);
-  }
-}
-
-@keyframes weatherSnowFall {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(15px) rotate(180deg);
-  }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
 @media (max-width: 700px) {
   .currentWeather {
-    min-height: auto;
     padding: 70px 0;
   }
 
@@ -1081,77 +817,23 @@
     width: min(100% - 22px, 1080px);
   }
 
-  .currentWeatherTopbar {
+  .currentWeatherTopbar,
+  .currentWeatherMain,
+  .forecastHeader {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .currentWeatherTopbar > div {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .currentWeatherLocationButton {
-    width: 100%;
-  }
-
-  .currentWeatherCard {
-    min-height: 0;
-    padding: 27px 18px;
-    border-radius: 20px;
   }
 
   .currentWeatherMain {
-    flex-direction: column;
-    gap: 5px;
-    min-height: 0;
-    padding: 35px 0;
+    align-items: center;
     text-align: center;
-  }
-
-  .currentWeatherArtwork {
-    flex-basis: 180px;
-    width: 180px;
-    height: 180px;
-  }
-
-  .currentWeatherTemperature {
-    justify-content: center;
-  }
-
-  .currentWeatherTemperature > span {
-    font-size: 7rem;
   }
 
   .currentWeatherFacts {
     grid-template-columns: 1fr;
   }
 
-  .forecastSection {
-    padding: 20px 15px;
-    border-radius: 20px;
-  }
-
-  .forecastHeader {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .forecastGrid {
-    grid-template-columns: repeat(12, 105px);
-  }
-
   .forecastTimezone {
     display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .currentWeather *,
-  .currentWeather *::before,
-  .currentWeather *::after {
-    animation: none !important;
-    transition: none !important;
   }
 }

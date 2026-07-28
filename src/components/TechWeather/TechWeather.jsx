@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import "./TechWeather.css";
 
+import WeatherVisual from "./WeatherVisual";
+import ForecastIcon from "./ForecastIcon";
+
 const DEFAULT_LOCATION = {
   latitude: 43.8828,
   longitude: -79.4403,
@@ -70,12 +73,14 @@ function getWeatherInformation(code) {
 }
 
 function getMinutesFromTime(value) {
-  if (!value || !value.includes("T")) {
+  if (!value?.includes("T")) {
     return null;
   }
 
-  const time = value.split("T")[1];
-  const [hours, minutes] = time.split(":").map(Number);
+  const [hours, minutes] = value
+    .split("T")[1]
+    .split(":")
+    .map(Number);
 
   if (Number.isNaN(hours) || Number.isNaN(minutes)) {
     return null;
@@ -85,11 +90,7 @@ function getMinutesFromTime(value) {
 }
 
 function getDateFromTime(value) {
-  if (!value || !value.includes("T")) {
-    return "";
-  }
-
-  return value.split("T")[0];
+  return value?.includes("T") ? value.split("T")[0] : "";
 }
 
 function getSkyPhase(time, sunrise, sunset, isDay) {
@@ -107,7 +108,6 @@ function getSkyPhase(time, sunrise, sunset, isDay) {
 
   const dawnStart = sunriseMinutes - 60;
   const dawnEnd = sunriseMinutes + 35;
-
   const sunsetStart = sunsetMinutes - 75;
   const sunsetEnd = sunsetMinutes + 45;
 
@@ -125,7 +125,10 @@ function getSkyPhase(time, sunrise, sunset, isDay) {
     return "sunset";
   }
 
-  if (currentMinutes > dawnEnd && currentMinutes < sunsetStart) {
+  if (
+    currentMinutes > dawnEnd &&
+    currentMinutes < sunsetStart
+  ) {
     return "day";
   }
 
@@ -137,12 +140,11 @@ function formatHour(value, index) {
     return "Now";
   }
 
-  if (!value || !value.includes("T")) {
+  if (!value?.includes("T")) {
     return "";
   }
 
-  const [hoursText] = value.split("T")[1].split(":");
-  const hours = Number(hoursText);
+  const hours = Number(value.split("T")[1].split(":")[0]);
 
   if (hours === 0) {
     return "12 a.m.";
@@ -152,24 +154,19 @@ function formatHour(value, index) {
     return "12 p.m.";
   }
 
-  if (hours > 12) {
-    return `${hours - 12} p.m.`;
-  }
-
-  return `${hours} a.m.`;
+  return hours > 12
+    ? `${hours - 12} p.m.`
+    : `${hours} a.m.`;
 }
 
 function findSunTimes(hourTime, daily) {
-  const hourDate = getDateFromTime(hourTime);
+  const date = getDateFromTime(hourTime);
 
-  const matchingIndex = daily?.time?.findIndex(
-    (day) => day === hourDate
+  const index = daily?.time?.findIndex(
+    (dailyDate) => dailyDate === date
   );
 
-  const safeIndex =
-    matchingIndex !== undefined && matchingIndex >= 0
-      ? matchingIndex
-      : 0;
+  const safeIndex = index >= 0 ? index : 0;
 
   return {
     sunrise: daily?.sunrise?.[safeIndex],
@@ -177,120 +174,8 @@ function findSunTimes(hourTime, daily) {
   };
 }
 
-function WeatherVisual({
-  type,
-  isDay,
-  compact = false,
-  partlyCloudy = false,
-}) {
-  const sizeClass = compact
-    ? "weatherVisual weatherVisualCompact"
-    : "weatherVisual";
-
-  if (!isDay && type === "clear") {
-    return (
-      <div className={`${sizeClass} weatherMoon`}>
-        <div className="weatherMoonBody">
-          <span className="moonMark moonMarkOne" />
-          <span className="moonMark moonMarkTwo" />
-          <span className="moonMark moonMarkThree" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!isDay && type === "cloud") {
-    return (
-      <div className={`${sizeClass} weatherNightCloud`}>
-        <div className="weatherMoon weatherMoonBehind">
-          <div className="weatherMoonBody">
-            <span className="moonMark moonMarkOne" />
-            <span className="moonMark moonMarkTwo" />
-          </div>
-        </div>
-
-        <CloudVisual dark />
-      </div>
-    );
-  }
-
-  if (type === "clear") {
-    return (
-      <div className={`${sizeClass} weatherSun`}>
-        <div className="weatherSunGlow" />
-
-        <div className="weatherSunBody">
-          <span />
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "rain") {
-    return (
-      <div className={sizeClass}>
-        <CloudVisual dark />
-
-        <div className="weatherRain">
-          <span />
-          <span />
-          <span />
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "snow") {
-    return (
-      <div className={sizeClass}>
-        <CloudVisual />
-
-        <div className="weatherSnow">
-          <span>✦</span>
-          <span>✦</span>
-          <span>✦</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (partlyCloudy) {
-    return (
-      <div className={`${sizeClass} weatherPartlyCloudy`}>
-        <div className="weatherSun weatherSunBehind">
-          <div className="weatherSunGlow" />
-
-          <div className="weatherSunBody">
-            <span />
-          </div>
-        </div>
-
-        <CloudVisual />
-      </div>
-    );
-  }
-
-  return (
-    <div className={sizeClass}>
-      <CloudVisual dark={!isDay} />
-    </div>
-  );
-}
-
-function CloudVisual({ dark = false }) {
-  return (
-    <div className={`weatherCloud ${dark ? "weatherCloudDark" : ""}`}>
-      <span className="cloudCircle cloudCircleOne" />
-      <span className="cloudCircle cloudCircleTwo" />
-      <span className="cloudCircle cloudCircleThree" />
-      <span className="cloudBase" />
-    </div>
-  );
-}
-
 function ForecastCard({ hour, index, daily }) {
-  const weatherInformation = getWeatherInformation(hour.weatherCode);
-
+  const weather = getWeatherInformation(hour.weatherCode);
   const sunTimes = findSunTimes(hour.time, daily);
 
   const phase = getSkyPhase(
@@ -300,14 +185,14 @@ function ForecastCard({ hour, index, daily }) {
     Boolean(hour.isDay)
   );
 
-  const cardClasses = [
-    "forecastCard",
-    `forecastCard-${phase}`,
-    `forecastCard-${weatherInformation.type}`,
-  ].join(" ");
-
   return (
-    <article className={cardClasses}>
+    <article
+      className={[
+        "forecastCard",
+        `forecastCard-${phase}`,
+        `forecastCard-${weather.type}`,
+      ].join(" ")}
+    >
       <div className="forecastCardStars" aria-hidden="true">
         <span />
         <span />
@@ -322,10 +207,9 @@ function ForecastCard({ hour, index, daily }) {
       </span>
 
       <div className="forecastIconArea">
-        <WeatherVisual
-          type={weatherInformation.type}
+        <ForecastIcon
+          type={weather.type}
           isDay={Boolean(hour.isDay)}
-          compact
           partlyCloudy={Number(hour.weatherCode) === 2}
         />
       </div>
@@ -335,7 +219,7 @@ function ForecastCard({ hour, index, daily }) {
       </strong>
 
       <span className="forecastCondition">
-        {weatherInformation.label}
+        {weather.label}
       </span>
 
       <span className="forecastRainChance">
@@ -407,7 +291,7 @@ function TechWeather() {
       const response = await fetch(weatherUrl);
 
       if (!response.ok) {
-        throw new Error("Unable to load the current weather.");
+        throw new Error("Unable to load the weather.");
       }
 
       const result = await response.json();
@@ -419,7 +303,7 @@ function TechWeather() {
 
       setError(
         weatherError.message ||
-          "Current weather is temporarily unavailable."
+          "Weather is temporarily unavailable."
       );
     } finally {
       setLoading(false);
@@ -428,7 +312,10 @@ function TechWeather() {
 
   function useCurrentLocation() {
     if (!navigator.geolocation) {
-      setError("Location services are not supported by this browser.");
+      setError(
+        "Location services are not supported by this browser."
+      );
+
       return;
     }
 
@@ -446,9 +333,7 @@ function TechWeather() {
         setFindingLocation(false);
       },
 
-      (locationError) => {
-        console.error(locationError);
-
+      () => {
         setError(
           "We could not access your location. Richmond Hill is still being shown."
         );
@@ -472,9 +357,11 @@ function TechWeather() {
   const hourly = weatherData?.hourly;
   const daily = weatherData?.daily;
 
-  const currentWeather = getWeatherInformation(current?.weather_code);
-  const isDay = Boolean(current?.is_day);
+  const currentWeather = getWeatherInformation(
+    current?.weather_code
+  );
 
+  const isDay = Boolean(current?.is_day);
   const currentSunTimes = findSunTimes(current?.time, daily);
 
   const currentPhase = getSkyPhase(
@@ -488,7 +375,7 @@ function TechWeather() {
     .filter(Boolean)
     .join(", ");
 
-  let twelveHourForecast = [];
+  let forecast = [];
 
   if (current && hourly?.time?.length) {
     let currentIndex = hourly.time.findIndex(
@@ -499,7 +386,7 @@ function TechWeather() {
       currentIndex = 0;
     }
 
-    twelveHourForecast = hourly.time
+    forecast = hourly.time
       .slice(currentIndex, currentIndex + 12)
       .map((time, offset) => {
         const index = currentIndex + offset;
@@ -515,14 +402,14 @@ function TechWeather() {
       });
   }
 
-  const sceneClass = [
-    "currentWeather",
-    `currentWeather-${currentPhase}`,
-    `currentWeather-${currentWeather.type}`,
-  ].join(" ");
-
   return (
-    <section className={sceneClass}>
+    <section
+      className={[
+        "currentWeather",
+        `currentWeather-${currentPhase}`,
+        `currentWeather-${currentWeather.type}`,
+      ].join(" ")}
+    >
       <div className="currentWeatherAtmosphere" aria-hidden="true">
         <div className="currentWeatherStars">
           {Array.from({ length: 28 }).map((_, index) => (
@@ -544,7 +431,9 @@ function TechWeather() {
       <div className="currentWeatherContainer">
         <div className="currentWeatherTopbar">
           <div>
-            <span className="currentWeatherBrand">TDX WEATHER</span>
+            <span className="currentWeatherBrand">
+              TDX WEATHER
+            </span>
 
             <span className="currentWeatherStatus">
               <i />
@@ -560,7 +449,9 @@ function TechWeather() {
           >
             <span aria-hidden="true">⌖</span>
 
-            {findingLocation ? "Finding you..." : "Use My Location"}
+            {findingLocation
+              ? "Finding you..."
+              : "Use My Location"}
           </button>
         </div>
 
@@ -568,21 +459,7 @@ function TechWeather() {
           {loading && (
             <div className="currentWeatherMessage">
               <div className="currentWeatherLoader" />
-              <p>Loading current weather...</p>
-            </div>
-          )}
-
-          {!loading && error && !current && (
-            <div className="currentWeatherMessage">
-              <strong>Weather unavailable</strong>
-              <p>{error}</p>
-
-              <button
-                type="button"
-                onClick={() => loadWeather(DEFAULT_LOCATION)}
-              >
-                Try again
-              </button>
+              <p>Loading weather...</p>
             </div>
           )}
 
@@ -598,13 +475,18 @@ function TechWeather() {
                   <WeatherVisual
                     type={currentWeather.type}
                     isDay={isDay}
-                    partlyCloudy={Number(current.weather_code) === 2}
+                    partlyCloudy={
+                      Number(current.weather_code) === 2
+                    }
                   />
                 </div>
 
                 <div className="currentWeatherReading">
                   <div className="currentWeatherTemperature">
-                    <span>{Math.round(current.temperature_2m)}</span>
+                    <span>
+                      {Math.round(current.temperature_2m)}
+                    </span>
+
                     <sup>°C</sup>
                   </div>
 
@@ -612,7 +494,10 @@ function TechWeather() {
 
                   <p>
                     Feels like{" "}
-                    {Math.round(current.apparent_temperature)}°C
+                    {Math.round(
+                      current.apparent_temperature
+                    )}
+                    °C
                   </p>
                 </div>
               </div>
@@ -620,7 +505,9 @@ function TechWeather() {
               <div className="currentWeatherFacts">
                 <div>
                   <span>Humidity</span>
-                  <strong>{current.relative_humidity_2m}%</strong>
+                  <strong>
+                    {current.relative_humidity_2m}%
+                  </strong>
                 </div>
 
                 <div>
@@ -645,13 +532,15 @@ function TechWeather() {
               </div>
 
               {error && (
-                <p className="currentWeatherError">{error}</p>
+                <p className="currentWeatherError">
+                  {error}
+                </p>
               )}
             </>
           )}
         </div>
 
-        {!loading && twelveHourForecast.length > 0 && (
+        {!loading && forecast.length > 0 && (
           <div className="forecastSection">
             <div className="forecastHeader">
               <div>
@@ -666,7 +555,7 @@ function TechWeather() {
 
             <div className="forecastScroller">
               <div className="forecastGrid">
-                {twelveHourForecast.map((hour, index) => (
+                {forecast.map((hour, index) => (
                   <ForecastCard
                     key={hour.time}
                     hour={hour}
