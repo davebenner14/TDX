@@ -1,224 +1,176 @@
-import { getWeatherDetails } from "./weatherCodes";
+import MoonPhase from "./MoonPhase";
 
-function SunIcon() {
+function SunIcon({ partlyCloudy = false }) {
   return (
-    <svg viewBox="0 0 120 120" aria-hidden="true">
-      <circle
-        cx="60"
-        cy="60"
-        r="22"
-        fill="currentColor"
-        className="techWeatherIconSunCore"
-      />
+    <div className="weatherArt weatherArtSun">
+      <div className="sunGlow" />
 
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      >
-        <path d="M60 10v14" />
-        <path d="M60 96v14" />
-        <path d="M10 60h14" />
-        <path d="M96 60h14" />
-        <path d="M24.6 24.6l9.9 9.9" />
-        <path d="M85.5 85.5l9.9 9.9" />
-        <path d="M95.4 24.6l-9.9 9.9" />
-        <path d="M34.5 85.5l-9.9 9.9" />
-      </g>
-    </svg>
+      <div className="sunRays" aria-hidden="true">
+        {Array.from({ length: 12 }).map((_, index) => (
+          <span
+            key={index}
+            style={{
+              transform: `rotate(${index * 30}deg) translateY(-58px)`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="sunBody">
+        <div className="sunHighlight" />
+        <div className="sunShade" />
+      </div>
+
+      {partlyCloudy && (
+        <div className="weatherCloud weatherCloudFront">
+          <span />
+          <span />
+          <span />
+        </div>
+      )}
+    </div>
   );
 }
 
-function MoonIcon() {
+function CloudIcon({ rain = false, snow = false, storm = false }) {
   return (
-    <svg viewBox="0 0 120 120" aria-hidden="true">
-      <path
-        d="M83 88c-26 0-47-21-47-47 0-10 3-19 8-27-20 7-34 26-34 48 0 28 23 51 51 51 22 0 41-14 48-34-8 6-17 9-26 9Z"
-        fill="currentColor"
-      />
-      <circle cx="88" cy="28" r="4" fill="currentColor" opacity="0.8" />
-      <circle cx="101" cy="45" r="2.5" fill="currentColor" opacity="0.55" />
-    </svg>
-  );
-}
+    <div className="weatherArt weatherArtCloud">
+      <div className="weatherCloud weatherCloudLarge">
+        <span />
+        <span />
+        <span />
+      </div>
 
-function CloudIcon({ night = false }) {
-  return (
-    <svg viewBox="0 0 140 120" aria-hidden="true">
-      {night ? (
-        <path
-          d="M98 12c-14 4-23 17-23 31 0 11 5 20 13 26-18-2-32-17-32-36 0-7 2-14 6-20-15 5-25 19-25 35 0 21 17 38 38 38 17 0 31-11 36-26-4 2-9 3-14 3-17 0-31-14-31-31 0-8 3-15 8-20 7-3 15-3 24 0Z"
-          fill="currentColor"
-          opacity="0.55"
-        />
-      ) : (
-        <circle
-          cx="96"
-          cy="34"
-          r="21"
-          fill="currentColor"
-          opacity="0.65"
-        />
+      {rain && (
+        <div className="rainDrops" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
       )}
 
-      <path
-        d="M42 94h66c14 0 25-11 25-25s-11-25-25-25c-3 0-6 .5-9 1.6C94 31 81 21 65 21 45 21 29 36 27 56h-1C12 56 2 66 2 79s10 23 23 23h17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-function RainIcon({ storm = false }) {
-  return (
-    <svg viewBox="0 0 140 140" aria-hidden="true">
-      <path
-        d="M39 80h70c14 0 25-11 25-25s-11-25-25-25c-3 0-7 .7-10 2C92 19 79 11 64 11 44 11 28 26 26 46h-1C12 46 2 56 2 69s10 23 23 23h14Z"
-        fill="currentColor"
-      />
-
-      {storm ? (
-        <>
-          <path
-            d="M67 79 50 108h17l-6 25 29-37H73l8-17Z"
-            fill="currentColor"
-            className="techWeatherIconLightning"
-          />
-          <path
-            d="M35 103 28 118"
-            stroke="currentColor"
-            strokeWidth="6"
-            strokeLinecap="round"
-          />
-          <path
-            d="M108 103 101 118"
-            stroke="currentColor"
-            strokeWidth="6"
-            strokeLinecap="round"
-          />
-        </>
-      ) : (
-        <>
-          <path
-            d="M35 101 27 119"
-            stroke="currentColor"
-            strokeWidth="6"
-            strokeLinecap="round"
-          />
-          <path
-            d="M67 101 59 119"
-            stroke="currentColor"
-            strokeWidth="6"
-            strokeLinecap="round"
-          />
-          <path
-            d="M99 101 91 119"
-            stroke="currentColor"
-            strokeWidth="6"
-            strokeLinecap="round"
-          />
-        </>
+      {snow && (
+        <div className="snowFlakes" aria-hidden="true">
+          <span>✦</span>
+          <span>✦</span>
+          <span>✦</span>
+          <span>✦</span>
+        </div>
       )}
-    </svg>
-  );
-}
 
-function SnowIcon() {
-  return (
-    <svg viewBox="0 0 140 140" aria-hidden="true">
-      <path
-        d="M39 75h70c14 0 25-11 25-25s-11-25-25-25c-3 0-7 .7-10 2C92 14 79 6 64 6 44 6 28 21 26 41h-1C12 41 2 51 2 64s10 23 23 23h14Z"
-        fill="currentColor"
-      />
-
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-      >
-        <path d="M38 99v28" />
-        <path d="M26 106l24 14" />
-        <path d="M50 106l-24 14" />
-
-        <path d="M72 99v28" />
-        <path d="M60 106l24 14" />
-        <path d="M84 106l-24 14" />
-
-        <path d="M106 99v28" />
-        <path d="M94 106l24 14" />
-        <path d="M118 106l-24 14" />
-      </g>
-    </svg>
+      {storm && (
+        <div className="lightningBolt" aria-hidden="true">
+          <span />
+        </div>
+      )}
+    </div>
   );
 }
 
 function FogIcon() {
   return (
-    <svg viewBox="0 0 140 130" aria-hidden="true">
-      <path
-        d="M39 67h70c14 0 25-11 25-25s-11-25-25-25c-3 0-7 .7-10 2C92 7 79 0 64 0 44 0 28 15 26 35h-1C12 35 2 45 2 58s10 23 23 23h14Z"
-        fill="currentColor"
-      />
+    <div className="weatherArt weatherArtFog">
+      <div className="fogCloud weatherCloud weatherCloudLarge">
+        <span />
+        <span />
+        <span />
+      </div>
 
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="6"
-        strokeLinecap="round"
-        opacity="0.75"
-      >
-        <path d="M19 94h102" />
-        <path d="M31 110h78" />
-        <path d="M45 126h50" />
-      </g>
-    </svg>
+      <div className="fogLines" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+    </div>
   );
 }
 
-function WeatherIcon({ code, isDay = true, className = "" }) {
-  const weather = getWeatherDetails(code);
+function WeatherIcon({
+  code = 0,
+  isDay = true,
+  date = new Date(),
+  size = "large",
+}) {
+  const className = `weatherIcon weatherIcon${size}`;
 
-  let icon = null;
+  if (!isDay && code <= 3) {
+    return (
+      <div className={className}>
+        <MoonPhase date={date} compact />
 
-  switch (weather.type) {
-    case "clear":
-      icon = isDay ? <SunIcon /> : <MoonIcon />;
-      break;
+        {code === 2 || code === 3 ? (
+          <div className="nightCloud weatherCloud">
+            <span />
+            <span />
+            <span />
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 
-    case "cloudy":
-      icon = <CloudIcon night={!isDay} />;
-      break;
+  if (code === 0 || code === 1) {
+    return (
+      <div className={className}>
+        <SunIcon />
+      </div>
+    );
+  }
 
-    case "rain":
-    case "freezing":
-      icon = <RainIcon />;
-      break;
+  if (code === 2) {
+    return (
+      <div className={className}>
+        <SunIcon partlyCloudy />
+      </div>
+    );
+  }
 
-    case "snow":
-      icon = <SnowIcon />;
-      break;
+  if (code === 3) {
+    return (
+      <div className={className}>
+        <CloudIcon />
+      </div>
+    );
+  }
 
-    case "fog":
-      icon = <FogIcon />;
-      break;
+  if (code === 45 || code === 48) {
+    return (
+      <div className={className}>
+        <FogIcon />
+      </div>
+    );
+  }
 
-    case "storm":
-      icon = <RainIcon storm />;
-      break;
+  if (
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)
+  ) {
+    return (
+      <div className={className}>
+        <CloudIcon rain />
+      </div>
+    );
+  }
 
-    default:
-      icon = <CloudIcon night={!isDay} />;
+  if ([71, 73, 75, 77, 85, 86].includes(code)) {
+    return (
+      <div className={className}>
+        <CloudIcon snow />
+      </div>
+    );
+  }
+
+  if ([95, 96, 99].includes(code)) {
+    return (
+      <div className={className}>
+        <CloudIcon rain storm />
+      </div>
+    );
   }
 
   return (
-    <div
-      className={`techWeatherIcon techWeatherIcon--${weather.type} ${className}`}
-      role="img"
-      aria-label={weather.label}
-    >
-      {icon}
+    <div className={className}>
+      {isDay ? <SunIcon partlyCloudy /> : <MoonPhase date={date} compact />}
     </div>
   );
 }

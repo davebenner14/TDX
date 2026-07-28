@@ -1,3 +1,13 @@
+/* =========================================================
+   TECH WEATHER COMPONENT — COMPLETE COMBINED STYLESHEET
+
+   Includes:
+   1. Original Tech Weather layout, panels, controls and data
+   2. Dynamic day/night weather environments
+   3. Animated sun, moon phases, clouds, rain, snow and storms
+   4. Responsive and reduced-motion support
+   ========================================================= */
+
 .techWeatherSection {
   --tech-weather-accent: #39e6ff;
   --tech-weather-accent-rgb: 57, 230, 255;
@@ -1756,5 +1766,1025 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+
+/* =========================================================
+   DYNAMIC WEATHER ENVIRONMENT AND CUSTOM WEATHER ART
+   These rules intentionally come after the base component.
+   ========================================================= */
+
+/* =========================================================
+   DYNAMIC WEATHER ENVIRONMENT
+   ========================================================= */
+
+.techWeather.weatherScene {
+  --scene-top: #06080d;
+  --scene-middle: #090d14;
+  --scene-bottom: #010205;
+  --scene-glow: rgba(63, 160, 255, 0.16);
+  --scene-cloud: rgba(225, 232, 240, 0.74);
+  --scene-cloud-dark: rgba(92, 103, 119, 0.82);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #020306;
+  transition:
+    background-color 1800ms ease,
+    color 900ms ease;
+}
+
+.techWeatherContent {
+  position: relative;
+  z-index: 5;
+}
+
+.weatherEnvironment {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 70% 25%,
+      var(--scene-glow),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      var(--scene-top) 0%,
+      var(--scene-middle) 48%,
+      var(--scene-bottom) 100%
+    );
+  transition:
+    background 1800ms ease,
+    opacity 1200ms ease;
+}
+
+.weatherSkyLayer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1800ms ease;
+}
+
+.weatherSkyLayerPrimary {
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(255, 255, 255, 0.14),
+      transparent 28%
+    );
+}
+
+.weatherSkyLayerSecondary {
+  background:
+    linear-gradient(
+      115deg,
+      transparent 10%,
+      rgba(255, 255, 255, 0.07) 48%,
+      transparent 72%
+    );
+  transform: translateX(-20%);
+  animation: weatherLightDrift 16s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   CLEAR DAY
+   ========================================================= */
+
+.weatherScene-clear-day {
+  --scene-top: #57b6f5;
+  --scene-middle: #86cff7;
+  --scene-bottom: #d9f2ff;
+  --scene-glow: rgba(255, 219, 71, 0.42);
+}
+
+.weatherScene-partly-cloudy-day {
+  --scene-top: #4fa6de;
+  --scene-middle: #8bc8e9;
+  --scene-bottom: #d9e7ed;
+  --scene-glow: rgba(255, 209, 52, 0.3);
+}
+
+.weatherScene-cloudy-day {
+  --scene-top: #66737f;
+  --scene-middle: #a5afb7;
+  --scene-bottom: #d7dce0;
+  --scene-glow: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   SUNRISE AND SUNSET
+   ========================================================= */
+
+.weatherScene-sunrise {
+  --scene-top: #17192e;
+  --scene-middle: #cc6681;
+  --scene-bottom: #ffc47d;
+  --scene-glow: rgba(255, 190, 86, 0.55);
+}
+
+.weatherScene-sunset {
+  --scene-top: #15142e;
+  --scene-middle: #6d3d78;
+  --scene-bottom: #ff944f;
+  --scene-glow: rgba(255, 113, 52, 0.55);
+}
+
+.weatherScene-sunrise .weatherSkyLayerPrimary,
+.weatherScene-sunset .weatherSkyLayerPrimary {
+  opacity: 1;
+  background:
+    radial-gradient(
+      ellipse at 73% 82%,
+      rgba(255, 225, 137, 0.8),
+      rgba(255, 125, 68, 0.3) 23%,
+      transparent 52%
+    );
+}
+
+/* =========================================================
+   NIGHT
+   ========================================================= */
+
+.weatherScene-clear-night {
+  --scene-top: #010308;
+  --scene-middle: #071020;
+  --scene-bottom: #000000;
+  --scene-glow: rgba(176, 213, 255, 0.16);
+}
+
+.weatherScene-cloudy-night {
+  --scene-top: #080b12;
+  --scene-middle: #141c27;
+  --scene-bottom: #010203;
+  --scene-glow: rgba(208, 222, 240, 0.09);
+}
+
+.weatherScene-fog-night,
+.weatherScene-rain-night,
+.weatherScene-snow-night {
+  --scene-top: #020305;
+  --scene-middle: #0b1118;
+  --scene-bottom: #000000;
+  --scene-glow: rgba(170, 198, 220, 0.08);
+}
+
+/* =========================================================
+   RAIN, SNOW, FOG AND STORMS
+   ========================================================= */
+
+.weatherScene-drizzle-day {
+  --scene-top: #455b6d;
+  --scene-middle: #788c99;
+  --scene-bottom: #bdc9cf;
+  --scene-glow: rgba(170, 217, 255, 0.15);
+}
+
+.weatherScene-rain-day {
+  --scene-top: #263642;
+  --scene-middle: #4a5c68;
+  --scene-bottom: #8999a2;
+  --scene-glow: rgba(109, 185, 236, 0.14);
+}
+
+.weatherScene-snow-day {
+  --scene-top: #8199aa;
+  --scene-middle: #c3d0d8;
+  --scene-bottom: #f0f3f5;
+  --scene-glow: rgba(255, 255, 255, 0.42);
+}
+
+.weatherScene-fog-day {
+  --scene-top: #89969d;
+  --scene-middle: #bec5c8;
+  --scene-bottom: #edf0f1;
+  --scene-glow: rgba(255, 255, 255, 0.25);
+}
+
+.weatherScene-storm {
+  --scene-top: #080a0f;
+  --scene-middle: #171d27;
+  --scene-bottom: #020306;
+  --scene-glow: rgba(114, 154, 255, 0.12);
+}
+
+/* =========================================================
+   ENVIRONMENT SUN
+   ========================================================= */
+
+.sceneSun {
+  position: absolute;
+  top: 13%;
+  right: 10%;
+  width: 112px;
+  height: 112px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.8);
+  transition:
+    opacity 1600ms ease,
+    transform 1800ms ease;
+}
+
+.sceneSunGlow {
+  position: absolute;
+  inset: -55px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 229, 103, 0.7) 0%,
+      rgba(255, 194, 45, 0.24) 38%,
+      transparent 70%
+    );
+  filter: blur(12px);
+  animation: sunPulse 5s ease-in-out infinite;
+}
+
+.sceneSunBody {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      #fffbd0 0%,
+      #ffe55d 24%,
+      #ffc400 60%,
+      #e88300 100%
+    );
+  box-shadow:
+    inset -18px -18px 24px rgba(183, 84, 0, 0.28),
+    inset 12px 12px 20px rgba(255, 255, 255, 0.42),
+    0 0 30px rgba(255, 211, 53, 0.7),
+    0 0 85px rgba(255, 166, 0, 0.34);
+}
+
+.weatherScene-clear-day .sceneSun,
+.weatherScene-partly-cloudy-day .sceneSun,
+.weatherScene-sunrise .sceneSun,
+.weatherScene-sunset .sceneSun {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.weatherScene-sunrise .sceneSun,
+.weatherScene-sunset .sceneSun {
+  top: auto;
+  bottom: 8%;
+  right: 14%;
+  transform: scale(1.2);
+}
+
+/* =========================================================
+   ENVIRONMENT MOON
+   ========================================================= */
+
+.sceneMoon {
+  position: absolute;
+  top: 12%;
+  right: 11%;
+  opacity: 0;
+  transform: translateY(25px) scale(0.82);
+  transition:
+    opacity 1600ms ease,
+    transform 1800ms ease;
+}
+
+.weatherScene-clear-night .sceneMoon,
+.weatherScene-cloudy-night .sceneMoon,
+.weatherScene-rain-night .sceneMoon,
+.weatherScene-snow-night .sceneMoon,
+.weatherScene-fog-night .sceneMoon {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* =========================================================
+   STARS
+   ========================================================= */
+
+.sceneStars {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1800ms ease;
+}
+
+.sceneStars span {
+  position: absolute;
+  top: var(--star-y);
+  left: var(--star-x);
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
+  animation: starTwinkle 2.8s ease-in-out infinite;
+  animation-delay: var(--star-delay);
+}
+
+.weatherScene-clear-night .sceneStars,
+.weatherScene-cloudy-night .sceneStars {
+  opacity: 0.8;
+}
+
+/* =========================================================
+   ENVIRONMENT CLOUDS
+   ========================================================= */
+
+.sceneClouds {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1600ms ease;
+}
+
+.sceneClouds span {
+  position: absolute;
+  width: 220px;
+  height: 64px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(178, 190, 200, 0.66)
+    );
+  filter: blur(1px);
+  box-shadow:
+    48px -26px 0 8px rgba(232, 237, 241, 0.82),
+    108px -8px 0 18px rgba(218, 225, 230, 0.8);
+}
+
+.sceneClouds span:nth-child(1) {
+  top: 19%;
+  left: -15%;
+  animation: cloudMove 32s linear infinite;
+}
+
+.sceneClouds span:nth-child(2) {
+  top: 38%;
+  left: -30%;
+  transform: scale(0.76);
+  animation: cloudMove 41s linear infinite;
+  animation-delay: -19s;
+}
+
+.sceneClouds span:nth-child(3) {
+  top: 8%;
+  left: -28%;
+  transform: scale(1.25);
+  animation: cloudMove 48s linear infinite;
+  animation-delay: -30s;
+}
+
+.sceneCloudsBack {
+  opacity: 0;
+  transform: scale(0.78);
+  filter: blur(3px);
+}
+
+.weatherScene-partly-cloudy-day .sceneCloudsBack,
+.weatherScene-cloudy-day .sceneCloudsBack,
+.weatherScene-cloudy-night .sceneCloudsBack,
+.weatherScene-drizzle-day .sceneCloudsBack,
+.weatherScene-rain-day .sceneCloudsBack,
+.weatherScene-rain-night .sceneCloudsBack,
+.weatherScene-snow-day .sceneCloudsBack,
+.weatherScene-snow-night .sceneCloudsBack,
+.weatherScene-storm .sceneCloudsBack {
+  opacity: 0.48;
+}
+
+.weatherScene-cloudy-day .sceneCloudsFront,
+.weatherScene-cloudy-night .sceneCloudsFront,
+.weatherScene-drizzle-day .sceneCloudsFront,
+.weatherScene-rain-day .sceneCloudsFront,
+.weatherScene-rain-night .sceneCloudsFront,
+.weatherScene-snow-day .sceneCloudsFront,
+.weatherScene-snow-night .sceneCloudsFront,
+.weatherScene-storm .sceneCloudsFront {
+  opacity: 0.72;
+}
+
+.weatherScene-rain-day .sceneClouds span,
+.weatherScene-rain-night .sceneClouds span,
+.weatherScene-storm .sceneClouds span {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(119, 133, 145, 0.95),
+      rgba(45, 54, 64, 0.92)
+    );
+  box-shadow:
+    48px -26px 0 8px rgba(91, 105, 116, 0.92),
+    108px -8px 0 18px rgba(64, 75, 85, 0.9);
+}
+
+/* =========================================================
+   RAIN
+   ========================================================= */
+
+.sceneRain {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 1000ms ease;
+}
+
+.sceneRain span {
+  position: absolute;
+  top: -15%;
+  left: var(--rain-x);
+  width: 2px;
+  height: 36px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(173, 220, 255, 0.82)
+    );
+  transform: rotate(12deg);
+  animation: rainFall var(--rain-duration) linear infinite;
+  animation-delay: var(--rain-delay);
+}
+
+.weatherScene-drizzle-day .sceneRain {
+  opacity: 0.42;
+}
+
+.weatherScene-rain-day .sceneRain,
+.weatherScene-rain-night .sceneRain,
+.weatherScene-storm .sceneRain {
+  opacity: 0.82;
+}
+
+/* =========================================================
+   SNOW
+   ========================================================= */
+
+.sceneSnow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 1100ms ease;
+}
+
+.sceneSnow span {
+  position: absolute;
+  top: -10%;
+  left: var(--snow-x);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  text-shadow: 0 0 8px white;
+  animation: snowFall var(--snow-duration) linear infinite;
+  animation-delay: var(--snow-delay);
+}
+
+.weatherScene-snow-day .sceneSnow,
+.weatherScene-snow-night .sceneSnow {
+  opacity: 0.9;
+}
+
+/* =========================================================
+   LIGHTNING
+   ========================================================= */
+
+.sceneLightning {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgba(210, 224, 255, 0.55);
+}
+
+.weatherScene-storm .sceneLightning {
+  animation: lightningFlash 8s infinite;
+}
+
+/* =========================================================
+   MAIN WEATHER ICONS
+   ========================================================= */
+
+.weatherIcon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.weatherIconlarge {
+  width: 180px;
+  height: 180px;
+}
+
+.weatherIconmedium {
+  width: 110px;
+  height: 110px;
+}
+
+.weatherIconsmall {
+  width: 64px;
+  height: 64px;
+}
+
+.weatherArt {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.sunBody {
+  position: absolute;
+  top: 31px;
+  left: 31px;
+  z-index: 3;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      #fffde0 0%,
+      #ffe96a 26%,
+      #ffc400 60%,
+      #e98c00 100%
+    );
+  box-shadow:
+    inset -15px -15px 18px rgba(189, 88, 0, 0.28),
+    inset 10px 10px 18px rgba(255, 255, 255, 0.42),
+    0 0 24px rgba(255, 210, 38, 0.72),
+    0 0 58px rgba(255, 174, 0, 0.35);
+}
+
+.sunHighlight {
+  position: absolute;
+  top: 17px;
+  left: 19px;
+  width: 25px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.42);
+  filter: blur(3px);
+  transform: rotate(-28deg);
+}
+
+.sunShade {
+  position: absolute;
+  right: -10px;
+  bottom: -7px;
+  width: 64px;
+  height: 51px;
+  border-radius: 50%;
+  background: rgba(211, 104, 0, 0.22);
+  filter: blur(5px);
+}
+
+.sunGlow {
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: rgba(255, 212, 45, 0.25);
+  filter: blur(20px);
+}
+
+.sunRays {
+  position: absolute;
+  top: 75px;
+  left: 75px;
+}
+
+.sunRays span {
+  position: absolute;
+  width: 4px;
+  height: 24px;
+  border-radius: 999px;
+  transform-origin: center 58px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 233, 103, 0.95),
+      rgba(255, 191, 0, 0)
+    );
+}
+
+.weatherCloud {
+  position: absolute;
+  z-index: 5;
+  width: 91px;
+  height: 34px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #d5dbe0 65%,
+      #929ca5 100%
+    );
+  box-shadow:
+    inset 0 -8px 14px rgba(66, 73, 82, 0.18),
+    0 10px 18px rgba(0, 0, 0, 0.2);
+}
+
+.weatherCloud span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      #ffffff,
+      #dce1e5 68%,
+      #aeb6bd
+    );
+}
+
+.weatherCloud span:nth-child(1) {
+  left: 13px;
+  bottom: 16px;
+  width: 41px;
+  height: 41px;
+}
+
+.weatherCloud span:nth-child(2) {
+  left: 40px;
+  bottom: 17px;
+  width: 52px;
+  height: 52px;
+}
+
+.weatherCloud span:nth-child(3) {
+  right: 5px;
+  bottom: 9px;
+  width: 35px;
+  height: 35px;
+}
+
+.weatherCloudFront {
+  right: 5px;
+  bottom: 20px;
+}
+
+.weatherCloudLarge {
+  top: 57px;
+  left: 21px;
+  width: 110px;
+  height: 39px;
+}
+
+.nightCloud {
+  right: 3px;
+  bottom: 4px;
+  transform: scale(0.68);
+}
+
+.rainDrops {
+  position: absolute;
+  top: 101px;
+  left: 34px;
+  display: flex;
+  gap: 17px;
+}
+
+.rainDrops span {
+  width: 3px;
+  height: 25px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(170, 221, 255, 0),
+      #67c7ff
+    );
+  transform: rotate(13deg);
+  animation: iconRain 0.9s linear infinite;
+}
+
+.rainDrops span:nth-child(2),
+.rainDrops span:nth-child(4) {
+  animation-delay: -0.45s;
+}
+
+.snowFlakes {
+  position: absolute;
+  top: 100px;
+  left: 32px;
+  display: flex;
+  gap: 14px;
+  color: white;
+  text-shadow: 0 0 9px rgba(255, 255, 255, 0.9);
+}
+
+.snowFlakes span {
+  animation: iconSnow 2s ease-in-out infinite;
+}
+
+.snowFlakes span:nth-child(even) {
+  animation-delay: -1s;
+}
+
+.lightningBolt {
+  position: absolute;
+  top: 88px;
+  left: 68px;
+  z-index: 7;
+}
+
+.lightningBolt span {
+  display: block;
+  width: 31px;
+  height: 49px;
+  background: #ffe24a;
+  clip-path: polygon(
+    55% 0,
+    100% 0,
+    70% 37%,
+    94% 37%,
+    27% 100%,
+    44% 54%,
+    15% 54%
+  );
+  filter: drop-shadow(0 0 8px rgba(255, 221, 45, 0.9));
+}
+
+.fogLines {
+  position: absolute;
+  top: 97px;
+  left: 19px;
+  display: grid;
+  gap: 10px;
+}
+
+.fogLines span {
+  display: block;
+  width: 115px;
+  height: 5px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(238, 244, 247, 0.88),
+      transparent
+    );
+  animation: fogMove 4s ease-in-out infinite alternate;
+}
+
+.fogLines span:nth-child(2) {
+  width: 88px;
+  margin-left: 22px;
+  animation-delay: -1.2s;
+}
+
+.fogLines span:nth-child(3) {
+  width: 102px;
+  animation-delay: -2.4s;
+}
+
+/* =========================================================
+   MOON
+   ========================================================= */
+
+.moonPhase {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.moonPhaseCompact {
+  display: grid;
+  place-items: center;
+}
+
+.moonPhaseGraphic {
+  position: relative;
+  display: grid;
+  width: 108px;
+  height: 108px;
+  place-items: center;
+}
+
+.moonPhaseGraphic span {
+  position: relative;
+  z-index: 2;
+  font-size: 88px;
+  line-height: 1;
+  filter:
+    grayscale(1)
+    brightness(1.65)
+    contrast(1.15)
+    drop-shadow(0 0 15px rgba(216, 231, 255, 0.42));
+}
+
+.moonGlow {
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: rgba(222, 234, 255, 0.28);
+  filter: blur(20px);
+}
+
+.moonPhaseInformation {
+  display: grid;
+  gap: 4px;
+  color: white;
+}
+
+.moonPhaseInformation strong {
+  font-size: 18px;
+}
+
+.moonPhaseInformation span:last-child {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+}
+
+.moonPhaseLabel {
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes weatherLightDrift {
+  from {
+    transform: translateX(-22%);
+  }
+
+  to {
+    transform: translateX(18%);
+  }
+}
+
+@keyframes sunPulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.65);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes cloudMove {
+  from {
+    transform: translateX(-15vw);
+  }
+
+  to {
+    transform: translateX(135vw);
+  }
+}
+
+@keyframes rainFall {
+  from {
+    transform: translate3d(0, -15vh, 0) rotate(12deg);
+  }
+
+  to {
+    transform: translate3d(-90px, 120vh, 0) rotate(12deg);
+  }
+}
+
+@keyframes snowFall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(35px, 55vh, 0) rotate(180deg);
+  }
+
+  100% {
+    transform: translate3d(-20px, 115vh, 0) rotate(360deg);
+  }
+}
+
+@keyframes lightningFlash {
+  0%,
+  89%,
+  93%,
+  100% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0.55;
+  }
+
+  91% {
+    opacity: 0.08;
+  }
+
+  92% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes iconRain {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) rotate(13deg);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(17px) rotate(13deg);
+  }
+}
+
+@keyframes iconSnow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(13px) rotate(180deg);
+  }
+}
+
+@keyframes fogMove {
+  from {
+    transform: translateX(-9px);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateX(9px);
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .weatherEnvironment *,
+  .weatherArt *,
+  .moonPhase *,
+  .weatherSkyLayer {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .sceneSun {
+    top: 10%;
+    right: 1%;
+    transform: scale(0.72);
+  }
+
+  .sceneMoon {
+    top: 10%;
+    right: 2%;
+    transform: scale(0.72);
+  }
+
+  .weatherScene-sunrise .sceneSun,
+  .weatherScene-sunset .sceneSun {
+    right: 2%;
+    bottom: 12%;
+    transform: scale(0.82);
+  }
+
+  .weatherIconlarge {
+    width: 135px;
+    height: 135px;
+    transform: scale(0.82);
   }
 }

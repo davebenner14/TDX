@@ -144,6 +144,91 @@ function formatLocalTime(date, timezone) {
   }).format(date);
 }
 
+function parseWeatherTime(value) {
+  if (!value) {
+    return null;
+  }
+
+  const parsedDate = new Date(value);
+
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
+function getMinutesDifference(firstDate, secondDate) {
+  if (!firstDate || !secondDate) {
+    return Infinity;
+  }
+
+  return Math.abs(firstDate.getTime() - secondDate.getTime()) / 60000;
+}
+
+function getWeatherScene({
+  weatherCode,
+  isDay,
+  currentTime,
+  sunrise,
+  sunset,
+}) {
+  const code = Number(weatherCode ?? 0);
+  const currentDate = parseWeatherTime(currentTime) || new Date();
+  const sunriseDate = parseWeatherTime(sunrise);
+  const sunsetDate = parseWeatherTime(sunset);
+
+  const nearSunrise =
+    sunriseDate && getMinutesDifference(currentDate, sunriseDate) <= 50;
+
+  const nearSunset =
+    sunsetDate && getMinutesDifference(currentDate, sunsetDate) <= 65;
+
+  const stormCodes = [95, 96, 99];
+  const snowCodes = [71, 73, 75, 77, 85, 86];
+  const heavyRainCodes = [63, 65, 66, 67, 81, 82];
+  const rainCodes = [51, 53, 55, 56, 57, 61, 80];
+  const fogCodes = [45, 48];
+
+  if (stormCodes.includes(code)) {
+    return "storm";
+  }
+
+  if (snowCodes.includes(code)) {
+    return isDay ? "snow-day" : "snow-night";
+  }
+
+  if (heavyRainCodes.includes(code)) {
+    return isDay ? "rain-day" : "rain-night";
+  }
+
+  if (rainCodes.includes(code)) {
+    return isDay ? "drizzle-day" : "rain-night";
+  }
+
+  if (fogCodes.includes(code)) {
+    return isDay ? "fog-day" : "fog-night";
+  }
+
+  if (nearSunset) {
+    return "sunset";
+  }
+
+  if (nearSunrise) {
+    return "sunrise";
+  }
+
+  if (!isDay) {
+    return code >= 2 ? "cloudy-night" : "clear-night";
+  }
+
+  if (code === 3) {
+    return "cloudy-day";
+  }
+
+  if (code === 2) {
+    return "partly-cloudy-day";
+  }
+
+  return "clear-day";
+}
+
 function formatWindDirection(degrees) {
   if (degrees === null || degrees === undefined) {
     return "--";
@@ -712,6 +797,15 @@ function TechWeather() {
 
   const temperatureSymbol = getTemperatureSymbol(unit);
   const isDay = currentWeather?.is_day === 1;
+  const todayForecast = dailyForecast[0];
+
+  const weatherScene = getWeatherScene({
+    weatherCode: currentWeather?.weather_code,
+    isDay,
+    currentTime: currentWeather?.time,
+    sunrise: todayForecast?.sunrise,
+    sunset: todayForecast?.sunset,
+  });
 
   const windUnit =
     currentUnits?.wind_speed_10m ||
@@ -720,7 +814,7 @@ function TechWeather() {
   const atmosphericClass = currentWeather
     ? `techWeather--${weatherDetails.type} ${
         isDay ? "techWeather--day" : "techWeather--night"
-      }`
+      } techWeather--${weatherScene}`
     : "techWeather--loading";
 
   const displayLocation = getLocationLabel(location);

@@ -190,8 +190,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Live location-aware weather demonstration */}
-      <TechWeather />
+     
 
       <section className="homeCtaSection">
         <div className="homeCtaInner">
@@ -216,7 +215,8 @@ function Home() {
       </section>
 
       <TechCarousel />
-
+ {/* Live location-aware weather demonstration */}
+      <TechWeather />
       <Footer />
     </main>
   );
