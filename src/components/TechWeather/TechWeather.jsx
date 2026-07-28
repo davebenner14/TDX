@@ -11,13 +11,31 @@ const DEFAULT_LOCATION = {
   region: "Ontario",
 };
 
-function getWeatherInformation(code) {
+function getWeatherInformation(code, cloudCover = 0) {
   const weatherCode = Number(code);
+  const clouds = Number(cloudCover) || 0;
 
   if (weatherCode === 0 || weatherCode === 1) {
+    if (clouds >= 70) {
+      return {
+        type: "cloud",
+        label: "Mostly Cloudy",
+        partlyCloudy: false,
+      };
+    }
+
+    if (clouds >= 25) {
+      return {
+        type: "cloud",
+        label: "Partly Cloudy",
+        partlyCloudy: true,
+      };
+    }
+
     return {
       type: "clear",
       label: weatherCode === 0 ? "Clear" : "Mainly Clear",
+      partlyCloudy: false,
     };
   }
 
@@ -30,6 +48,7 @@ function getWeatherInformation(code) {
           : weatherCode >= 45
             ? "Foggy"
             : "Cloudy",
+      partlyCloudy: weatherCode === 2,
     };
   }
 
@@ -56,6 +75,7 @@ function getWeatherInformation(code) {
     return {
       type: "rain",
       label: weatherCode >= 95 ? "Thunderstorm" : "Rain",
+      partlyCloudy: false,
     };
   }
 
@@ -63,12 +83,14 @@ function getWeatherInformation(code) {
     return {
       type: "snow",
       label: "Snow",
+      partlyCloudy: false,
     };
   }
 
   return {
     type: "cloud",
     label: "Current Weather",
+    partlyCloudy: false,
   };
 }
 
@@ -175,7 +197,11 @@ function findSunTimes(hourTime, daily) {
 }
 
 function ForecastCard({ hour, index, daily }) {
-  const weather = getWeatherInformation(hour.weatherCode);
+  const weather = getWeatherInformation(
+    hour.weatherCode,
+    hour.cloudCover
+  );
+
   const sunTimes = findSunTimes(hour.time, daily);
 
   const phase = getSkyPhase(
@@ -210,7 +236,7 @@ function ForecastCard({ hour, index, daily }) {
         <ForecastIcon
           type={weather.type}
           isDay={Boolean(hour.isDay)}
-          partlyCloudy={Number(hour.weatherCode) === 2}
+          partlyCloudy={weather.partlyCloudy}
         />
       </div>
 
@@ -282,8 +308,8 @@ function TechWeather() {
         `https://api.open-meteo.com/v1/forecast` +
         `?latitude=${latitude}` +
         `&longitude=${longitude}` +
-        `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,is_day,weather_code` +
-        `&hourly=temperature_2m,weather_code,is_day,precipitation_probability` +
+        `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,cloud_cover,is_day,weather_code` +
+        `&hourly=temperature_2m,weather_code,cloud_cover,is_day,precipitation_probability` +
         `&daily=sunrise,sunset` +
         `&forecast_days=2` +
         `&timezone=auto`;
@@ -358,11 +384,16 @@ function TechWeather() {
   const daily = weatherData?.daily;
 
   const currentWeather = getWeatherInformation(
-    current?.weather_code
+    current?.weather_code,
+    current?.cloud_cover
   );
 
   const isDay = Boolean(current?.is_day);
-  const currentSunTimes = findSunTimes(current?.time, daily);
+
+  const currentSunTimes = findSunTimes(
+    current?.time,
+    daily
+  );
 
   const currentPhase = getSkyPhase(
     current?.time,
@@ -395,6 +426,7 @@ function TechWeather() {
           time,
           temperature: hourly.temperature_2m[index],
           weatherCode: hourly.weather_code[index],
+          cloudCover: hourly.cloud_cover[index] ?? 0,
           isDay: hourly.is_day[index],
           precipitationProbability:
             hourly.precipitation_probability[index] ?? 0,
@@ -410,7 +442,10 @@ function TechWeather() {
         `currentWeather-${currentWeather.type}`,
       ].join(" ")}
     >
-      <div className="currentWeatherAtmosphere" aria-hidden="true">
+      <div
+        className="currentWeatherAtmosphere"
+        aria-hidden="true"
+      >
         <div className="currentWeatherStars">
           {Array.from({ length: 28 }).map((_, index) => (
             <span
@@ -476,7 +511,7 @@ function TechWeather() {
                     type={currentWeather.type}
                     isDay={isDay}
                     partlyCloudy={
-                      Number(current.weather_code) === 2
+                      currentWeather.partlyCloudy
                     }
                   />
                 </div>
@@ -505,6 +540,7 @@ function TechWeather() {
               <div className="currentWeatherFacts">
                 <div>
                   <span>Humidity</span>
+
                   <strong>
                     {current.relative_humidity_2m}%
                   </strong>
@@ -512,21 +548,17 @@ function TechWeather() {
 
                 <div>
                   <span>Wind</span>
+
                   <strong>
                     {Math.round(current.wind_speed_10m)} km/h
                   </strong>
                 </div>
 
                 <div>
-                  <span>Sky</span>
+                  <span>Cloud Cover</span>
+
                   <strong>
-                    {currentPhase === "sunset"
-                      ? "Sunset"
-                      : currentPhase === "dawn"
-                        ? "Dawn"
-                        : currentPhase === "night"
-                          ? "Night"
-                          : "Day"}
+                    {Math.round(current.cloud_cover)}%
                   </strong>
                 </div>
               </div>
