@@ -1,16 +1,16 @@
 import MoonPhase from "./MoonPhase";
 
-function SunIcon({ partlyCloudy = false }) {
+function DetailedSun({ partlyCloudy = false }) {
   return (
     <div className="weatherArt weatherArtSun">
       <div className="sunGlow" />
 
       <div className="sunRays" aria-hidden="true">
-        {Array.from({ length: 12 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <span
             key={index}
             style={{
-              transform: `rotate(${index * 30}deg) translateY(-58px)`,
+              transform: `rotate(${index * 45}deg) translateY(-55px)`,
             }}
           />
         ))}
@@ -32,7 +32,11 @@ function SunIcon({ partlyCloudy = false }) {
   );
 }
 
-function CloudIcon({ rain = false, snow = false, storm = false }) {
+function DetailedCloud({
+  rain = false,
+  snow = false,
+  storm = false,
+}) {
   return (
     <div className="weatherArt weatherArtCloud">
       <div className="weatherCloud weatherCloudLarge">
@@ -42,8 +46,7 @@ function CloudIcon({ rain = false, snow = false, storm = false }) {
       </div>
 
       {rain && (
-        <div className="rainDrops" aria-hidden="true">
-          <span />
+        <div className="rainDrops">
           <span />
           <span />
           <span />
@@ -51,8 +54,7 @@ function CloudIcon({ rain = false, snow = false, storm = false }) {
       )}
 
       {snow && (
-        <div className="snowFlakes" aria-hidden="true">
-          <span>✦</span>
+        <div className="snowFlakes">
           <span>✦</span>
           <span>✦</span>
           <span>✦</span>
@@ -60,7 +62,7 @@ function CloudIcon({ rain = false, snow = false, storm = false }) {
       )}
 
       {storm && (
-        <div className="lightningBolt" aria-hidden="true">
+        <div className="lightningBolt">
           <span />
         </div>
       )}
@@ -68,21 +70,49 @@ function CloudIcon({ rain = false, snow = false, storm = false }) {
   );
 }
 
-function FogIcon() {
-  return (
-    <div className="weatherArt weatherArtFog">
-      <div className="fogCloud weatherCloud weatherCloudLarge">
-        <span />
-        <span />
-        <span />
-      </div>
+function getSimpleWeatherSymbol(code, isDay, date) {
+  const numericCode = Number(code);
 
-      <div className="fogLines" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
-    </div>
+  if (!isDay && numericCode <= 3) {
+    return <MoonPhase date={date} compact />;
+  }
+
+  if (numericCode === 0 || numericCode === 1) {
+    return <span className="simpleWeatherSymbol simpleSun">☀</span>;
+  }
+
+  if (numericCode === 2) {
+    return <span className="simpleWeatherSymbol">🌤️</span>;
+  }
+
+  if (numericCode === 3) {
+    return <span className="simpleWeatherSymbol">☁️</span>;
+  }
+
+  if ([45, 48].includes(numericCode)) {
+    return <span className="simpleWeatherSymbol">🌫️</span>;
+  }
+
+  if (
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(
+      numericCode
+    )
+  ) {
+    return <span className="simpleWeatherSymbol">🌧️</span>;
+  }
+
+  if ([71, 73, 75, 77, 85, 86].includes(numericCode)) {
+    return <span className="simpleWeatherSymbol">🌨️</span>;
+  }
+
+  if ([95, 96, 99].includes(numericCode)) {
+    return <span className="simpleWeatherSymbol">⛈️</span>;
+  }
+
+  return isDay ? (
+    <span className="simpleWeatherSymbol">🌤️</span>
+  ) : (
+    <MoonPhase date={date} compact />
   );
 }
 
@@ -92,85 +122,88 @@ function WeatherIcon({
   date = new Date(),
   size = "large",
 }) {
-  const className = `weatherIcon weatherIcon${size}`;
+  const numericCode = Number(code);
+  const isCompact = size === "small" || size === "medium";
 
-  if (!isDay && code <= 3) {
+  if (isCompact) {
     return (
-      <div className={className}>
+      <div className={`weatherIcon weatherIcon-${size} weatherIconCompact`}>
+        {getSimpleWeatherSymbol(numericCode, isDay, date)}
+      </div>
+    );
+  }
+
+  if (!isDay && numericCode <= 3) {
+    return (
+      <div className="weatherIcon weatherIcon-large">
         <MoonPhase date={date} compact />
 
-        {code === 2 || code === 3 ? (
+        {numericCode >= 2 && (
           <div className="nightCloud weatherCloud">
             <span />
             <span />
             <span />
           </div>
-        ) : null}
+        )}
       </div>
     );
   }
 
-  if (code === 0 || code === 1) {
+  if (numericCode === 0 || numericCode === 1) {
     return (
-      <div className={className}>
-        <SunIcon />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedSun />
       </div>
     );
   }
 
-  if (code === 2) {
+  if (numericCode === 2) {
     return (
-      <div className={className}>
-        <SunIcon partlyCloudy />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedSun partlyCloudy />
       </div>
     );
   }
 
-  if (code === 3) {
+  if (numericCode === 3) {
     return (
-      <div className={className}>
-        <CloudIcon />
-      </div>
-    );
-  }
-
-  if (code === 45 || code === 48) {
-    return (
-      <div className={className}>
-        <FogIcon />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedCloud />
       </div>
     );
   }
 
   if (
-    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(
+      numericCode
+    )
   ) {
     return (
-      <div className={className}>
-        <CloudIcon rain />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedCloud rain />
       </div>
     );
   }
 
-  if ([71, 73, 75, 77, 85, 86].includes(code)) {
+  if ([71, 73, 75, 77, 85, 86].includes(numericCode)) {
     return (
-      <div className={className}>
-        <CloudIcon snow />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedCloud snow />
       </div>
     );
   }
 
-  if ([95, 96, 99].includes(code)) {
+  if ([95, 96, 99].includes(numericCode)) {
     return (
-      <div className={className}>
-        <CloudIcon rain storm />
+      <div className="weatherIcon weatherIcon-large">
+        <DetailedCloud rain storm />
       </div>
     );
   }
 
   return (
-    <div className={className}>
-      {isDay ? <SunIcon partlyCloudy /> : <MoonPhase date={date} compact />}
+    <div className="weatherIcon weatherIcon-large">
+      <DetailedSun partlyCloudy />
     </div>
   );
 }
