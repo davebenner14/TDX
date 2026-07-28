@@ -216,7 +216,7 @@ function Home() {
 
       <TechCarousel />
  {/* Live location-aware weather demonstration */}
-      <TechWeather />
+      {/* <TechWeather /> */}
       <Footer />
     </main>
   );
